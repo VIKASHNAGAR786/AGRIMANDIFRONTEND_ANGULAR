@@ -1,0 +1,128 @@
+/* General Navbar Styles */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #28a745; /* Green Theme */
+    color: white;
+    /* padding: 12px 20px; */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    height: 60px;
+    padding: 0 1rem;
+  }
+  
+  /* Navbar Container */
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Logo */
+  .navbar-logo img {
+    height: 50px;
+    width: auto;
+  }
+  
+  /* Navbar Links */
+  .navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .navbar-links li {
+    display: inline-block;
+  }
+  
+  .navbar-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 8px 12px;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-links a:hover {
+    background-color: white;
+    color: #28a745;
+    border-radius: 5px;
+  }
+  
+  /* Navbar Actions */
+  .navbar-actions {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .btn {
+    padding: 8px 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s ease;
+  }
+  
+  .btn:hover {
+    background-color: #218838;
+    color: white;
+  }
+  
+  .btn-primary {
+    padding: 8px 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s ease;
+     }
+  
+  .btn-primary:hover {
+    background-color: #218838;
+    color: white;
+  }
+  
+  /* Responsive Design */
+  .navbar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .navbar-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .navbar-links {
+      display: none;
+      flex-direction: column;
+      text-align: center;
+      width: 100%;
+      gap: 10px;
+      padding-top: 10px;
+    }
+  
+    .navbar-links.show {
+      display: flex;
+    }
+  
+    .navbar-toggle {
+      display: block;
+    }
+  
+    .navbar-actions {
+      margin-top: 10px;
+    }
+  }
+  

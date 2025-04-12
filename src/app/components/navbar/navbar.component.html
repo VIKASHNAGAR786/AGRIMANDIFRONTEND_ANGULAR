@@ -1,0 +1,37 @@
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="navbar-container">
+    <!-- Logo -->
+    <a routerLink="/" class="navbar-logo">
+      <img src="images/logo.webp" alt="AgriMandi Logo" />
+    </a>
+
+    <!-- Navbar Toggle for Mobile -->
+    <button class="navbar-toggle" id="navbarToggle">
+      ☰
+    </button>
+
+    <!-- Navbar Links -->
+    <ul class="navbar-links" id="navbarLinks">
+      <li><a routerLink="/" class="nav-link">Home</a></li>
+      <li><a href="#" class="nav-link" (click)="goToAddProduct($event)">Add Products</a></li>  
+      <li><a routerLink="/about" class="nav-link">Products</a></li>
+      <li><a routerLink="/blog" class="nav-link">About Agrimandi</a></li>
+      <li><a routerLink="/contact" class="nav-link">Contact</a></li>
+    </ul>
+
+    <!-- Navbar Actions -->
+<div class="navbar-actions">
+  <ng-container *ngIf="!isLoggedIn; else loggedInTemplate">
+    <a routerLink="auth/login" class="btn">Login</a>
+    <a routerLink="auth/signup" class="btn btn-primary">Sign Up</a>
+  </ng-container>
+
+  <ng-template #loggedInTemplate>
+    <a routerLink="components/profileview" class="btn">Profile</a>
+    <button (click)="logout()" class="btn btn-primary">Logout</button>
+  </ng-template>
+</div>
+
+  </div>
+</nav>

@@ -1,0 +1,58 @@
+<!-- Signup Form -->
+<form (ngSubmit)="signup()" class="form-container">
+    <label>Name:</label>
+    <input type="text" [(ngModel)]="product.name" name="name" required />
+  
+    <label>Description:</label>
+    <input type="text" [(ngModel)]="product.description" name="description" required />
+  
+    <label>Category:</label>
+    <input type="text" [(ngModel)]="product.category" name="category" required />
+  
+    <label>Type:</label>
+    <input type="text" [(ngModel)]="product.type" name="type" required />
+  
+    <label>Variety:</label>
+    <input type="text" [(ngModel)]="product.variety" name="variety" required />
+  
+    <label>Grade:</label>
+    <input type="text" [(ngModel)]="product.grade" name="grade" required />
+  
+    <label>Quantity:</label>
+    <input type="number" [(ngModel)]="product.quantity" name="quantity" required />
+  
+    <label>Unit:</label>
+    <input type="text" [(ngModel)]="product.unit" name="unit" required />
+  
+    <label>Price Per Unit:</label>
+    <input type="number" [(ngModel)]="product.pricePerUnit" name="pricePerUnit" required />
+  
+    <label>Availability:</label>
+    <input type="checkbox" [(ngModel)]="product.availability" name="availability" />
+  
+    <label>Location:</label>
+    <input type="text" [(ngModel)]="product.location" name="location" required />
+  
+    <label>Harvest Date:</label>
+    <input type="date" [(ngModel)]="product.harvestDate" name="harvestDate" required />
+  
+    <label>Expiry Date:</label>
+    <input type="date" [(ngModel)]="product.expiryDate" name="expiryDate" required />
+  
+    <label>Storage Condition:</label>
+    <input type="text" [(ngModel)]="product.storageCondition" name="storageCondition" required />
+  
+    <label>Packaging Type:</label>
+    <input type="text" [(ngModel)]="product.packagingType" name="packagingType" required />
+  
+    <label>Certification:</label>
+    <input type="text" [(ngModel)]="product.certification" name="certification" required />
+  
+    <label>Image URL:</label>
+    <input type="text" [(ngModel)]="product.imageUrl" name="imageUrl" required />
+  
+    <label>Status:</label>
+    <input type="text" [(ngModel)]="product.status" name="status" required />
+  
+    <button type="submit" class="btn btn-primary">Add Product</button>
+</form>

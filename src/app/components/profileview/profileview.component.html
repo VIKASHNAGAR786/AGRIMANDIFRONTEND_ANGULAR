@@ -1,0 +1,12 @@
+<div class="container" *ngIf="loginData.isLoggedIn; else notLoggedIn">
+    <h2>Welcome, {{ loginData.userName }}!</h2>
+    <ul>
+      <li><strong>Role:</strong> {{ loginData.userRole }}</li>
+      <li><strong>Email:</strong> {{ loginData.userEmail }}</li>
+    </ul>
+  </div>
+  
+  <ng-template #notLoggedIn>
+    <p>You are not logged in. Please log in to see your information.</p>
+  </ng-template>
+  
