@@ -1,0 +1,54 @@
+<!-- Loading Spinner -->
+<div *ngIf="loading">Loading products...</div>
+
+<!-- Single Product Detail View -->
+<div *ngIf="!loading && selectedproduct" class="product-detail">
+  <h2>Product Details</h2>
+  <div class="product-card">
+    <img [src]="selectedproduct.imageUrl || 'https://via.placeholder.com/150'" alt="{{ selectedproduct.name }}" width="150" />
+    <h3>{{ selectedproduct.name }}</h3>
+    <p>{{ selectedproduct.description }}</p>
+    <p><strong>Category:</strong> {{ selectedproduct.category }}</p>
+    <p><strong>Grade:</strong> {{ selectedproduct.grade }}</p>
+    <p><strong>Qty:</strong> {{ selectedproduct.quantity }} {{ selectedproduct.unit }}</p>
+    <p><strong>₹/Unit:</strong> ₹{{ selectedproduct.pricePerUnit }}</p>
+    <p><strong>Total:</strong> ₹{{ selectedproduct.totalPrice }}</p>
+    <p><strong>Status:</strong> {{ selectedproduct.status }}</p>
+    <p><strong>Location:</strong> {{ selectedproduct.location }}</p>
+    <p><strong>Harvest:</strong> {{ selectedproduct.harvestDate | date }}</p>
+
+    <div class="button-group">
+      <button (click)="contactFarmer(selectedproduct)">Contact Farmer</button>
+      <button (click)="buyProduct(selectedproduct)">Buy</button>
+      <button (click)="goBackToList()">Back to All Products</button>
+    </div>
+  </div>
+</div>
+
+<!-- No Products Found -->
+<div *ngIf="!loading && !selectedproduct && products.length === 0">
+  <p>No products available.</p>
+</div>
+
+<!-- Product List View -->
+<div *ngIf="!loading && !selectedproduct && products.length > 0" class="product-grid">
+  <div *ngFor="let product of products" class="product-card">
+    <img [src]="product.imageUrl || 'https://via.placeholder.com/150'" alt="{{ product.name }}" width="150" />
+    <h3>{{ product.name }}</h3>
+    <p>{{ product.description }}</p>
+    <p><strong>Category:</strong> {{ product.category }}</p>
+    <p><strong>Grade:</strong> {{ product.grade }}</p>
+    <p><strong>Qty:</strong> {{ product.quantity }} {{ product.unit }}</p>
+    <p><strong>₹/Unit:</strong> ₹{{ product.pricePerUnit }}</p>
+    <p><strong>Total:</strong> ₹{{ product.totalPrice }}</p>
+    <p><strong>Status:</strong> {{ product.status }}</p>
+    <p><strong>Location:</strong> {{ product.location }}</p>
+    <p><strong>Harvest:</strong> {{ product.harvestDate | date }}</p>
+
+    <div class="button-group">
+      <button (click)="contactFarmer(product)">Contact Farmer</button>
+      <button (click)="viewDetails(product)">Detail View</button>
+      <button (click)="buyProduct(product)">Buy</button>
+    </div>
+  </div>
+</div>
