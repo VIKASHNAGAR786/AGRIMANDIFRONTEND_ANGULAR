@@ -9,25 +9,20 @@ import { AlertService } from '../../services/alert.service';
   standalone: true,
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
-  imports: [FormsModule, AlertComponent],
+  imports: [FormsModule],
 })
 export class SignupComponent {
   farmer = {
-    name: '',
-    email: '',
-    phoneNumber: '',
-    address: '',
-    state: '',
-    district: '',
-    village: '',
-    postalCode: '',
-    landArea: 0,
-    farmingType: '',
+  name: '',
+  userName: '',
+  password: '',
+  role: '',
+  email: ''
   };
 
   constructor(private farmerService: FarmerService, private alertService: AlertService) {}
   signup() {
-    this.farmerService.saveFarmer(this.farmer).subscribe(
+    this.farmerService.Register(this.farmer).subscribe(
       (response) => {
         console.log('✅ Farmer registered:', response);
         this.alertService.showAlert('Signup successful!', 'success');
@@ -40,15 +35,10 @@ export class SignupComponent {
   }
   field = [
     { label: 'Name', name: 'name', type: 'text' },
+    { label: 'User Name', name: 'userName', type: 'text' },
+    { label: 'Password', name: 'password', type: 'text' },
+    { label: 'Role', name: 'Role', type: 'text' },
     { label: 'Email', name: 'email', type: 'email' },
-    { label: 'Phone Number', name: 'phoneNumber', type: 'text' },
-    { label: 'Address', name: 'address', type: 'text' },
-    { label: 'State', name: 'state', type: 'text' },
-    { label: 'District', name: 'district', type: 'text' },
-    { label: 'Village', name: 'village', type: 'text' },
-    { label: 'Postal Code', name: 'postalCode', type: 'text' },
-    { label: 'Land Area (in acres)', name: 'landArea', type: 'number' },
-    { label: 'Farming Type', name: 'farmingType', type: 'text' }
   ];
   
   testSuccess() {

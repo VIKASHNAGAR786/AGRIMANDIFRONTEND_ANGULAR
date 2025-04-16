@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from './../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ProductByID } from '../models/product';
+import { ProductByID, UserByproduct } from '../models/product';
 
 
 @Injectable({
@@ -13,6 +13,8 @@ export class ProductService {
   private apiUrl = environment.APIUrl + 'Product/Saveproduct';  // API Endpoint
   private GetAllProductUrl = environment.APIUrl + 'Product/GetAllProduct';
   private GetProductByIdUrl = environment.APIUrl + 'Product/GetProductById';
+  private GetProductReportPdfUrl = environment.APIUrl + 'Product/GetProductPdf';
+  private GetProductByFarmerIdUrl = environment.APIUrl + 'Farmer/Getproductbyfarmerid';
 
   constructor(private http: HttpClient) {   }
   
@@ -33,5 +35,20 @@ export class ProductService {
   GetProductById(productId: number): Observable<ProductByID> {
     const url = `${this.GetProductByIdUrl}?productid=${productId}`;
     return this.http.get<ProductByID>(url);
+  }
+
+  getProductPdf(productId: number): Observable<Blob> {
+    return this.http.get(`${this.GetProductReportPdfUrl}`, {
+      params: { productid: productId },
+      responseType: 'blob'
+    });
+  }
+  // ✅ New method: Get products by farmer ID and email
+  getProductByFarmerId(id: number, email: string): Observable<UserByproduct[]> {
+    const params = new HttpParams()
+      .set('id', id)
+      .set('email', email);
+
+    return this.http.get<UserByproduct[]>(this.GetProductByFarmerIdUrl, { params });
   }
 }

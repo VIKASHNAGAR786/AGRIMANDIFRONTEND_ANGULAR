@@ -50,3 +50,28 @@ export interface Product {
     updatedDate: Date;
     status?: string;           // Available, Sold, etc.
   }
+
+  export interface UserByproduct {
+    name: string;
+    description?: string;
+    category: string;
+    type?: string;
+    variety?: string;
+    grade: string;
+    quantity: number;
+    unit: string;
+    pricePerUnit: number;
+    totalPrice: number;
+    availability: boolean;
+    location?: string;
+    harvestDate?: Date;
+    expiryDate?: Date;
+    storageCondition?: string;
+    packagingType?: string;
+    certification?: string;
+    imageUrl?: string;
+    addedDate?: Date;
+    updatedDate?: Date;
+    status: string;
+  }
+  

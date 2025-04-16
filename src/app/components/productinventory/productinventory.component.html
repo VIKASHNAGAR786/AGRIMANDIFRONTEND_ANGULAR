@@ -16,7 +16,7 @@
     <p><strong>Status:</strong> {{ selectedproduct.status }}</p>
     <p><strong>Location:</strong> {{ selectedproduct.location }}</p>
     <p><strong>Harvest:</strong> {{ selectedproduct.harvestDate | date }}</p>
-
+    <button (click)="downloadProductPdf(selectedproduct.productid)">Download Product PDF</button>
     <div class="button-group">
       <button (click)="contactFarmer(selectedproduct)">Contact Farmer</button>
       <button (click)="buyProduct(selectedproduct)">Buy</button>

@@ -7,11 +7,11 @@ import { environment } from './../../environments/environment';
   providedIn: 'root',
 })
 export class FarmerService {
-  private apiUrl = environment.APIUrl + 'Farmer/Savefarmer';  // API Endpoint
+  private apiUrl = environment.AccountApiUrl + 'Register/Register';  // API Endpoint
 
   constructor(private http: HttpClient) {}
 
-  saveFarmer(farmerData: any): Observable<any> {
-    return this.http.post(this.apiUrl, farmerData);
+  Register(userdata: any): Observable<any> {
+    return this.http.post(this.apiUrl, userdata);
   }
 }

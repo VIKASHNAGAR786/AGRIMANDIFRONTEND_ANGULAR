@@ -85,4 +85,18 @@ export class ProductinventoryComponent implements OnInit {
   buyProduct(product: Product | ProductByID): void {
     console.log('🛒 Buying product:', product);
   }
+  downloadProductPdf(productId: number) {
+    this.productService.getProductPdf(productId).subscribe({
+      next: (pdfBlob) => {
+        const fileURL = URL.createObjectURL(pdfBlob);
+        const link = document.createElement('a');
+        link.href = fileURL;
+        link.download = 'Product Report.pdf';
+        link.click();
+      },
+      error: (err) => {
+        console.error('Failed to download PDF:', err);
+      }
+    });
+  }
 }
