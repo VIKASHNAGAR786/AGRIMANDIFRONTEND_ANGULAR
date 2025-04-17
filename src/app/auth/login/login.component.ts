@@ -37,6 +37,7 @@ export class LoginComponent {
           localStorage.setItem('user_name', response.name);
           localStorage.setItem('user_role', response.role);
           localStorage.setItem('user_email', response.email);
+          localStorage.setItem('nameid', response.id.toString());
         }
 
         this.alertService.showAlert('Login successful!', 'success');

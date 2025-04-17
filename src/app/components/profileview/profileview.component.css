@@ -19,4 +19,11 @@
   li {
     margin: 0.5rem 0;
   }
+  .product-card {
+    background-color: #f3f3f3;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px #ccc;
+  }
   
