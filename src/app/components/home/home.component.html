@@ -71,7 +71,7 @@
     <h2>Latest Insights</h2>
     <div class="blog-container">
       <div class="blog-post" *ngFor="let blog of blogs">
-        <img [src]="'assets/images/' + blog.image" [alt]="blog.title" class="blog-image" />
+        <img src="images/latest.png" [alt]="blog.title" class="blog-image" />
         <h4>{{ blog.title }}</h4>
         <p>{{ blog.description }}</p>
         <!-- <a [routerLink]="['/blog', blog.id]">Read More</a> -->

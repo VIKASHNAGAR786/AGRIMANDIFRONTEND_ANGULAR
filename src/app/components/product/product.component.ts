@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { FormsModule } from '@angular/forms';
 import { AlertComponent } from '../../components/alert/alert.component';
@@ -9,9 +9,11 @@ import { AlertService } from '../../services/alert.service';
   standalone: true,
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css'],
-  imports: [FormsModule, AlertComponent],
+  encapsulation: ViewEncapsulation.Emulated,
+  imports: [FormsModule],
 })
 export class ProductComponent {
+  today: string = new Date().toISOString().split('T')[0]; 
  product = { 
   name: '',
  description: '',

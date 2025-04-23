@@ -1,58 +1,160 @@
-<!-- Signup Form -->
-<form (ngSubmit)="signup()" class="form-container">
-    <label>Name:</label>
-    <input type="text" [(ngModel)]="product.name" name="name" required />
-  
-    <label>Description:</label>
-    <input type="text" [(ngModel)]="product.description" name="description" required />
-  
-    <label>Category:</label>
-    <input type="text" [(ngModel)]="product.category" name="category" required />
-  
-    <label>Type:</label>
-    <input type="text" [(ngModel)]="product.type" name="type" required />
-  
-    <label>Variety:</label>
-    <input type="text" [(ngModel)]="product.variety" name="variety" required />
-  
-    <label>Grade:</label>
-    <input type="text" [(ngModel)]="product.grade" name="grade" required />
-  
-    <label>Quantity:</label>
-    <input type="number" [(ngModel)]="product.quantity" name="quantity" required />
-  
-    <label>Unit:</label>
-    <input type="text" [(ngModel)]="product.unit" name="unit" required />
-  
-    <label>Price Per Unit:</label>
-    <input type="number" [(ngModel)]="product.pricePerUnit" name="pricePerUnit" required />
-  
-    <label>Availability:</label>
-    <input type="checkbox" [(ngModel)]="product.availability" name="availability" />
-  
-    <label>Location:</label>
-    <input type="text" [(ngModel)]="product.location" name="location" required />
-  
-    <label>Harvest Date:</label>
-    <input type="date" [(ngModel)]="product.harvestDate" name="harvestDate" required />
-  
-    <label>Expiry Date:</label>
-    <input type="date" [(ngModel)]="product.expiryDate" name="expiryDate" required />
-  
-    <label>Storage Condition:</label>
-    <input type="text" [(ngModel)]="product.storageCondition" name="storageCondition" required />
-  
-    <label>Packaging Type:</label>
-    <input type="text" [(ngModel)]="product.packagingType" name="packagingType" required />
-  
-    <label>Certification:</label>
-    <input type="text" [(ngModel)]="product.certification" name="certification" required />
-  
-    <label>Image URL:</label>
-    <input type="text" [(ngModel)]="product.imageUrl" name="imageUrl" required />
-  
-    <label>Status:</label>
-    <input type="text" [(ngModel)]="product.status" name="status" required />
-  
-    <button type="submit" class="btn btn-primary">Add Product</button>
-</form>
+<!-- Bootstrap CSS CDN -->
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+
+<div class="product-form-wrapper">
+  <div class="form-page-wrapper">
+    <form (ngSubmit)="signup()" class="form-glass add-product-form container" style="max-width: 850px;">
+      <div class="form-title">Add New Product</div>
+
+      <div class="row g-4">
+        <!-- Product Name -->
+        <div class="col-md-6">
+          <label class="form-label">Product Name</label>
+          <input type="text" [(ngModel)]="product.name" name="name" class="form-control" placeholder="e.g., Mango" required />
+        </div>
+
+        <!-- Description -->
+        <div class="col-md-6">
+          <label class="form-label">Description</label>
+          <input type="text" [(ngModel)]="product.description" name="description" class="form-control" required />
+        </div>
+
+        <!-- Category -->
+        <div class="col-md-4">
+          <label class="form-label">Category</label>
+          <select [(ngModel)]="product.category" name="category" class="form-control" required>
+            <option value="Grains">Grains</option>
+            <option value="Fruits">Fruits</option>
+            <option value="Vegetables">Vegetables</option>
+            <option value="Dairy">Dairy</option>
+            <option value="Flowers">Flowers</option>
+            <option value="Spices">Spices</option>
+            <option value="Pulses">Pulses</option>
+            <option value="Oilseeds">Oilseeds</option>
+            <option value="Herbs">Herbs</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+
+        <!-- Type -->
+        <div class="col-md-4">
+          <label class="form-label">Type</label>
+          <input type="text" [(ngModel)]="product.type" name="type" class="form-control" required />
+        </div>
+
+        <!-- Variety -->
+        <div class="col-md-4">
+          <label class="form-label">Variety</label>
+          <input type="text" [(ngModel)]="product.variety" name="variety" class="form-control" required />
+        </div>
+
+        <!-- Grade -->
+        <div class="col-md-6">
+          <label class="form-label">Grade</label>
+          <select [(ngModel)]="product.grade" name="grade" class="form-control" required>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="Organic">Organic</option>
+            <option value="Premium">Premium</option>
+            <option value="Standard" selected>Standard</option>
+          </select>
+        </div>
+
+        <!-- Quantity -->
+        <div class="col-md-3">
+          <label class="form-label">Quantity</label>
+          <input type="number" [(ngModel)]="product.quantity" name="quantity" class="form-control" min="0" step="0.01" required />
+        </div>
+
+        <!-- Unit -->
+        <div class="col-md-3">
+          <label class="form-label">Unit</label>
+          <select [(ngModel)]="product.unit" name="unit" class="form-control" required>
+            <option value="Kg">Kg</option>
+            <option value="Quintal">Quintal</option>
+            <option value="Ton">Ton</option>
+            <option value="Liters">Liters</option>
+            <option value="Packets">Packets</option>
+            <option value="Bunch">Bunch</option>
+            <option value="Dozen">Dozen</option>
+          </select>
+        </div>
+
+        <!-- Price Per Unit -->
+        <div class="col-md-6">
+          <label class="form-label">Price Per Unit (₹)</label>
+          <input type="number" [(ngModel)]="product.pricePerUnit" name="pricePerUnit" class="form-control" min="0" required />
+        </div>
+
+        <!-- Availability -->
+        <div class="col-md-6">
+          <label class="form-label">Availability</label><br>
+          <div class="form-check form-switch mt-1">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="product.availability" name="availability" />
+            <label class="form-check-label">Available for Sale</label>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="col-md-6">
+          <label class="form-label">Location</label>
+          <input type="text" [(ngModel)]="product.location" name="location" class="form-control" required />
+        </div>
+
+        <!-- Harvest Date -->
+        <div class="col-md-3">
+          <label class="form-label">Harvest Date</label>
+          <input type="date" [(ngModel)]="product.harvestDate" name="harvestDate" class="form-control" max="{{ today }}" required />
+        </div>
+
+        <!-- Expiry Date -->
+        <div class="col-md-3">
+          <label class="form-label">Expiry Date</label>
+          <input type="date" [(ngModel)]="product.expiryDate" name="expiryDate" class="form-control" min="{{ product.harvestDate }}" required />
+        </div>
+
+        <!-- Storage Condition -->
+        <div class="col-md-6">
+          <label class="form-label">Storage Condition</label>
+          <input type="text" [(ngModel)]="product.storageCondition" name="storageCondition" class="form-control" required />
+        </div>
+
+        <!-- Packaging Type -->
+        <div class="col-md-6">
+          <label class="form-label">Packaging Type</label>
+          <input type="text" [(ngModel)]="product.packagingType" name="packagingType" class="form-control" required />
+        </div>
+
+        <!-- Certification -->
+        <div class="col-md-6">
+          <label class="form-label">Certification</label>
+          <input type="text" [(ngModel)]="product.certification" name="certification" class="form-control" required />
+        </div>
+
+        <!-- Image URL -->
+        <div class="col-md-6">
+          <label class="form-label">Image URL</label>
+          <input type="url" [(ngModel)]="product.imageUrl" name="imageUrl" class="form-control" required />
+        </div>
+
+        <!-- Status -->
+        <div class="col-12">
+          <label class="form-label">Status</label>
+          <select [(ngModel)]="product.status" name="status" class="form-control" required>
+            <option value="Available">Available</option>
+            <option value="Sold">Sold</option>
+            <option value="Pending">Pending</option>
+            <option value="In Transit">In Transit</option>
+          </select>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="col-12 text-center mt-4">
+          <button type="submit" class="btn btn-success btn-glow">Add Product</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+

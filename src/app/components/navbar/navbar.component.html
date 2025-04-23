@@ -1,37 +1,113 @@
 <!-- Navigation Bar -->
-<nav class="navbar">
-  <div class="navbar-container">
+<nav class="navbar navbar-expand-lg navbar-light bg-success shadow-sm">
+  <div class="container-fluid">
     <!-- Logo -->
     <a routerLink="/" class="navbar-logo">
-      <img src="images/logo.webp" alt="AgriMandi Logo" />
+      <img src="images/logo.png" alt="AgriMandi Logo" />
     </a>
 
     <!-- Navbar Toggle for Mobile -->
-    <button class="navbar-toggle" id="navbarToggle">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLinks" aria-controls="navbarLinks" aria-expanded="false" aria-label="Toggle navigation">
       ☰
     </button>
 
     <!-- Navbar Links -->
-    <ul class="navbar-links" id="navbarLinks">
-      <li><a routerLink="/" class="nav-link">Home</a></li>
-      <li><a href="#" class="nav-link" (click)="goToAddProduct($event)">Add Products</a></li>  
-      <li><a routerLink="products" class="nav-link">Products</a></li>
-      <li><a routerLink="/blog" class="nav-link">About Agrimandi</a></li>
-      <li><a routerLink="/contact" class="nav-link">Contact</a></li>
-    </ul>
+    <div class="collapse navbar-collapse" id="navbarLinks">
+      <!-- Centered Links -->
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a routerLink="/" class="nav-link text-white">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link text-white" (click)="goToAddProduct($event)">Add Products</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="products" class="nav-link text-white">Products</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/blog" class="nav-link text-white">About Agrimandi</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/contact" class="nav-link text-white">Contact</a>
+        </li>
+      </ul>
 
-    <!-- Navbar Actions -->
-<div class="navbar-actions">
-  <ng-container *ngIf="!isLoggedIn; else loggedInTemplate">
-    <a routerLink="auth/login" class="btn">Login</a>
-    <a routerLink="auth/signup" class="btn btn-primary">Sign Up</a>
-  </ng-container>
+      <!-- Navbar Actions (Login/Signup) -->
+      <div class="d-flex">
+        <ng-container *ngIf="!isLoggedIn; else loggedInTemplate">
+          <a routerLink="auth/login" class="btn btn-outline-light me-2">Login</a>
+          <a routerLink="auth/signup" class="btn btn-light btn-glow">Sign Up</a>
+        </ng-container>
 
-  <ng-template #loggedInTemplate>
-    <a routerLink="components/profileview" class="btn">Profile</a>
-    <button (click)="logout()" class="btn btn-primary">Logout</button>
-  </ng-template>
-</div>
-
+        <ng-template #loggedInTemplate>
+          <a routerLink="components/profileview" class="btn btn-outline-light me-2">Profile</a>
+          <button (click)="logout()" class="btn btn-danger">Logout</button>
+        </ng-template>
+      </div>
+    </div>
   </div>
 </nav>
+
+<!-- Custom CSS for advanced styling -->
+<style>
+  /* Navbar background color */
+  .navbar {
+    background-color: #28a745 !important;
+  }
+
+  /* Navbar text and link color */
+  .navbar-nav .nav-link {
+    color: white !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: #f8f9fa !important;
+    text-decoration: underline;
+  }
+
+  /* Hover effect for buttons */
+  .btn-outline-light:hover {
+    background-color: #ffffff !important;
+    color: #28a745 !important;
+    border-color: #28a745 !important;
+  }
+
+  .btn-light {
+    background-color: #ffffff !important;
+    color: #28a745 !important;
+    border-color: #28a745 !important;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .btn-light:hover {
+    background-color: #28a745 !important;
+    color: #ffffff !important;
+  }
+
+  .btn-glow {
+    box-shadow: 0 4px 10px rgba(0, 128, 0, 0.6);
+  }
+
+  /* Navbar shadow effect */
+  .navbar {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Media queries for mobile responsiveness */
+  @media (max-width: 767px) {
+    .navbar-toggler {
+      background-color: #ffffff;
+      border: none;
+    }
+
+    .navbar-nav .nav-link {
+      font-size: 1.1rem;
+    }
+
+    .navbar-actions .btn {
+      font-size: 0.9rem;
+    }
+  }
+</style>

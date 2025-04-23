@@ -21,7 +21,7 @@ export class HomeComponent {
       number: 1,
       title: 'Sign Up',
       description: 'Create your free account as a Farmer or Buyer to access the AgriMandi platform.',
-      image: 'register.jpg'
+      image: 'Register.JPG'
     },
     {
       number: 2,
@@ -33,19 +33,19 @@ export class HomeComponent {
       number: 3,
       title: 'Connect & Communicate',
       description: 'Initiate direct chat or call between farmers and buyers for negotiation and clarity.',
-      image: 'connect.webp'
+      image: 'trade.jpeg'
     },
     {
       number: 4,
       title: 'Secure Transactions',
       description: 'Finalize deals and complete payments securely through integrated payment gateways.',
-      image: 'payment.jpg'
+      image: 'trade.jpeg'
     },
     {
       number: 5,
       title: 'Track & Rate',
       description: 'Track your orders and leave feedback to build a trusted, transparent marketplace.',
-      image: 'rating.webp'
+      image: 'trade.jpeg'
     }
   ];
 

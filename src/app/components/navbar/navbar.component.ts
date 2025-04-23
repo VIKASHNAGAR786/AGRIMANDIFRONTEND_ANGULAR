@@ -1,4 +1,4 @@
-import { Component,Inject, PLATFORM_ID  } from '@angular/core';
+import { Component,Inject, PLATFORM_ID, ViewEncapsulation  } from '@angular/core';
 import { ProductComponent } from "../product/product.component";
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
@@ -8,7 +8,8 @@ import { filter } from 'rxjs/operators';
   selector: 'app-navbar',
   imports: [RouterModule,CommonModule],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrls: ['./navbar.component.css'],
+    encapsulation: ViewEncapsulation.Emulated
 })
 export class NavbarComponent {
   isLoggedIn: boolean = false;
