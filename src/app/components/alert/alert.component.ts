@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AlertService } from '../../services/alert.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-alert',
@@ -32,6 +33,12 @@ import { AlertService } from '../../services/alert.service';
     .error {
       background-color: #dc3545;
     }
+    .info {
+      background-color: #17a2b8;
+    }
+    .warning {
+      background-color: #ffc107;
+    }
     @keyframes fadeInOut {
       0% { opacity: 0; transform: translateY(20px); }
       10% { opacity: 1; transform: translateY(0); }
@@ -40,13 +47,22 @@ import { AlertService } from '../../services/alert.service';
     }
   `]
 })
-export class AlertComponent {
-  alertData = { message: '', type: 'success' as 'success' | 'error' | null };
+export class AlertComponent implements OnDestroy {
+  alertData = { message: '', type: 'success' as 'success' | 'error' | 'info' | 'warning' | null };
+  alertSubscription: Subscription;
 
   constructor(private alertService: AlertService) {
-    this.alertService.alert$.subscribe((data) => {
+    // Subscribing to alert service to receive alerts
+    this.alertSubscription = this.alertService.alert$.subscribe((data) => {
       console.log('🟡 Alert received:', data); // ✅ Debugging log
       this.alertData = data;
     });
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from alert service when the component is destroyed to avoid memory leaks
+    if (this.alertSubscription) {
+      this.alertSubscription.unsubscribe();
+    }
   }
 }

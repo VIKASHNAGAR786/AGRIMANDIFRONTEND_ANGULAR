@@ -37,14 +37,14 @@
     <div *ngIf="farmerData" class="mb-5">
       <h3 class="mb-3">Your Farmer Profile</h3>
       <div class="row">
-        <div class="col-md-4"><strong>Phone Number:</strong> {{ farmerData.phoneNumber }}</div>
-        <div class="col-md-4"><strong>Alternate Contact:</strong> {{ farmerData.phoneNumber }}</div>
-        <div class="col-md-4"><strong>Address:</strong> {{ farmerData.address }}</div>
-        <div class="col-md-4"><strong>City:</strong> {{ farmerData.district }}</div>
-        <div class="col-md-4"><strong>State:</strong> {{ farmerData.state }}</div>
-        <div class="col-md-4"><strong>Pincode:</strong> {{ farmerData.postalCode }}</div>
-        <div class="col-md-4"><strong>Land Area:</strong> {{ farmerData.landArea }}</div>
-        <div class="col-md-4"><strong>Farming Type:</strong> {{ farmerData.farmingType }}</div>
+        <div class="col-md-4"><strong>Phone Number:</strong> {{ farmerData.PhoneNumber }}</div>
+        <div class="col-md-4"><strong>Alternate Contact:</strong> {{ farmerData.PhoneNumber }}</div>
+        <div class="col-md-4"><strong>Address:</strong> {{ farmerData.Address }}</div>
+        <div class="col-md-4"><strong>City:</strong> {{ farmerData.District }}</div>
+        <div class="col-md-4"><strong>State:</strong> {{ farmerData.State }}</div>
+        <div class="col-md-4"><strong>Pincode:</strong> {{ farmerData.PostalCode }}</div>
+        <div class="col-md-4"><strong>Land Area:</strong> {{ farmerData.LandArea }}</div>
+        <div class="col-md-4"><strong>Farming Type:</strong> {{ farmerData.FarmingType }}</div>
       </div>
     </div>
 
@@ -55,18 +55,6 @@
         <h3 class="mb-4 text-center fw-bold text-success">Update Farmer Profile</h3>
   
         <form (ngSubmit)="submitFarmerForm()" #farmerFormRef="ngForm" class="row g-4 needs-validation" novalidate>
-
-        <!-- Name -->
-        <div class="col-md-4">
-          <label class="form-label fw-semibold">Full Name</label>
-          <input [(ngModel)]="farmerForm.name" name="name" class="form-control rounded-3" required />
-        </div>
-
-        <!-- Email -->
-        <div class="col-md-4">
-          <label class="form-label fw-semibold">Email</label>
-          <input [(ngModel)]="farmerForm.email" name="email" type="email" class="form-control rounded-3" required />
-        </div>
 
         <!-- Phone -->
         <div class="col-md-4">
@@ -114,21 +102,6 @@
         <div class="col-md-6">
           <label class="form-label fw-semibold">Farming Type</label>
           <input [(ngModel)]="farmerForm.farmingType" name="farmingType" class="form-control rounded-3" required />
-        </div>
-
-        <!-- Registration Date -->
-        <div class="col-md-3">
-          <label class="form-label fw-semibold">Registration Date</label>
-          <input [(ngModel)]="farmerForm.registrationDate" name="registrationDate" type="date" class="form-control rounded-3" required />
-        </div>
-
-        <!-- Status -->
-        <div class="col-md-3">
-          <label class="form-label fw-semibold">Status</label>
-          <select [(ngModel)]="farmerForm.status" name="status" class="form-select rounded-3">
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-          </select>
         </div>
 
         <!-- Submit Button -->

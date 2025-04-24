@@ -38,8 +38,6 @@ export interface UpdateBuyer {
   }
 
   export interface Farmer {
-    name: string;
-    email: string;
     phoneNumber: string;
     address: string;
     state: string;
@@ -48,8 +46,7 @@ export interface UpdateBuyer {
     postalCode: string;
     landArea: number;
     farmingType: string;
-    registrationDate?: Date;
-    status?: string;
+    farmerId: number;
   }
 
   export interface FarmerDTO {

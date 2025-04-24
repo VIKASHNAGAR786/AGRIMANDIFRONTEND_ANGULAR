@@ -7,6 +7,7 @@ import { UserByproduct } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { UserService } from '../../services/user.service';
 import { Farmer, FarmerDTO, UpdateBuyer } from '../../models/User';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-profileview',
@@ -23,6 +24,18 @@ export class ProfileviewComponent {
     userEmail: '',
     userid: 0
   };
+
+  constructor(
+    private router: Router,
+    private productService: ProductService,
+    private userService: UserService,
+    private alertService: AlertService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => this.Collectlogindata());
+  }
   isLoggedIn: boolean = false;
   products1: any[] = [];
   showBuyerForm: boolean = false;
@@ -57,8 +70,6 @@ export class ProfileviewComponent {
   };
 
   farmerForm: Farmer = {
-    name: '',
-    email: '',
     phoneNumber: '',
     address: '',
     state: '',
@@ -67,7 +78,7 @@ export class ProfileviewComponent {
     postalCode: '',
     landArea: 0,
     farmingType: 'Conventional',
-    status:''
+    farmerId: 0
   };
   
   farmerData: FarmerDTO = {
@@ -93,18 +104,23 @@ status:'',
     if (email && name && userId) {
       this.userService.getFarmerId(email, name).subscribe({
         next: (response) => {
-          const farmerId = Number(response?.farmerId || response?.id); // Adjust key to match your backend
-  
+          this.farmerForm.farmerId = Number(response); // Adjust key to match your backend
           const farmerPayload = {
             ...this.farmerForm,
             userId: userId,
-            farmerId: farmerId
           };
-  
           this.userService.saveFarmer(farmerPayload).subscribe({
             next: (res) => {
-              console.log('Farmer saved successfully:', res);
-              alert('Farmer data saved!');
+              if (res.success) {
+                this.alertService.handleBackendResponse(res); // ✅ "Farmer data saved successfully!"
+    } else {
+      alert("Unexpected response");
+    }
+              if (res.success) {
+                this.alertService.handleBackendResponse(res); // ✅ "Farmer data saved successfully!"
+    } else {
+      alert("Unexpected response");
+    }
             },
             error: (err) => {
               console.error('Error saving farmer:', err);
@@ -121,10 +137,6 @@ status:'',
       alert('User information is missing. Please login again.');
     }
   }
-  
- 
-  
-
 
   fetchFarmerData() {
     this.userService.getFarmerData().subscribe({
@@ -141,16 +153,6 @@ status:'',
     if (this.loginData?.userRole === 'FARMER') {
       this.fetchFarmerData();
     }
-  }
-  constructor(
-    private router: Router,
-    private productService: ProductService,
-    private userService: UserService,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => this.Collectlogindata());
   }
 
   Collectlogindata() {
