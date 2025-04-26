@@ -1,0 +1,14 @@
+.card {
+    border: none;
+    border-radius: 12px;
+  }
+  
+  .card img {
+    object-fit: cover;
+    border: 2px solid #ddd;
+  }
+  
+  h2 {
+    font-weight: 600;
+  }
+  

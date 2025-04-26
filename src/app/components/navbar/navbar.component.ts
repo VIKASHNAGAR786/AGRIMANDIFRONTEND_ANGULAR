@@ -39,6 +39,11 @@ export class NavbarComponent {
     this.router.navigate(['components/product']);
   }
 
+  goToBuyerpage(event: Event) {
+    event.preventDefault();
+    this.router.navigate(['components/buyer']);
+  }
+
   logout() {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.clear();

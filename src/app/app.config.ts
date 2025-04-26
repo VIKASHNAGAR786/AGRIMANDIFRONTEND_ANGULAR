@@ -10,6 +10,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProductComponent } from './components/product/product.component';
 import { ProfileviewComponent } from './components/profileview/profileview.component';
+import { BuyerComponent } from './components/buyer/buyer.component';
 
 // ⛔️ Removed ProductinventoryComponent — it's standalone and lazy-loaded
 
@@ -18,6 +19,7 @@ const routes = [
   { path: 'auth/signup', component: SignupComponent },
   { path: 'auth/login', component: LoginComponent },
   { path: 'components/product', component: ProductComponent },
+  { path: 'components/buyer', component: BuyerComponent },
   { path: 'components/profileview', component: ProfileviewComponent },
 
   // ✅ Use lazy loading for standalone component

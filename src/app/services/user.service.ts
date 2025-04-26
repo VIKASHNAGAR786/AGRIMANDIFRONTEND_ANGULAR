@@ -1,8 +1,8 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { environment } from './../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Farmer, FarmerDTO, UpdateBuyer } from '../models/User';
-import { Observable, of } from 'rxjs';
+import { AllBuyer, Farmer, FarmerDTO, UpdateBuyer } from '../models/User';
+import { map, Observable, of } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
@@ -15,6 +15,7 @@ export class UserService {
   private getFarmerIdUrl = environment.APIUrl + 'Product/GetFarmerId';
   private saveProfileImage = environment.AccountApiUrl + 'SaveProfileimage/Save_Profile_image';
   private getprofileimage = environment.AccountApiUrl + 'GetProfileImage/get-profile-image';
+  private getallbuyers = environment.APIUrl + 'Buyer/GetAllBuyers';
 
   constructor(
     private http: HttpClient,
@@ -75,4 +76,42 @@ export class UserService {
       ? this.http.get(url, { headers, responseType: 'blob' })
       : of(new Blob());
   }
+
+  // GetAllBuyers(): Observable<AllBuyer[]> {
+    // const headers = this.getAuthHeaders();
+    // return headers ? this.http.get<AllBuyer[]>(this.getallbuyers, { headers }) : of([]);
+  // }
+  GetAllBuyers(): Observable<AllBuyer[]> {
+    const headers = this.getAuthHeaders();
+    return headers ? this.http.get<AllBuyer[]>(this.getallbuyers, { headers }).pipe(
+      map(buyers => {
+        return buyers.map(buyer => {
+          if (buyer.bytes && buyer.contenttype) {
+            // Convert the base64 string to byte array
+            const byteArray = this.base64ToByteArray(buyer.bytes);
+            const blob = new Blob([byteArray], { type: buyer.contenttype });
+            const url = URL.createObjectURL(blob);
+  
+            buyer.profileImageUrl = url; // ✅ Save blob URL to use in component
+          } else {
+            // In case there's no image, use a default one
+            buyer.profileImageUrl = 'images/profile.jpeg';
+          }
+          return buyer;
+        });
+      })
+    ) : of([]);
+  }
+  
+  // Helper function to convert base64 string to byte array
+  private base64ToByteArray(base64String: string): Uint8Array {
+    const binaryString = atob(base64String);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
+  }
+  
 }

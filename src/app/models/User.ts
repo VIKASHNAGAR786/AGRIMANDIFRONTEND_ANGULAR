@@ -63,3 +63,40 @@ export interface UpdateBuyer {
     status?: string;
   }
   
+  export interface AllBuyer {
+    buyerId: number;
+    userId: number;
+    profileimage: string | null;
+    contactNumber: string;
+    alternateContact: string;
+    emailVerified: boolean;
+    phoneVerified: boolean;
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    pincode: string;
+    geoLat: number;
+    geoLong: number;
+    companyName: string;
+    companyType: string;
+    gstNumber: string;
+    panNumber: string;
+    isVerified: boolean;
+    preferredCrops: string;
+    budgetRange: string;
+    purchaseFrequency: string;
+    preferredPaymentMethod: string;
+    lastPurchaseDate: string;  // if it's a DateTime in backend, you can also use Date type
+    totalOrders: number;
+    totalSpent: number;
+    loyaltyPoints: number;
+    buyerRating: number;
+
+    bytes: string;    // (base64 string of file)
+    contenttype: string;  // (example: 'image/png')
+  
+    // 🔥 Also optionally add this helper field (not from backend, created in frontend)
+    profileImageUrl?: string; // (Blob URL to display image in UI)
+  }
+  
