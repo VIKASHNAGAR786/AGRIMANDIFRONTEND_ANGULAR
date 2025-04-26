@@ -1,5 +1,5 @@
 import { isPlatformBrowser, CommonModule } from '@angular/common';
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +16,10 @@ import { AlertService } from '../../services/alert.service';
   templateUrl: './profileview.component.html',
   styleUrls: ['./profileview.component.css']
 })
-export class ProfileviewComponent {
+export class ProfileviewComponent implements OnInit {
+  profileImageUrl: string = '';  // Variable to hold the profile image URL
+  defaultProfileImage: string = 'images/profile.jpeg'; // Path to your default image
+  products1: UserByproduct[] = ([]);
   loginData: any = {
     isLoggedIn: false,
     userName: '',
@@ -36,8 +39,8 @@ export class ProfileviewComponent {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => this.Collectlogindata());
   }
+
   isLoggedIn: boolean = false;
-  products1: any[] = [];
   showBuyerForm: boolean = false;
 
   buyerForm: UpdateBuyer = {
@@ -82,17 +85,16 @@ export class ProfileviewComponent {
   };
   
   farmerData: FarmerDTO = {
-Name:'',
-Email:'',
-PhoneNumber:'',
-Address:'',
-State:'',
-District:'',
-Village:'',
-PostalCode:'',
-LandArea:0,
-FarmingType:'',
-registrationDate:new Date(),
+name:'',
+email:'',
+phoneNumber:'',
+address:'',
+state:'',
+district:'',
+village:'',
+postalCode:'',
+landArea:0,
+farmingType:'',
 status:'',
   };
   
@@ -150,10 +152,16 @@ status:'',
     });
   }
   ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
     if (this.loginData?.userRole === 'FARMER') {
       this.fetchFarmerData();
     }
+    const userId = parseInt(localStorage.getItem('nameid') || '0');  // Fetch userId from localStorage
+if (userId !== 0) {
+  this.getProfileImage(userId);  // Fetch profile image when component initializes
+}
   }
+}
 
   Collectlogindata() {
     if (isPlatformBrowser(this.platformId)) {
@@ -210,4 +218,54 @@ status:'',
       }
     });
   }
+
+  
+  saveProfileImage(file: File) {
+    if (isPlatformBrowser(this.platformId)) {
+    const UserId = parseInt(localStorage.getItem('nameid') || '0'); // Get userId from localStorage
+    if (UserId !== 0 && file) {
+      this.userService.uploadProfileImage(file, UserId).subscribe({
+        next: (res) => {
+          if (res.success) {
+            console.log('Profile image saved successfully.');
+            this.getProfileImage(UserId);  // Reload profile image after saving
+          } else {
+            console.error('Failed to save profile image.');
+          }
+        },
+        error: (err) => {
+          console.error('Error saving profile image:', err);
+        }
+      });
+    } else {
+      console.error('User ID is invalid or no file selected.');
+    }
+  }
+  }
+  
+  // Method to get the profile image from the server
+  getProfileImage(userId: number) {
+    this.userService.getProfileImage(userId).subscribe({
+      next: (blob) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.profileImageUrl = reader.result as string;  // Set the profile image URL
+        };
+        reader.readAsDataURL(blob);  // Convert the image Blob to a Data URL
+      },
+      error: (err) => {
+        console.error('Error fetching profile image:', err);
+        this.profileImageUrl = this.defaultProfileImage;  // Set default image if error occurs
+      }
+    });
+  }
+  
+  // Optional: You can use this method to handle file upload from a file input
+  onFileSelect(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.saveProfileImage(file);  // Call method to save profile image
+    }
+  }
+  
 }

@@ -1,11 +1,47 @@
 <div class="container-fluid px-5 py-4" *ngIf="loginData.isLoggedIn; else notLoggedIn">
 
-  <h2 class="mb-4">Welcome, {{ loginData.userName }}!</h2>
-  <ul class="list-unstyled mb-4">
-    <li><strong>Role:</strong> {{ loginData.userRole }}</li>
-    <li><strong>Email:</strong> {{ loginData.userEmail }}</li>
-  </ul>
+  <!-- Single Card for Profile Image + Login Data -->
+  <div class="card shadow rounded-4 border-0 p-4 mb-5">
+    <div class="row align-items-center">
 
+      <!-- Profile Image Section -->
+      <div class="col-md-4 text-center mb-4 mb-md-0">
+        <div class="d-flex justify-content-center">
+          <img 
+            *ngIf="profileImageUrl; else defaultImage" 
+            [src]="profileImageUrl" 
+            class="rounded-circle shadow" 
+            alt="Profile Image" 
+            style="width: 180px; height: 180px; object-fit: cover; border: 4px solid #ffffff;"
+          />
+          <ng-template #defaultImage>
+            <img 
+              [src]="defaultProfileImage" 
+              class="rounded-circle shadow" 
+              alt="Default Profile Image" 
+              style="width: 180px; height: 180px; object-fit: cover; border: 4px solid #ffffff;"
+            />
+          </ng-template>
+        </div>
+
+        <!-- Upload New Image -->
+        <div class="mt-3">
+          <input type="file" (change)="onFileSelect($event)" class="form-control form-control-sm" />
+        </div>
+      </div>
+
+      <!-- User Details Section -->
+      <div class="col-md-8">
+        <h4 class="fw-bold mb-4 text-center text-md-start">User Details</h4>
+        <ul class="list-unstyled fs-5">
+          <li class="mb-3"><strong>Name:</strong> {{ loginData.userName }}</li>
+          <li class="mb-3"><strong>Role:</strong> {{ loginData.userRole }}</li>
+          <li class="mb-3"><strong>Email:</strong> {{ loginData.userEmail }}</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
   <hr class="mb-5" />
 
   <!-- FARMER VIEW -->
@@ -37,14 +73,14 @@
     <div *ngIf="farmerData" class="mb-5">
       <h3 class="mb-3">Your Farmer Profile</h3>
       <div class="row">
-        <div class="col-md-4"><strong>Phone Number:</strong> {{ farmerData.PhoneNumber }}</div>
-        <div class="col-md-4"><strong>Alternate Contact:</strong> {{ farmerData.PhoneNumber }}</div>
-        <div class="col-md-4"><strong>Address:</strong> {{ farmerData.Address }}</div>
-        <div class="col-md-4"><strong>City:</strong> {{ farmerData.District }}</div>
-        <div class="col-md-4"><strong>State:</strong> {{ farmerData.State }}</div>
-        <div class="col-md-4"><strong>Pincode:</strong> {{ farmerData.PostalCode }}</div>
-        <div class="col-md-4"><strong>Land Area:</strong> {{ farmerData.LandArea }}</div>
-        <div class="col-md-4"><strong>Farming Type:</strong> {{ farmerData.FarmingType }}</div>
+        <div class="col-md-4"><strong>Phone Number:</strong> {{ farmerData.phoneNumber }}</div>
+        <div class="col-md-4"><strong>Alternate Contact:</strong> {{ farmerData.phoneNumber }}</div>
+        <div class="col-md-4"><strong>Address:</strong> {{ farmerData.address }}</div>
+        <div class="col-md-4"><strong>City:</strong> {{ farmerData.district }}</div>
+        <div class="col-md-4"><strong>State:</strong> {{ farmerData.state }}</div>
+        <div class="col-md-4"><strong>Pincode:</strong> {{ farmerData.postalCode }}</div>
+        <div class="col-md-4"><strong>Land Area:</strong> {{ farmerData.landArea }}</div>
+        <div class="col-md-4"><strong>Farming Type:</strong> {{ farmerData.farmingType }}</div>
       </div>
     </div>
 

@@ -38,29 +38,28 @@ export interface UpdateBuyer {
   }
 
   export interface Farmer {
-    phoneNumber: string;
-    address: string;
-    state: string;
-    district: string;
-    village: string;
-    postalCode: string;
-    landArea: number;
-    farmingType: string;
-    farmerId: number;
+    phoneNumber?: string;
+    address?: string;
+    state?: string;
+    district?: string;
+    village?: string;
+    postalCode?: string;
+    landArea?: number;
+    farmingType?: string;
+    farmerId?: number;
   }
 
   export interface FarmerDTO {
-    Name?: string;
-    Email?: string;
-    PhoneNumber?: string;
-    Address?: string;
-    State?: string;
-    District?: string;
-    Village?: string;
-    PostalCode?: string;
-    LandArea?: number;
-    FarmingType?: string;
-    registrationDate: Date;
+    name?: string;
+    email?: string;
+    phoneNumber?: string;
+    address?: string;
+    state?: string;
+    district?: string;
+    village?: string;
+    postalCode?: string;
+    landArea?: number;
+    farmingType?: string;
     status?: string;
   }
   
