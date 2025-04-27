@@ -95,44 +95,6 @@
     </div>
 
     <!-- Buyer Profile -->
-<div *ngIf="buyerData" class="mb-5">
-  <h3 class="mb-4">Your Buyer Profile</h3>
-
-  <div class="row g-3">
-    <div class="col-md-4"><strong>Company Name:</strong> {{ buyerData.companyName }}</div>
-    <div class="col-md-4"><strong>Company Type:</strong> {{ buyerData.companyType }}</div>
-    <div class="col-md-4"><strong>GST Number:</strong> {{ buyerData.gstNumber }}</div>
-
-    <div class="col-md-4"><strong>Contact Number:</strong> {{ buyerData.contactNumber }}</div>
-    <div class="col-md-4"><strong>Alternate Contact:</strong> {{ buyerData.alternateContact }}</div>
-    <div class="col-md-4"><strong>Phone Verified:</strong> {{ buyerData.phoneVerified ? 'Yes' : 'No' }}</div>
-
-    <div class="col-md-4"><strong>Email Verified:</strong> {{ buyerData.emailVerified ? 'Yes' : 'No' }}</div>
-    <div class="col-md-4"><strong>Address:</strong> {{ buyerData.address }}</div>
-    <div class="col-md-4"><strong>City:</strong> {{ buyerData.city }}</div>
-
-    <div class="col-md-4"><strong>State:</strong> {{ buyerData.state }}</div>
-    <div class="col-md-4"><strong>Country:</strong> {{ buyerData.country }}</div>
-    <div class="col-md-4"><strong>Pincode:</strong> {{ buyerData.pincode }}</div>
-
-    <div class="col-md-4"><strong>Geo Latitude:</strong> {{ buyerData.geoLat }}</div>
-    <div class="col-md-4"><strong>Geo Longitude:</strong> {{ buyerData.geoLong }}</div>
-
-    <div class="col-md-4"><strong>Preferred Crops:</strong> {{ buyerData.preferredCrops }}</div>
-    <div class="col-md-4"><strong>Budget Range:</strong> {{ buyerData.budgetRange }}</div>
-    <div class="col-md-4"><strong>Purchase Frequency:</strong> {{ buyerData.purchaseFrequency }}</div>
-
-    <div class="col-md-4"><strong>Preferred Payment:</strong> {{ buyerData.preferredPaymentMethod }}</div>
-    <div class="col-md-4"><strong>Last Purchase Date:</strong> {{ buyerData.lastPurchaseDate | date:'mediumDate' }}</div>
-    <div class="col-md-4"><strong>Total Orders:</strong> {{ buyerData.totalOrders }}</div>
-
-    <div class="col-md-4"><strong>Total Spent:</strong> {{ buyerData.totalSpent }}</div>
-    <div class="col-md-4"><strong>Loyalty Points:</strong> {{ buyerData.loyaltyPoints }}</div>
-    <div class="col-md-4"><strong>Buyer Rating:</strong> {{ buyerData.buyerRating }}</div>
-
-    <div class="col-md-4"><strong>Profile Verified:</strong> {{ buyerData.isVerified ? 'Yes' : 'No' }}</div>
-  </div>
-</div>
 
 
     <!-- Update Farmer Form -->
@@ -209,6 +171,44 @@
     </ng-template>
   </div>
 
+  <div *ngIf="buyerData" class="mb-5">
+    <h3 class="mb-4">Your Buyer Profile</h3>
+  
+    <div class="row g-3">
+      <div class="col-md-4"><strong>Company Name:</strong> {{ buyerData.companyName }}</div>
+      <div class="col-md-4"><strong>Company Type:</strong> {{ buyerData.companyType }}</div>
+      <div class="col-md-4"><strong>GST Number:</strong> {{ buyerData.gstNumber }}</div>
+  
+      <div class="col-md-4"><strong>Contact Number:</strong> {{ buyerData.contactNumber }}</div>
+      <div class="col-md-4"><strong>Alternate Contact:</strong> {{ buyerData.alternateContact }}</div>
+      <div class="col-md-4"><strong>Phone Verified:</strong> {{ buyerData.phoneVerified ? 'Yes' : 'No' }}</div>
+  
+      <div class="col-md-4"><strong>Email Verified:</strong> {{ buyerData.emailVerified ? 'Yes' : 'No' }}</div>
+      <div class="col-md-4"><strong>Address:</strong> {{ buyerData.address }}</div>
+      <div class="col-md-4"><strong>City:</strong> {{ buyerData.city }}</div>
+  
+      <div class="col-md-4"><strong>State:</strong> {{ buyerData.state }}</div>
+      <div class="col-md-4"><strong>Country:</strong> {{ buyerData.country }}</div>
+      <div class="col-md-4"><strong>Pincode:</strong> {{ buyerData.pincode }}</div>
+  
+      <div class="col-md-4"><strong>Geo Latitude:</strong> {{ buyerData.geoLat }}</div>
+      <div class="col-md-4"><strong>Geo Longitude:</strong> {{ buyerData.geoLong }}</div>
+  
+      <div class="col-md-4"><strong>Preferred Crops:</strong> {{ buyerData.preferredCrops }}</div>
+      <div class="col-md-4"><strong>Budget Range:</strong> {{ buyerData.budgetRange }}</div>
+      <div class="col-md-4"><strong>Purchase Frequency:</strong> {{ buyerData.purchaseFrequency }}</div>
+  
+      <div class="col-md-4"><strong>Preferred Payment:</strong> {{ buyerData.preferredPaymentMethod }}</div>
+      <div class="col-md-4"><strong>Last Purchase Date:</strong> {{ buyerData.lastPurchaseDate | date:'mediumDate' }}</div>
+      <div class="col-md-4"><strong>Total Orders:</strong> {{ buyerData.totalOrders }}</div>
+  
+      <div class="col-md-4"><strong>Total Spent:</strong> {{ buyerData.totalSpent }}</div>
+      <div class="col-md-4"><strong>Loyalty Points:</strong> {{ buyerData.loyaltyPoints }}</div>
+      <div class="col-md-4"><strong>Buyer Rating:</strong> {{ buyerData.buyerRating }}</div>
+  
+      <div class="col-md-4"><strong>Profile Verified:</strong> {{ buyerData.isVerified ? 'Yes' : 'No' }}</div>
+    </div>
+  </div>
   <!-- BUYER VIEW -->
   <div *ngIf="loginData.userRole === 'BUYER' || showBuyerForm" class="mb-5">
     <h3 class="mb-3">Update Buyer Details</h3>
