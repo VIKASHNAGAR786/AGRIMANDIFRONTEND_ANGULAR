@@ -19,7 +19,7 @@ const routes = [
   { path: 'auth/signup', component: SignupComponent },
   { path: 'auth/login', component: LoginComponent },
   { path: 'components/product', component: ProductComponent },
-  { path: 'components/buyer', component: BuyerComponent },
+  //{ path: 'components/buyer', component: BuyerComponent },
   { path: 'components/profileview', component: ProfileviewComponent },
 
   // ✅ Use lazy loading for standalone component
@@ -35,6 +35,22 @@ const routes = [
     loadComponent: () =>
       import('./components/productinventory/productinventory.component').then(
         m => m.ProductinventoryComponent
+      )
+  },
+
+  {
+    path: 'buyer',
+    loadComponent: () =>
+      import('./components/buyer/buyer.component').then(
+        (m) => m.BuyerComponent
+      )
+  },
+  // 🔍 Product Detail Page (By ID)
+  {
+    path: 'buyer/:buyerid',
+    loadComponent: () =>
+      import('./components/buyer/buyer.component').then(
+        (m) => m.BuyerComponent
       )
   },
 

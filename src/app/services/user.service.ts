@@ -1,7 +1,7 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { environment } from './../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AllBuyer, Farmer, FarmerDTO, UpdateBuyer } from '../models/User';
+import { AllBuyer, Farmer, FarmerDTO, UpdateBuyer,BuyerById } from '../models/User';
 import { map, Observable, of } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -16,6 +16,8 @@ export class UserService {
   private saveProfileImage = environment.AccountApiUrl + 'SaveProfileimage/Save_Profile_image';
   private getprofileimage = environment.AccountApiUrl + 'GetProfileImage/get-profile-image';
   private getallbuyers = environment.APIUrl + 'Buyer/GetAllBuyers';
+  private getbuyerbyid = environment.APIUrl + 'Buyer/GetBuyerById';
+  private getbuyerid = environment.APIUrl + 'Buyer/GetBuyerID';
 
   constructor(
     private http: HttpClient,
@@ -114,4 +116,22 @@ export class UserService {
     return bytes;
   }
   
+  GetBuyerById(buyerid: number): Observable<BuyerById> {
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      return of(null as unknown as BuyerById);
+    }
+    const url = `${this.getbuyerbyid}?buyerid=${buyerid}`;
+    return this.http.get<BuyerById>(url, { headers });
+  }
+
+  Getbuyerid(userid: number): Observable<number> {
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      return of(null as unknown as number);
+    }
+    const url = `${this.getbuyerid}?userid=${userid}`;
+    return this.http.get<number>(url, { headers });
+  }  
+
 }

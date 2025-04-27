@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { UserByproduct } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { UserService } from '../../services/user.service';
-import { Farmer, FarmerDTO, UpdateBuyer } from '../../models/User';
+import { BuyerById, Farmer, FarmerDTO, UpdateBuyer } from '../../models/User';
 import { AlertService } from '../../services/alert.service';
 
 @Component({
@@ -20,6 +20,34 @@ export class ProfileviewComponent implements OnInit {
   profileImageUrl: string = '';  // Variable to hold the profile image URL
   defaultProfileImage: string = 'images/profile.jpeg'; // Path to your default image
   products1: UserByproduct[] = ([]);
+  //buyerdata: BuyerById | null = null;
+  buyerData: BuyerById = {
+    isVerified: false,
+    alternateContact: '',
+    emailVerified: false,
+    phoneVerified: false,
+    address: '',
+    city: '',
+    state: '',
+    country: '',
+    pincode: '',
+    geoLat: 0,
+    geoLong: 0,
+    companyName: '',
+    companyType: '',
+    gstNumber: '',
+    panNumber: '',
+    preferredCrops: '',
+    budgetRange: '',
+    purchaseFrequency: '',
+    preferredPaymentMethod: '',
+    lastPurchaseDate: '',
+    totalOrders: 0,
+    totalSpent: 0,
+    loyaltyPoints: 0,
+    buyerRating: 0,
+  };
+  buyerid : number = 0;
   loginData: any = {
     isLoggedIn: false,
     userName: '',
@@ -151,17 +179,54 @@ status:'',
       }
     });
   }
+
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-    if (this.loginData?.userRole === 'FARMER') {
-      this.fetchFarmerData();
+      if (this.loginData) {
+        if (this.loginData.userRole === 'FARMER') {
+          this.fetchFarmerData();
+        } else if (this.loginData.userRole === 'BUYER') {
+          this.fetchbuyer_id();
+        }
+  
+        const userId = Number(localStorage.getItem('nameid'));
+        if (userId) {
+          this.getProfileImage(userId);
+        }
+      }
     }
-    const userId = parseInt(localStorage.getItem('nameid') || '0');  // Fetch userId from localStorage
-if (userId !== 0) {
-  this.getProfileImage(userId);  // Fetch profile image when component initializes
-}
   }
-}
+  
+  fetchbuyer_id(): void {
+    this.userService.Getbuyerid(this.loginData.userid).subscribe({
+      next: (data) => {
+        this.buyerid = data;
+        console.log('✅ Buyer ID retrieved:', this.buyerid);
+  
+        if (this.buyerid) {
+          this.fetchBuyerData();
+        } else {
+          console.error('❌ Buyer ID is null or undefined');
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching buyer ID:', err);
+      }
+    });
+  }
+  
+  fetchBuyerData(): void {
+    this.userService.GetBuyerById(this.buyerid).subscribe({
+      next: (data) => {
+        this.buyerData = data;
+        console.log('✅ Buyer data retrieved:', this.buyerData);
+      },
+      error: (err) => {
+        console.error('Error fetching buyer data:', err);
+      }
+    });
+  }
+  
 
   Collectlogindata() {
     if (isPlatformBrowser(this.platformId)) {

@@ -13,7 +13,7 @@ export const routes: Routes = [
 
   // 📦 Product List Page
   { path: 'components/product', component: ProductComponent },
-  { path: 'components/buyer', component: BuyerComponent },
+  //{ path: 'components/buyer', component: BuyerComponent },
 
   // 🛒 Product Inventory (All Products)
   {
@@ -30,6 +30,22 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/productinventory/productinventory.component').then(
         (m) => m.ProductinventoryComponent
+      )
+  },
+
+  {
+    path: 'buyer',
+    loadComponent: () =>
+      import('./components/buyer/buyer.component').then(
+        (m) => m.BuyerComponent
+      )
+  },
+  // 🔍 Product Detail Page (By ID)
+  {
+    path: 'buyer/:buyerid',
+    loadComponent: () =>
+      import('./components/buyer/buyer.component').then(
+        (m) => m.BuyerComponent
       )
   },
 
