@@ -1,46 +1,46 @@
 <!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-success shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-glass shadow-lg">
   <div class="container-fluid">
     <!-- Logo -->
-    <a routerLink="/" class="navbar-logo">
-      <img src="images/logo.png" alt="AgriMandi Logo" />
+    <a routerLink="/" class="navbar-brand d-flex align-items-center">
+      <img src="images/logo.png" alt="AgriMandi Logo" class="logo-img me-2" />
+      <span class="fw-bold fs-4 text-white">AgriMandi</span>
     </a>
 
     <!-- Navbar Toggle for Mobile -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLinks" aria-controls="navbarLinks" aria-expanded="false" aria-label="Toggle navigation">
-      ☰
+    <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLinks" aria-controls="navbarLinks" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
     </button>
 
     <!-- Navbar Links -->
     <div class="collapse navbar-collapse" id="navbarLinks">
-      <!-- Centered Links -->
-      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-3">
         <li class="nav-item">
-          <a routerLink="/" class="nav-link text-white">Home</a>
+          <a routerLink="/" class="nav-link active">Home</a>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link text-white" (click)="goToAddProduct($event)">Add Products</a>
+          <a href="#" class="nav-link" (click)="goToAddProduct($event)">Add Products</a>
         </li>
         <li class="nav-item">
-          <a routerLink="products" class="nav-link text-white">Products</a>
+          <a routerLink="products" class="nav-link">Products</a>
         </li>
         <li class="nav-item">
-          <a routerLink="buyer" class="nav-link text-white" >Agrimandi Buyers</a>
+          <a routerLink="buyer" class="nav-link">Buyers</a>
         </li>
         <li class="nav-item">
-          <a routerLink="/contact" class="nav-link text-white">Contact</a>
+          <a routerLink="/contact" class="nav-link">Help Center</a>
         </li>
       </ul>
 
-      <!-- Navbar Actions (Login/Signup) -->
-      <div class="d-flex">
+      <!-- Login / Signup -->
+      <div class="d-flex align-items-center gap-2">
         <ng-container *ngIf="!isLoggedIn; else loggedInTemplate">
-          <a routerLink="auth/login" class="btn btn-outline-light me-2">Login</a>
-          <a routerLink="auth/signup" class="btn btn-light btn-glow">Sign Up</a>
+          <a routerLink="auth/login" class="btn btn-outline-light">Login</a>
+          <a routerLink="auth/signup" class="btn btn-glow">Sign Up</a>
         </ng-container>
 
         <ng-template #loggedInTemplate>
-          <a routerLink="components/profileview" class="btn btn-outline-light me-2">Profile</a>
+          <a routerLink="components/profileview" class="btn btn-outline-light">Profile</a>
           <button (click)="logout()" class="btn btn-danger">Logout</button>
         </ng-template>
       </div>
@@ -48,66 +48,84 @@
   </div>
 </nav>
 
-<!-- Custom CSS for advanced styling -->
+<!-- CUSTOM STYLING -->
 <style>
-  /* Navbar background color */
-  .navbar {
-    background-color: #28a745 !important;
+  /* Glass effect navbar */
+  .navbar-glass {
+    background: rgba(40, 167, 69, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 0 0 20px 20px;
   }
 
-  /* Navbar text and link color */
+  /* Logo */
+  .logo-img {
+    height: 40px;
+    width: 40px;
+    object-fit: contain;
+  }
+
+  /* Links */
   .navbar-nav .nav-link {
     color: white !important;
     font-weight: 500;
-    transition: color 0.3s ease;
+    font-size: 1rem;
+    transition: all 0.3s ease;
   }
 
   .navbar-nav .nav-link:hover {
-    color: #f8f9fa !important;
+    color: #f8f9fa;
     text-decoration: underline;
+    transform: translateY(-2px);
   }
 
-  /* Hover effect for buttons */
+  /* Active Link */
+  .navbar-nav .nav-link.active {
+    font-weight: 700;
+    border-bottom: 2px solid #ffffff;
+  }
+
+  /* Buttons */
+  .btn-outline-light {
+    border-radius: 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
   .btn-outline-light:hover {
-    background-color: #ffffff !important;
-    color: #28a745 !important;
-    border-color: #28a745 !important;
+    background: #ffffff;
+    color: #28a745;
   }
 
-  .btn-light {
-    background-color: #ffffff !important;
-    color: #28a745 !important;
-    border-color: #28a745 !important;
-    transition: background-color 0.3s, color 0.3s;
-  }
-
-  .btn-light:hover {
-    background-color: #28a745 !important;
-    color: #ffffff !important;
-  }
-
+  /* Glowing Signup Button */
   .btn-glow {
-    box-shadow: 0 4px 10px rgba(0, 128, 0, 0.6);
+    background: linear-gradient(135deg, #00ff99, #00cc66);
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 25px;
+    box-shadow: 0 4px 20px rgba(0, 255, 153, 0.5);
+    transition: all 0.4s ease;
   }
 
-  /* Navbar shadow effect */
-  .navbar {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  .btn-glow:hover {
+    box-shadow: 0 6px 25px rgba(0, 255, 153, 0.8);
+    transform: scale(1.05);
   }
 
-  /* Media queries for mobile responsiveness */
-  @media (max-width: 767px) {
-    .navbar-toggler {
-      background-color: #ffffff;
-      border: none;
-    }
+  /* Mobile Toggle */
+  .navbar-toggler {
+    font-size: 1.5rem;
+    outline: none;
+  }
 
-    .navbar-nav .nav-link {
-      font-size: 1.1rem;
+  /* Responsive */
+  @media (max-width: 768px) {
+    .navbar-nav {
+      text-align: center;
+      margin-top: 10px;
     }
-
-    .navbar-actions .btn {
-      font-size: 0.9rem;
+    .navbar-nav .nav-item {
+      margin-bottom: 10px;
     }
   }
 </style>
