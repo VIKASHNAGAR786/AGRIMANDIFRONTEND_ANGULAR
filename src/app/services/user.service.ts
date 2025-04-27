@@ -1,7 +1,7 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { environment } from './../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AllBuyer, Farmer, FarmerDTO, UpdateBuyer,BuyerById } from '../models/User';
+import { AllBuyer, Farmer, FarmerDTO, UpdateBuyer,BuyerById, BuyerByIdForProfile } from '../models/User';
 import { map, Observable, of } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -123,6 +123,15 @@ export class UserService {
     }
     const url = `${this.getbuyerbyid}?buyerid=${buyerid}`;
     return this.http.get<BuyerById>(url, { headers });
+  }
+
+  GetBuyerByIdForProfile(buyerid: number): Observable<BuyerByIdForProfile> {
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      return of(null as unknown as BuyerByIdForProfile);
+    }
+    const url = `${this.getbuyerbyid}?buyerid=${buyerid}`;
+    return this.http.get<BuyerByIdForProfile>(url, { headers });
   }
 
   Getbuyerid(userid: number): Observable<number> {

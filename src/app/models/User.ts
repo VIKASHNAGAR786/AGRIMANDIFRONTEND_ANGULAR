@@ -124,3 +124,30 @@ export interface UpdateBuyer {
   
   }
   
+  export interface BuyerByIdForProfile {
+    contactNumber?: string;
+    alternateContact: string;
+    emailVerified : boolean;
+    phoneVerified : boolean;
+    address : string;
+    city : string;
+    state : string;
+    country : string;
+    pincode : string;
+    geoLat : number;
+    geoLong : number;
+    companyName : string;
+    companyType : string;
+    gstNumber : string;
+    panNumber : string;
+    isVerified : boolean;
+    preferredCrops : string;
+    budgetRange : string;
+    purchaseFrequency : string;
+    preferredPaymentMethod : string;
+    lastPurchaseDate : string;  // if it's a DateTime in ba
+    totalOrders : number;
+    totalSpent : number;
+    loyaltyPoints : number;
+    buyerRating : number;
+  }

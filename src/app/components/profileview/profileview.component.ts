@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { UserByproduct } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { UserService } from '../../services/user.service';
-import { BuyerById, Farmer, FarmerDTO, UpdateBuyer } from '../../models/User';
+import { BuyerById, BuyerByIdForProfile, Farmer, FarmerDTO, UpdateBuyer } from '../../models/User';
 import { AlertService } from '../../services/alert.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class ProfileviewComponent implements OnInit {
   defaultProfileImage: string = 'images/profile.jpeg'; // Path to your default image
   products1: UserByproduct[] = ([]);
   //buyerdata: BuyerById | null = null;
-  buyerData: BuyerById = {
+  buyerData: BuyerByIdForProfile = {
     isVerified: false,
     alternateContact: '',
     emailVerified: false,
