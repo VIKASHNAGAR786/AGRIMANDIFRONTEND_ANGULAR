@@ -14,6 +14,7 @@ import { finalize } from 'rxjs/operators';
   styleUrl: './buyer.component.css'
 })
 export class BuyerComponent {
+[x: string]: any;
   buyers: AllBuyer[] = [];
   loading: boolean = true;
   selectedbuyer: BuyerById | null = null;

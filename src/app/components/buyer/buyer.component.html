@@ -1,9 +1,9 @@
 <!-- Loading Spinner -->
-<div *ngIf="loading" class="d-flex justify-content-center align-items-center mt-5">
-  <div class="spinner-border text-primary" style="width: 4rem; height: 4rem;" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>
+<!-- <div *ngIf="loading" class="d-flex justify-content-center align-items-center mt-5"> -->
+  <!-- <div class="spinner-border text-primary" style="width: 4rem; height: 4rem;" role="status"> -->
+    <!-- <span class="visually-hidden">Loading...</span> -->
+  <!-- </div> -->
+<!-- </div> -->
 
 <!-- Single Buyer Detail View -->
 <div *ngIf="!loading && selectedbuyer" class="container mt-5">
@@ -80,42 +80,62 @@
 </div>
 
 <!-- No Products Found -->
-<div *ngIf="!loading && !selectedbuyer && buyers.length === 0">
-  <p>No products available.</p>
-</div>
-
+<!-- <div *ngIf="!loading && !selectedbuyer && buyers.length === 0"> -->
+  <!-- <p>No products available.</p> -->
+<!-- </div> -->
+<!--  -->
 <!-- All Buyers -->
-<div class="container my-4">
-  <h2 class="text-center mb-4">All Buyers</h2>
+<main class="container my-5">
+  <h2 class="text-center">🌟 Buyer Details 🌟</h2>
 
-  <div *ngFor="let buyer of buyers" class="row mb-4">
-    <div class="col-12">
-      <div class="card shadow-sm">
-        <div class="card-body d-flex align-items-center">
-          <img 
-            [src]="buyer.profileImageUrl ? buyer.profileImageUrl : 'assets/default-profile.png'" 
-            class="rounded-circle me-4" 
-            alt="Profile" 
-            width="90" 
-            height="90"
-          >
-          <div class="flex-grow-1">
-            <h5 class="card-title mb-1">{{ buyer.companyName || 'Unknown Company' }}</h5>
-            <p class="card-text mb-1">
-              <strong>Contact:</strong> {{ buyer.contactNumber || 'N/A' }}
-            </p>
-            <p class="card-text mb-1">
-              <strong>Location:</strong> {{ buyer.city }}, {{ buyer.state }}, {{ buyer.country }}
-            </p>
-            <p class="card-text mb-0">
-              <strong>Total Orders:</strong> {{ buyer.totalOrders || 0 }} | 
-              <strong>Rating:</strong> {{ buyer.buyerRating || 'No Rating' }}
-            </p>
-            <button class="btn btn-primary mt-2" (click)="viewDetails(buyer)">View Details</button>
-          </div>
-        </div>
+  <!-- Shimmer effect while loading -->
+  <div *ngIf="loading" class="row mb-4">
+    <div *ngFor="let shimmer of [1, 2, 3]" class="col-12">
+      <div class="card buyer-card p-3 shadow-sm shimmer-card">
+        <div class="shimmer-line mb-2"></div>
+        <div class="shimmer-line w-75 mb-2"></div>
+        <div class="shimmer-line w-50"></div>
       </div>
     </div>
   </div>
 
-</div>
+  <!-- Actual Buyer Data when loading is false -->
+  <div *ngIf="loading">
+    <div *ngIf="selectedbuyer; else noBuyer" class="row mb-4">
+      <div class="col-12">
+        <div class="card buyer-card p-3 shadow-sm" data-aos="fade-up" data-aos-duration="1000">
+          <div class="card-body d-flex align-items-center">
+            <img 
+              [src]="selectedbuyer.profileImageUrl || 'assets/default-profile.png'" 
+              class="rounded-circle me-4 buyer-profile" 
+              alt="Profile"
+            >
+            <div class="flex-grow-1">
+              <h5 class="card-title mb-2">{{ selectedbuyer.companyName || 'Unknown Company' }}
+                <span class="badge">Rating: {{ selectedbuyer.buyerRating || 'No Rating' }}</span>
+              </h5>
+
+              <p class="card-text mb-1">
+                📞 <strong>Contact:</strong> {{ selectedbuyer.contactNumber || 'N/A' }}
+              </p>
+              <p class="card-text mb-1">
+                📍 <strong>Location:</strong> {{ selectedbuyer.city }}, {{ selectedbuyer.state }}, {{ selectedbuyer.country }}
+              </p>
+              <p class="card-text mb-0">
+                📦 <strong>Total Orders:</strong> {{ selectedbuyer.totalOrders || 0 }}
+              </p>
+
+              <button class="btn btn-custom mt-3" (click)="contactBuyer(selectedbuyer)">Contact Buyer</button>
+              <button class="btn btn-secondary mt-3" (click)="goBackToList()">Back to List</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- If no buyer selected -->
+    <ng-template #noBuyer>
+      <p class="text-center">No buyer found.</p>
+    </ng-template>
+  </div>
+</main>

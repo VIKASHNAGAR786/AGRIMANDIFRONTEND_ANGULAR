@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AlertComponent } from './components/alert/alert.component';
+import * as AOS from 'aos';
+
 
 @Component({
   selector: 'app-root',
@@ -30,7 +32,10 @@ import { AlertComponent } from './components/alert/alert.component';
     </footer>
   `
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
+  ngOnInit() {
+    AOS.init();
+  }
   title = 'AgriMandi-Frontend';
   currentYear: number = new Date().getFullYear();
 }
