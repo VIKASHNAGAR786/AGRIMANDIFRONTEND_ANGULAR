@@ -1,16 +1,156 @@
+/* General Reset */
 body {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #e8f5e9;
+  color: #333;
+  scroll-behavior: smooth;
+}
+
+/* Ensure main content stretches page */
+main {
+  flex: 1;
+}
+
+/* Footer Styling */
+footer {
+  font-size: 14px;
+  background: linear-gradient(to right, #388e3c, #66bb6a);
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Background Wrapper */
+.background-wrapper {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(to top, #dcedc8, #a5d6a7);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Sky Layer */
+.sky {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, #81d4fa, #e1f5fe);
+  animation: skyShift 30s ease-in-out infinite alternate;
+  z-index: 1;
+}
+
+/* Sun Styling */
+.sun {
+  position: absolute;
+  top: 40px;
+  right: 80px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, #ffeb3b, #fbc02d);
+  border-radius: 50%;
+  box-shadow: 0 0 30px #fdd835, 0 0 60px #fbc02d;
+  animation: rotateSun 40s linear infinite;
+  z-index: 1;
+}
+
+/* Clouds */
+.cloud {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 60px 20px 0 -10px #ffffff, 120px 40px 0 -20px #ffffff;
+  opacity: 0.85;
+  z-index: 2;
+}
+
+.cloud1 {
+  width: 180px;
+  height: 80px;
+  top: 100px;
+  left: -300px;
+  animation: moveClouds 60s linear infinite;
+}
+
+.cloud2 {
+  width: 240px;
+  height: 100px;
+  top: 180px;
+  left: -400px;
+  animation: moveClouds 90s linear infinite;
+}
+
+/* Optional: Birds */
+@keyframes flyBirds {
+  0% { transform: translateX(-10%); }
+  100% { transform: translateX(110%); }
+}
+
+/* Flying Birds */
+.bird {
+  position: absolute;
+  top: 20%;
+  left: -10%;
+  width: 80px;
+  height: 60px;
+  background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Bird_icon.svg/1200px-Bird_icon.svg.png') no-repeat center/contain;
+  background-size: cover;
+  animation: flyBird 30s linear infinite;
+  opacity: 0.9;
+  z-index: 3;
+  transform: scaleX(-1); /* Flip to face right */
+}
+
+/* Slight variation for second bird */
+.bird2 {
+  top: 35%;
+  animation-delay: 10s;
+  animation-duration: 35s;
+  opacity: 0.7;
+  width: 60px;
+  height: 45px;
+}
+
+/* Flying animation */
+@keyframes flyBird {
+  0% {
+    transform: translateX(0) scaleX(-1);
   }
-  
-  main {
-    flex: 1;
+  100% {
+    transform: translateX(120vw) scaleX(-1);
   }
-  
-  /* Optional: Make footer text a little more elegant */
-  footer p {
-    font-size: 14px;
-  }
-  
+}
+
+
+/* Content overlay */
+.content-overlay {
+  position: relative;
+  z-index: 4;
+  padding: 40px 20px;
+  backdrop-filter: blur(2px);
+  animation: fadeIn 1.2s ease;
+}
+
+/* Animations */
+@keyframes moveClouds {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(150vw); }
+}
+
+@keyframes rotateSun {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes skyShift {
+  0% { background: linear-gradient(to top, #81d4fa, #e1f5fe); }
+  100% { background: linear-gradient(to top, #4fc3f7, #b2ebf2); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
