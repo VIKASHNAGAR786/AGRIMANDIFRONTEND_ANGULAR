@@ -1,0 +1,17 @@
+/* Ensure the wheel container floats above all other UI */
+.wheel-wrapper.three-wheel {
+  position: fixed; /* fixed = on screen always */
+  bottom: 20px;
+  right: 20px;
+  width: 100px;
+  height: 100px;
+  z-index: 9999 !important; /* Must be higher than .content-overlay (z-index: 1) */
+  pointer-events: none; /* allow clicks to pass through */
+}
+
+/* Make sure canvas fits */
+.wheel-wrapper canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}

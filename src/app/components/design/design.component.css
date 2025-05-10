@@ -1,7 +1,11 @@
 /* Background Wrapper */
 .background-wrapper {
-  position: relative;
-  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
   overflow: hidden;
 }
 
@@ -85,16 +89,6 @@
   z-index: 1;
 }
 
-/* Content Overlay */
-.content-overlay {
-  position: relative;
-  z-index: 5;
-  padding: 60px 20px;
-  text-align: center;
-  animation: fadeIn 1.5s ease;
-  backdrop-filter: blur(3px);
-}
-
 /* Animations */
 @keyframes skyShift {
   0% { background: linear-gradient(to top, #81d4fa, #e1f5fe); }
@@ -115,61 +109,4 @@
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-/* Mini Rotating Color Wheel - Bottom Right Corner */
-.wheel-container {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  animation: spinWheel 15s linear infinite;
-  z-index: 1000;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.color-input {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  border: 2px solid #fff;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.color-input:hover {
-  transform: scale(1.2);
-}
-
-/* Circular placement for 7 inputs */
-.color-input:nth-child(1) { top: 0%;    left: 40%; }
-.color-input:nth-child(2) { top: 15%;   left: 75%; }
-.color-input:nth-child(3) { top: 45%;   left: 95%; }
-.color-input:nth-child(4) { top: 75%;   left: 75%; }
-.color-input:nth-child(5) { top: 95%;   left: 40%; }
-.color-input:nth-child(6) { top: 75%;   left: 5%;  }
-.color-input:nth-child(7) { top: 45%;   left: -10%; }
-
-.center-label {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-  user-select: none;
-  pointer-events: none;
-}
-
-/* Spin animation */
-@keyframes spinWheel {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
 }
