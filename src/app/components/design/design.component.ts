@@ -4,8 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-design',
   imports: [],
   templateUrl: './design.component.html',
-  styleUrl: './design.component.css',
-  template: `  <router-outlet></router-outlet>`
+  styleUrl: './design.component.css'
 })
 export class DesignComponent {
 
