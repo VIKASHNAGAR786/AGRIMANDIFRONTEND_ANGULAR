@@ -21,6 +21,7 @@ import * as AOS from 'aos';
       <div class="cloud cloud2"></div>
       <div class="sun"></div>
       <div class="bird bird2"></div>
+      <div class="hills"></div>
     </div>
   
     <!-- 🌾 Foreground content -->
