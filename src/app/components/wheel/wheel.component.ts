@@ -124,11 +124,9 @@ export class WheelComponent implements AfterViewInit {
 
     // Hide the color picker when clicked outside
     window.addEventListener('click', (event) => {
-      if (!container.contains(event.target as Node)) {
-        if (this.colorPicker) {
-          this.colorPicker.style.display = 'none'; // Hide color picker if clicked outside
-        }
-      }
+      if (!container.contains(event.target as Node) && event.target !== this.colorPicker) {
+    this.colorPicker.style.visibility = 'hidden';
+  }
     });
 
     function animate() {
@@ -145,28 +143,34 @@ export class WheelComponent implements AfterViewInit {
     animate();
   }
 
-  // Mouse click handler
+  // Mouse click handle
   onMouseClick(event: MouseEvent, meshes: THREE.Mesh[], camera: THREE.PerspectiveCamera, scene: THREE.Scene, renderer: THREE.WebGLRenderer) {
-    if (!isPlatformBrowser(this.platformId)) return; // Ensure this runs only in the browser
+  if (!isPlatformBrowser(this.platformId)) return;
 
-    const rect = renderer.domElement.getBoundingClientRect();
-    this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+  const rect = renderer.domElement.getBoundingClientRect();
+  this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+  this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
-    // Set up raycaster
-    this.raycaster.setFromCamera(this.mouse, camera);
+  this.raycaster.setFromCamera(this.mouse, camera);
+  const intersects = this.raycaster.intersectObjects(meshes);
 
-    // Check for intersections
-    const intersects = this.raycaster.intersectObjects(meshes);
+  if (intersects.length > 0) {
+    this.selectedShape = intersects[0].object as THREE.Mesh;
 
-    if (intersects.length > 0) {
-      this.selectedShape = intersects[0].object as THREE.Mesh;  // Select the intersected object
-      if (this.colorPicker) {
-        this.colorPicker.style.display = 'block'; // Show color picker
-        if (this.selectedShape.material instanceof THREE.MeshStandardMaterial) {
-          this.colorPicker.value = this.selectedShape.material.color.getHexString(); // Set current color to color picker
-        }
-      }
+    if (this.colorPicker && this.selectedShape.material instanceof THREE.MeshStandardMaterial) {
+      const currentColor = `#${this.selectedShape.material.color.getHexString()}`;
+      this.colorPicker.value = currentColor;
+
+      this.colorPicker.style.left = `${event.clientX}px`;
+      this.colorPicker.style.top = `${event.clientY}px`;
+      this.colorPicker.style.visibility = 'visible';
+      this.colorPicker.focus(); // Optional for better UX
+      this.colorPicker.click(); // Open the native color picker
+
+    
+    
     }
   }
 }
+
+  }

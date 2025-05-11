@@ -29,7 +29,7 @@ import { WheelComponent } from "./components/wheel/wheel.component";
       </main>
 
       <!-- ✅ Wheel Component with Click Binding -->
-      <app-wheel (click)="onWheelClick()"></app-wheel>
+      <app-wheel></app-wheel>
 
       <!-- ✅ Alert -->
       <app-alert></app-alert>
@@ -57,5 +57,15 @@ export class AppComponent implements OnInit {
   onWheelClick() {
     console.log('Wheel clicked!');
     // You can also call methods in WheelComponent if needed
+  }
+
+  showColorWheel = false;
+
+  toggleColorWheel() {
+    this.showColorWheel = !this.showColorWheel;
+  }
+
+  onColorSelected(color: string) {
+    console.log('Selected color from AppComponent:', color);
   }
 }
