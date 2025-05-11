@@ -1,6 +1,16 @@
-<div class="wheel-wrapper">
-  <div #rendererContainer class="wheel-wrapper three-wheel"></div>
+<!-- Floating Small Wheel -->
+<div class="wheel-wrapper three-wheel" (click)="openColorWheel()">
+  <div #miniWheelContainer></div>
 </div>
-<!-- <input id="colorPicker" type="color" style="position: absolute; z-index: 100; display: none;" /> -->
 
-<input id="colorPicker" type="color" style="position: absolute; z-index: 100; visibility: hidden;" />
+<!-- Big Color Wheel Modal (Initially hidden) -->
+<div class="overlay" *ngIf="showBigWheel">
+  <div #rendererContainer class="big-wheel-container"></div>
+
+  <!-- Color Picker (hidden until clicked) -->
+  <input
+    #colorPicker
+    type="color"
+    style="position: absolute; visibility: hidden;"
+  />
+</div>

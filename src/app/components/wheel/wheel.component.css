@@ -1,27 +1,67 @@
-/* Ensure the wheel container floats above all other UI */
+
+/* Floating wheel at bottom right */
 .wheel-wrapper.three-wheel {
-  position: fixed; /* fixed = on screen always */
+  position: fixed;
   bottom: 20px;
   right: 20px;
   width: 100px;
   height: 100px;
-  z-index: 9999 !important; /* Must be higher than .content-overlay (z-index: 1) */
-  pointer-events: auto; /* allow clicks to pass through */
+  z-index: 9999;
+  cursor: pointer;
 }
 
-/* Make sure canvas fits */
+/* Mini wheel canvas */
 .wheel-wrapper canvas {
-  width: 100% !important;
-  height: 100% !important;
+  width: 100%;
+  height: 100%;
   display: block;
 }
 
-.renderer-container {
-  width: 100%;
-  height: 400px;
-  position: relative;
-  z-index: 2; /* Make sure it's above background */
+/* Fullscreen overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
 }
+
+/* Centered Big Wheel Container */
+#rendererContainer {
+  width: 500px;
+  height: 500px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+/* Hidden color picker input */
 #colorPicker {
-  z-index: 999; /* Keep it on top */
+  position: absolute;
+  visibility: hidden;
+  z-index: 2000;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.big-wheel-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
 }

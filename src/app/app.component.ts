@@ -54,18 +54,16 @@ export class AppComponent implements OnInit {
   title = 'AgriMandi-Frontend';
   currentYear: number = new Date().getFullYear();
 
-  onWheelClick() {
-    console.log('Wheel clicked!');
-    // You can also call methods in WheelComponent if needed
-  }
+  showWheel = false;
+  selectedColor: string = '';
 
-  showColorWheel = false;
-
-  toggleColorWheel() {
-    this.showColorWheel = !this.showColorWheel;
+  openWheel() {
+    this.showWheel = true;
   }
 
   onColorSelected(color: string) {
-    console.log('Selected color from AppComponent:', color);
+    this.selectedColor = color;
+    console.log('Color selected from wheel:', color);
+    this.showWheel = false;
   }
 }
