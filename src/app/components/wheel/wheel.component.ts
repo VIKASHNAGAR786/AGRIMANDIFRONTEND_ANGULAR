@@ -56,14 +56,25 @@ export class WheelComponent implements AfterViewInit, OnDestroy {
   }
 
   openColorWheel(): void {
-    this.showBigWheel = true;
+  this.showBigWheel = true;
 
-    setTimeout(() => {
-      this.initBigWheel();
-      this.addOutsideClickListener(); // ✅ Now DOM elements exist
-    }, 0);
-  }
+  setTimeout(() => {
+    this.colorPicker = this.colorPickerRef?.nativeElement;
 
+    if (this.colorPicker && !this.colorPicker.hasAttribute('data-listener-added')) {
+      this.colorPicker.addEventListener('input', (event: Event) => {
+        const color = (event.target as HTMLInputElement).value;
+        this.colorSelected.emit(color);
+        this.showBigWheel = false;
+      });
+      this.colorPicker.setAttribute('data-listener-added', 'true');
+    }
+
+    this.initBigWheel();
+    this.addOutsideClickListener();
+  }, 0);
+}
+    
   private addOutsideClickListener() {
     this.outsideClickListener = (event: MouseEvent) => {
       const container = this.rendererContainer?.nativeElement;
