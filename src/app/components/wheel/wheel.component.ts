@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import * as THREE from 'three';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { ColorserviceService } from '../../services/colorservice.service';
 
 @Component({
   selector: 'app-wheel',
@@ -36,8 +37,9 @@ export class WheelComponent implements AfterViewInit, OnDestroy {
   private raycaster: THREE.Raycaster | null = null;
   private mouse: THREE.Vector2 = new THREE.Vector2();
   
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private colorService: ColorserviceService) {
     this.platformBrowser = isPlatformBrowser(this.platformId);
+    
     this.colorPicker = null!;
   }
 
@@ -65,6 +67,7 @@ export class WheelComponent implements AfterViewInit, OnDestroy {
         this.colorPicker.addEventListener('input', (event: Event) => {
           const color = (event.target as HTMLInputElement).value;
           this.colorSelected.emit(color);
+           this.colorService.setColor(color);
           this.showBigWheel = false;
         });
         this.colorPicker.setAttribute('data-listener-added', 'true');
@@ -274,6 +277,7 @@ export class WheelComponent implements AfterViewInit, OnDestroy {
         const currentColor = `#${selected.material.color.getHexString()}`;
         console.log('Selected color:', currentColor);  // Print the color in console
         this.colorSelected.emit(currentColor); // Emit the selected color
+        this.colorService.setColor(currentColor);
         this.showBigWheel = false;  // Close the wheel
 
         // Optionally, add smooth color transition feedback or sound effects
@@ -286,7 +290,7 @@ export class WheelComponent implements AfterViewInit, OnDestroy {
   // Animate the wheel rotation and rendering
   const animate = () => {
     requestAnimationFrame(animate);
-    this.scene!.rotation.z += 0.002; // Smooth slow spin
+    this.scene!.rotation.z += 0.000; // Smooth slow spin
     this.renderer!.render(this.scene!, this.camera!);
   };
   animate();

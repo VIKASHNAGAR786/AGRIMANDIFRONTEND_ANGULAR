@@ -3,6 +3,7 @@ import { ProductComponent } from "../product/product.component";
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { filter } from 'rxjs/operators';
+import { ColorserviceService } from '../../services/colorservice.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,16 +16,20 @@ export class NavbarComponent {
   isLoggedIn: boolean = false;
 
   constructor(private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,private colorService: ColorserviceService
   ) {
     // Listen for navigation changes to update login status
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => this.checkLoginStatus());
   }
+ selectedColor: string = 'rgba(40, 167, 69, 0.8)'; // default
 
   ngOnInit() {
     this.checkLoginStatus();
+    this.colorService.selectedColor$.subscribe(color => {
+      this.selectedColor = color;
+    });
   }
 
   checkLoginStatus() {
