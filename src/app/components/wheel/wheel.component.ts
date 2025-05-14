@@ -42,9 +42,13 @@ export class WheelComponent implements AfterViewInit, OnDestroy {
     
     this.colorPicker = null!;
   }
-
+defaultColor: string = '#28a745';  // or any of the default 8 colors
   ngAfterViewInit(): void {
     if (!this.platformBrowser) return;
+    
+    // Emit and set default color
+  this.colorSelected.emit(this.defaultColor);
+  this.colorService.setColor(this.defaultColor);
     this.colorPicker = this.colorPickerRef?.nativeElement;
     this.initMiniWheel();
   }
@@ -284,9 +288,11 @@ export class WheelComponent implements AfterViewInit, OnDestroy {
         this.playClickSound();
         this.addGlowEffect(selected);
       }
+      
     }
   });
 
+  
   // Animate the wheel rotation and rendering
   const animate = () => {
     requestAnimationFrame(animate);

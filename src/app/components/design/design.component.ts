@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import * as THREE from 'three';
+import { ColorserviceService } from '../../services/colorservice.service';
 
 @Component({
   selector: 'app-design',
@@ -24,13 +25,31 @@ export class DesignComponent implements OnInit, AfterViewInit, OnDestroy {
   private animationId!: number;
   private angle: number = 0;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
-
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private colorService: ColorserviceService) { }
+  selectedColor: string = ''; // default
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.initThreeJS();
+      this.colorService.selectedColor$.subscribe(color => {
+        this.selectedColor = color;
+
+        // 👇 Dispose previous scene & renderer if they exist
+        if (this.renderer) {
+          this.renderer.dispose();
+          const canvas = document.querySelector('#background-wrapper canvas');
+          if (canvas) canvas.remove();
+          cancelAnimationFrame(this.animationId);
+        }
+
+        this.initThreeJS(this.selectedColor);
+        this.animate(); // 🟢 Restart animation loop
+      });
     }
   }
+
+
+
+
+
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -54,7 +73,15 @@ export class DesignComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private initThreeJS(): void {
+  private initThreeJS(color1: string): void {
+    let hillColor: THREE.Color;
+
+    if (color1.startsWith('#')) {
+      hillColor = new THREE.Color(color1);
+    } else {
+      hillColor = new THREE.Color(0x28a745); // fallback or default
+    }
+
     this.scene = new THREE.Scene();
 
     // Camera
@@ -98,7 +125,7 @@ export class DesignComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Hills
     const hillGeometry = new THREE.PlaneGeometry(1200, 600);
-    const hillMaterial = new THREE.MeshBasicMaterial({ color: 0x388e3c });
+    const hillMaterial = new THREE.MeshBasicMaterial({ color: hillColor });
     const hills = new THREE.Mesh(hillGeometry, hillMaterial);
     hills.rotation.x = -Math.PI / 2;
     hills.position.y = -150;
@@ -106,6 +133,8 @@ export class DesignComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Clouds
     this.createClouds();
+    this.createTractorWithFarmer();
+
   }
 
   private createClouds(): void {
@@ -128,7 +157,113 @@ export class DesignComponent implements OnInit, AfterViewInit, OnDestroy {
       this.clouds.push(cloud);
       this.scene.add(cloud);
     }
+  
+}
+private createTractorWithFarmer(): void {
+  const tractor = new THREE.Group();
+
+  // Tractor Body
+  const bodyGeometry = new THREE.BoxGeometry(70, 30, 35); // more detailed body
+  const bodyMaterial = new THREE.MeshLambertMaterial({ color: 0x2e7d32 }); // dark green
+  const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+  body.position.set(0, 15, 0);
+  tractor.add(body);
+
+  // Tractor Cabin (with windows)
+  const cabinGeometry = new THREE.BoxGeometry(40, 25, 25);
+  const cabinMaterial = new THREE.MeshLambertMaterial({ color: 0x81c784 }); // light green
+  const cabin = new THREE.Mesh(cabinGeometry, cabinMaterial);
+  cabin.position.set(0, 40, 0);
+  tractor.add(cabin);
+
+  // Add windows to the tractor cabin
+  const windowGeometry = new THREE.BoxGeometry(35, 10, 1);
+  const windowMaterial = new THREE.MeshLambertMaterial({ color: 0x87ceeb, transparent: true, opacity: 0.6 });
+  const window = new THREE.Mesh(windowGeometry, windowMaterial);
+  window.position.set(0, 50, 13); // Add at the front for a window effect
+  tractor.add(window);
+
+  // Tractor Front (more realistic)
+  const frontGeometry = new THREE.CylinderGeometry(12, 12, 20, 32);
+  const frontMaterial = new THREE.MeshLambertMaterial({ color: 0x004d00 }); // dark green
+  const front = new THREE.Mesh(frontGeometry, frontMaterial);
+  front.rotation.x = Math.PI / 2;
+  front.position.set(35, 25, 0);
+  tractor.add(front);
+
+  // Tractor Back (additional part for detail)
+  const backGeometry = new THREE.CylinderGeometry(10, 10, 15, 32);
+  const backMaterial = new THREE.MeshLambertMaterial({ color: 0x006400 }); // dark green
+  const back = new THREE.Mesh(backGeometry, backMaterial);
+  back.rotation.x = Math.PI / 2;
+  back.position.set(-35, 25, 0);
+  tractor.add(back);
+
+  // Wheels (more realistic with larger sizes and details)
+  const wheelMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
+  const wheelGeometry = new THREE.CylinderGeometry(12, 12, 6, 32);
+  const wheelPositions = [
+    [-30, 10, -15], [-30, 10, 15], [30, 10, -15], [30, 10, 15]
+  ];
+  for (const [x, y, z] of wheelPositions) {
+    const wheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
+    wheel.rotation.z = Math.PI / 2;
+    wheel.position.set(x, y, z);
+    tractor.add(wheel);
   }
+
+  // Farmer (more realistic features)
+  const farmerGroup = new THREE.Group();
+
+  // Farmer Head (better detail)
+  const head = new THREE.Mesh(
+    new THREE.SphereGeometry(6, 32, 32),
+    new THREE.MeshLambertMaterial({ color: 0xffcc99 })
+  );
+  head.position.set(0, 58, 0);
+  farmerGroup.add(head);
+
+  // Farmer Body (realistic)
+  const bodyMesh = new THREE.Mesh(
+    new THREE.CylinderGeometry(5, 5, 12, 32),
+    new THREE.MeshLambertMaterial({ color: 0x0000ff }) // blue shirt
+  );
+  bodyMesh.position.set(0, 49, 0);
+  farmerGroup.add(bodyMesh);
+
+  // Farmer Legs (two cylinders)
+  const legGeometry = new THREE.CylinderGeometry(3, 3, 8, 32);
+  const legMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 }); // brown pants
+  const leftLeg = new THREE.Mesh(legGeometry, legMaterial);
+  leftLeg.position.set(-2, 43, 0);
+  farmerGroup.add(leftLeg);
+  
+  const rightLeg = new THREE.Mesh(legGeometry, legMaterial);
+  rightLeg.position.set(2, 43, 0);
+  farmerGroup.add(rightLeg);
+
+  // Farmer Arms (simple cylinders)
+  const armGeometry = new THREE.CylinderGeometry(2, 2, 10, 32);
+  const armMaterial = new THREE.MeshLambertMaterial({ color: 0xffcc99 }); // skin color
+
+  const leftArm = new THREE.Mesh(armGeometry, armMaterial);
+  leftArm.position.set(-5, 52, 0);
+  leftArm.rotation.z = Math.PI / 4;
+  farmerGroup.add(leftArm);
+
+  const rightArm = new THREE.Mesh(armGeometry, armMaterial);
+  rightArm.position.set(5, 52, 0);
+  rightArm.rotation.z = -Math.PI / 4;
+  farmerGroup.add(rightArm);
+
+  tractor.add(farmerGroup);
+
+  // Position the entire tractor and farmer in the scene
+  tractor.position.set(-250, -120, 0); // Adjust based on your scene
+
+  this.scene.add(tractor);
+}
+
 
   private animate = (): void => {
     this.animationId = requestAnimationFrame(this.animate);

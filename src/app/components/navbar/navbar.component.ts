@@ -23,7 +23,7 @@ export class NavbarComponent {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => this.checkLoginStatus());
   }
- selectedColor: string = 'rgba(40, 167, 69, 0.8)'; // default
+ selectedColor: string = ''; // default
 
   ngOnInit() {
     this.checkLoginStatus();
