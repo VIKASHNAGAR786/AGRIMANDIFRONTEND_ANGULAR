@@ -1,66 +1,48 @@
-<div class="container-fluid px-5 py-4" *ngIf="loginData.isLoggedIn; else notLoggedIn">
+<div class="container-fluid px-4 py-5" *ngIf="loginData?.isLoggedIn; else notLoggedIn">
 
-
-  <!-- Single Card for Profile Image + Login Data -->
-<div class="card shadow rounded-4 border-0 p-4 mb-5">
-  <div class="row align-items-center">
-    <!-- Profile Image Section -->
-    <div class="col-md-4 text-center mb-4 mb-md-0">
-      <div class="d-flex justify-content-center">
-        <div class="position-relative d-inline-block profile-image-container" style="width: 180px; height: 180px;">
-          
-          <!-- Profile Image -->
+  <!-- Profile Card -->
+  <div class="card shadow rounded-4 border-0 p-4 mb-5">
+    <div class="row align-items-center">
+      <!-- Profile Image -->
+      <div class="col-md-4 text-center mb-4 mb-md-0">
+        <div class="position-relative mx-auto" style="width: 180px; height: 180px;">
           <img 
-            *ngIf="profileImageUrl; else defaultImage" 
-            [src]="profileImageUrl"
+            [src]="profileImageUrl || defaultProfileImage"
             class="rounded-circle shadow w-100 h-100"
+            style="object-fit: cover; border: 4px solid white;"
             alt="Profile Image"
-            style="object-fit: cover; border: 4px solid #ffffff;"
           />
-          <ng-template #defaultImage>
-            <img 
-              [src]="defaultProfileImage" 
-              class="rounded-circle shadow w-100 h-100" 
-              alt="Default Profile Image"
-              style="object-fit: cover; border: 4px solid #ffffff;"
-            />
-          </ng-template>
-
-          <!-- Hover Overlay and Upload Icon -->
-          <div class="upload-overlay d-flex flex-column justify-content-center align-items-center rounded-circle">
+          <!-- Overlay -->
+          <div class="upload-overlay d-flex justify-content-center align-items-center rounded-circle">
             <label class="text-white" style="cursor: pointer;">
               <i class="bi bi-camera-fill fs-3"></i>
               <input type="file" (change)="onFileSelect($event)" hidden>
             </label>
           </div>
-
         </div>
       </div>
-    </div>
 
-    <!-- User Details Section -->
-    <div class="col-md-8">
-      <h4 class="fw-bold mb-4 text-center text-md-start">User Details</h4>
-      <ul class="list-unstyled fs-5">
-        <li class="mb-3"><strong>Name:</strong> {{ loginData.userName }}</li>
-        <li class="mb-3"><strong>Role:</strong> {{ loginData.userRole }}</li>
-        <li class="mb-3"><strong>Email:</strong> {{ loginData.userEmail }}</li>
-      </ul>
+      <!-- User Info -->
+      <div class="col-md-8">
+        <h4 class="fw-bold mb-4 text-center text-md-start">User Details</h4>
+        <ul class="list-unstyled fs-5">
+          <li class="mb-2"><strong>Name:</strong> {{ loginData.userName }}</li>
+          <li class="mb-2"><strong>Role:</strong> {{ loginData.userRole }}</li>
+          <li class="mb-2"><strong>Email:</strong> {{ loginData.userEmail }}</li>
+        </ul>
+      </div>
     </div>
   </div>
-</div>
 
-<hr class="mb-5" />
+  <hr class="my-5" />
 
-
-
-  <!-- FARMER VIEW -->
-  <div *ngIf="loginData.userRole === 'FARMER'" class="mb-5">
-    <h3 class="mb-3">Your Products</h3>
-    <div *ngIf="products1.length > 0; else noProducts">
+  <!-- Farmer View -->
+  <ng-container *ngIf="loginData.userRole === 'FARMER'">
+    <h3 class="mb-4">Your Products</h3>
+    <ng-container *ngIf="products1.length > 0; else noProducts">
       <div class="row">
         <div class="col-md-6 mb-4" *ngFor="let product1 of products1">
-          <div class="p-3 border rounded h-100 bg-light">
+          <div class="card border-0 shadow-sm p-3 h-100 bg-light rounded-4">
             <h5>{{ product1.name }}</h5>
             <p><strong>Category:</strong> {{ product1.category }}</p>
             <p><strong>Grade:</strong> {{ product1.grade }}</p>
@@ -77,207 +59,102 @@
           </div>
         </div>
       </div>
-    </div>
+    </ng-container>
 
     <!-- Farmer Profile -->
-    <div *ngIf="farmerData" class="mb-5">
-      <h3 class="mb-3">Your Farmer Profile</h3>
-      <div class="row">
-        <div class="col-md-4"><strong>Phone Number:</strong> {{ farmerData.phoneNumber }}</div>
-        <div class="col-md-4"><strong>Alternate Contact:</strong> {{ farmerData.phoneNumber }}</div>
-        <div class="col-md-4"><strong>Address:</strong> {{ farmerData.address }}</div>
-        <div class="col-md-4"><strong>City:</strong> {{ farmerData.district }}</div>
-        <div class="col-md-4"><strong>State:</strong> {{ farmerData.state }}</div>
-        <div class="col-md-4"><strong>Pincode:</strong> {{ farmerData.postalCode }}</div>
-        <div class="col-md-4"><strong>Land Area:</strong> {{ farmerData.landArea }}</div>
-        <div class="col-md-4"><strong>Farming Type:</strong> {{ farmerData.farmingType }}</div>
+    <div *ngIf="farmerData" class="mt-5">
+      <h3 class="mb-4">Your Farmer Profile</h3>
+      <div class="row g-3">
+        <div class="col-md-4" *ngFor="let field of [
+          {label:'Phone Number', value: farmerData.phoneNumber},
+          {label:'Alternate Contact', value: farmerData.phoneNumber},
+          {label:'Address', value: farmerData.address},
+          {label:'City', value: farmerData.district},
+          {label:'State', value: farmerData.state},
+          {label:'Pincode', value: farmerData.postalCode},
+          {label:'Land Area', value: farmerData.landArea},
+          {label:'Farming Type', value: farmerData.farmingType}
+        ]">
+          <strong>{{ field.label }}:</strong> {{ field.value }}
+        </div>
       </div>
     </div>
 
-    <!-- Buyer Profile -->
-
-
     <!-- Update Farmer Form -->
-   <div class="container-fluid px-4 my-5">
-    <div class="card shadow-lg border-0 rounded-4 w-100">
-      <div class="card-body p-5">
-        <h3 class="mb-4 text-center fw-bold text-success">Update Farmer Profile</h3>
-  
-        <form (ngSubmit)="submitFarmerForm()" #farmerFormRef="ngForm" class="row g-4 needs-validation" novalidate>
+    <div class="card shadow border-0 rounded-4 p-4 my-5">
+      <h3 class="mb-4 text-center fw-bold text-success">Update Farmer Profile</h3>
+      <form (ngSubmit)="submitFarmerForm()" #farmerFormRef="ngForm" class="row g-3 needs-validation" novalidate>
 
-        <!-- Phone -->
-        <div class="col-md-4">
-          <label class="form-label fw-semibold">Phone Number</label>
-          <input [(ngModel)]="farmerForm.phoneNumber" name="phoneNumber" type="tel" class="form-control rounded-3" required />
-        </div>
+        <ng-container *ngFor="let input of [
+          {label: 'Phone Number', name:'phoneNumber', type: 'tel'},
+          {label: 'Address', name:'address'},
+          {label: 'State', name:'state'},
+          {label: 'District', name:'district'},
+          {label: 'Village', name:'village'},
+          {label: 'Postal Code', name:'postalCode'},
+          {label: 'Land Area (in acres)', name:'landArea', type:'number'},
+          {label: 'Farming Type', name:'farmingType'}
+        ]">
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">{{input.label}}</label>
+            <input [(ngModel)]="farmerForm[input.name]" name="{{input.name}}"
+                   [type]="input.type || 'text'"
+                   class="form-control rounded-3" required>
+          </div>
+        </ng-container>
 
-        <!-- Address -->
-        <div class="col-md-6">
-          <label class="form-label fw-semibold">Address</label>
-          <input [(ngModel)]="farmerForm.address" name="address" class="form-control rounded-3" required />
-        </div>
-
-        <!-- State -->
-        <div class="col-md-3">
-          <label class="form-label fw-semibold">State</label>
-          <input [(ngModel)]="farmerForm.state" name="state" class="form-control rounded-3" required />
-        </div>
-
-        <!-- District -->
-        <div class="col-md-3">
-          <label class="form-label fw-semibold">District</label>
-          <input [(ngModel)]="farmerForm.district" name="district" class="form-control rounded-3" required />
-        </div>
-
-        <!-- Village -->
-        <div class="col-md-4">
-          <label class="form-label fw-semibold">Village</label>
-          <input [(ngModel)]="farmerForm.village" name="village" class="form-control rounded-3" required />
-        </div>
-
-        <!-- Postal Code -->
-        <div class="col-md-4">
-          <label class="form-label fw-semibold">Postal Code</label>
-          <input [(ngModel)]="farmerForm.postalCode" name="postalCode" type="text" class="form-control rounded-3" required />
-        </div>
-
-        <!-- Land Area -->
-        <div class="col-md-4">
-          <label class="form-label fw-semibold">Land Area (in acres)</label>
-          <input [(ngModel)]="farmerForm.landArea" name="landArea" type="number" class="form-control rounded-3" required />
-        </div>
-
-        <!-- Farming Type -->
-        <div class="col-md-6">
-          <label class="form-label fw-semibold">Farming Type</label>
-          <input [(ngModel)]="farmerForm.farmingType" name="farmingType" class="form-control rounded-3" required />
-        </div>
-
-        <!-- Submit Button -->
-        <div class="col-12 text-center pt-3">
+        <div class="col-12 text-center mt-3">
           <button type="submit" class="btn btn-success px-5 py-2 fs-5 rounded-pill shadow-sm">
             <i class="bi bi-check-circle me-2"></i> Save Profile
           </button>
         </div>
       </form>
     </div>
-  </div>
-</div>
+  </ng-container>
 
-
-    <ng-template #noProducts>
-      <p>No products found for your account.</p>
-      <button (click)="openBuyerForm()" class="btn btn-outline-primary">Register as Buyer</button>
-    </ng-template>
-  </div>
-
-  <div *ngIf="buyerData" class="mb-5">
-    <h3 class="mb-4">Your Buyer Profile</h3>
-  
-    <div class="row g-3">
-      <div class="col-md-4"><strong>Company Name:</strong> {{ buyerData.companyName }}</div>
-      <div class="col-md-4"><strong>Company Type:</strong> {{ buyerData.companyType }}</div>
-      <div class="col-md-4"><strong>GST Number:</strong> {{ buyerData.gstNumber }}</div>
-  
-      <div class="col-md-4"><strong>Contact Number:</strong> {{ buyerData.contactNumber }}</div>
-      <div class="col-md-4"><strong>Alternate Contact:</strong> {{ buyerData.alternateContact }}</div>
-      <div class="col-md-4"><strong>Phone Verified:</strong> {{ buyerData.phoneVerified ? 'Yes' : 'No' }}</div>
-  
-      <div class="col-md-4"><strong>Email Verified:</strong> {{ buyerData.emailVerified ? 'Yes' : 'No' }}</div>
-      <div class="col-md-4"><strong>Address:</strong> {{ buyerData.address }}</div>
-      <div class="col-md-4"><strong>City:</strong> {{ buyerData.city }}</div>
-  
-      <div class="col-md-4"><strong>State:</strong> {{ buyerData.state }}</div>
-      <div class="col-md-4"><strong>Country:</strong> {{ buyerData.country }}</div>
-      <div class="col-md-4"><strong>Pincode:</strong> {{ buyerData.pincode }}</div>
-  
-      <div class="col-md-4"><strong>Geo Latitude:</strong> {{ buyerData.geoLat }}</div>
-      <div class="col-md-4"><strong>Geo Longitude:</strong> {{ buyerData.geoLong }}</div>
-  
-      <div class="col-md-4"><strong>Preferred Crops:</strong> {{ buyerData.preferredCrops }}</div>
-      <div class="col-md-4"><strong>Budget Range:</strong> {{ buyerData.budgetRange }}</div>
-      <div class="col-md-4"><strong>Purchase Frequency:</strong> {{ buyerData.purchaseFrequency }}</div>
-  
-      <div class="col-md-4"><strong>Preferred Payment:</strong> {{ buyerData.preferredPaymentMethod }}</div>
-      <div class="col-md-4"><strong>Last Purchase Date:</strong> {{ buyerData.lastPurchaseDate | date:'mediumDate' }}</div>
-      <div class="col-md-4"><strong>Total Orders:</strong> {{ buyerData.totalOrders }}</div>
-  
-      <div class="col-md-4"><strong>Total Spent:</strong> {{ buyerData.totalSpent }}</div>
-      <div class="col-md-4"><strong>Loyalty Points:</strong> {{ buyerData.loyaltyPoints }}</div>
-      <div class="col-md-4"><strong>Buyer Rating:</strong> {{ buyerData.buyerRating }}</div>
-  
-      <div class="col-md-4"><strong>Profile Verified:</strong> {{ buyerData.isVerified ? 'Yes' : 'No' }}</div>
-    </div>
-  </div>
-  <!-- BUYER VIEW -->
-  <div *ngIf="loginData.userRole === 'BUYER' || showBuyerForm" class="mb-5">
-    <h3 class="mb-3">Update Buyer Details</h3>
+  <!-- Buyer View -->
+  <ng-container *ngIf="loginData.userRole === 'BUYER' || showBuyerForm">
+    <h3 class="mb-4">Update Buyer Details</h3>
     <form (ngSubmit)="submitBuyerForm()" class="row g-3">
-      <div class="col-md-4">
-        <label class="form-label">Contact Number</label>
-        <input [(ngModel)]="buyerForm.contactNumber" name="contactNumber" class="form-control" required />
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Alternate Contact</label>
-        <input [(ngModel)]="buyerForm.alternateContact" name="alternateContact" class="form-control" />
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Address</label>
-        <input [(ngModel)]="buyerForm.address" name="address" class="form-control" required />
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">City</label>
-        <input [(ngModel)]="buyerForm.city" name="city" class="form-control" required />
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">State</label>
-        <input [(ngModel)]="buyerForm.state" name="state" class="form-control" required />
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">Pincode</label>
-        <input [(ngModel)]="buyerForm.pincode" name="pincode" class="form-control" required />
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">Company Name</label>
-        <input [(ngModel)]="buyerForm.companyName" name="companyName" class="form-control" />
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Company Type</label>
-        <input [(ngModel)]="buyerForm.companyType" name="companyType" class="form-control" />
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">GST Number</label>
-        <input [(ngModel)]="buyerForm.gstNumber" name="gstNumber" class="form-control" />
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">PAN Number</label>
-        <input [(ngModel)]="buyerForm.panNumber" name="panNumber" class="form-control" />
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Preferred Crops</label>
-        <input [(ngModel)]="buyerForm.preferredCrops" name="preferredCrops" class="form-control" />
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">Budget Range</label>
-        <input [(ngModel)]="buyerForm.budgetRange" name="budgetRange" class="form-control" />
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">Purchase Frequency</label>
-        <input [(ngModel)]="buyerForm.purchaseFrequency" name="purchaseFrequency" class="form-control" />
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Preferred Payment Method</label>
-        <input [(ngModel)]="buyerForm.preferredPaymentMethod" name="preferredPaymentMethod" class="form-control" />
-      </div>
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary px-4">Submit</button>
+
+      <ng-container *ngFor="let input of [
+        {label:'Contact Number', name:'contactNumber'},
+        {label:'Alternate Contact', name:'alternateContact'},
+        {label:'Address', name:'address'},
+        {label:'City', name:'city'},
+        {label:'State', name:'state'},
+        {label:'Pincode', name:'pincode'},
+        {label:'Company Name', name:'companyName'}
+      ]">
+        <div class="col-md-4">
+          <label class="form-label">{{input.label}}</label>
+          <input [(ngModel)]="buyerForm[input.name]" name="{{input.name}}" class="form-control" required />
+        </div>
+      </ng-container>
+
+      <div class="col-12 text-center mt-3">
+        <button type="submit" class="btn btn-primary px-5 py-2 fs-5 rounded-pill shadow-sm">
+          <i class="bi bi-save2 me-2"></i> Save Buyer Profile
+        </button>
       </div>
     </form>
-  </div>
+  </ng-container>
+
+  <!-- No Products Template -->
+  <ng-template #noProducts>
+    <div class="text-center my-4">
+      <p class="text-muted">No products found for your account.</p>
+      <button (click)="openBuyerForm()" class="btn btn-outline-primary">
+        Register as Buyer
+      </button>
+    </div>
+  </ng-template>
 </div>
 
+<!-- Not Logged In Template -->
 <ng-template #notLoggedIn>
-  <div class="container text-center py-5">
-    <p class="text-danger fs-4">You are not logged in. Please log in to see your information.</p>
+  <div class="text-center mt-5">
+    <h4 class="text-danger">You are not logged in.</h4>
+    <p>Please log in to view your dashboard.</p>
   </div>
 </ng-template>
