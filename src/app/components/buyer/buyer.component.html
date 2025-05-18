@@ -100,42 +100,46 @@
   </div>
 
   <!-- Actual Buyer Data when loading is false -->
-  <div *ngIf="loading">
-    <div *ngIf="selectedbuyer; else noBuyer" class="row mb-4">
+<div *ngIf="!loading">
+  <div *ngIf="(buyers?.length || 0) > 0; else noBuyer">
+    <div class="row mb-4" *ngFor="let buyer of buyers">
       <div class="col-12">
         <div class="card buyer-card p-3 shadow-sm" data-aos="fade-up" data-aos-duration="1000">
           <div class="card-body d-flex align-items-center">
             <img 
-              [src]="selectedbuyer.profileImageUrl || 'assets/default-profile.png'" 
+              [src]="buyer.profileImageUrl || 'assets/default-profile.png'" 
               class="rounded-circle me-4 buyer-profile" 
               alt="Profile"
             >
             <div class="flex-grow-1">
-              <h5 class="card-title mb-2">{{ selectedbuyer.companyName || 'Unknown Company' }}
-                <span class="badge">Rating: {{ selectedbuyer.buyerRating || 'No Rating' }}</span>
+              <h5 class="card-title mb-2">
+                {{ buyer.companyName || 'Unknown Company' }}
+                <span class="badge">Rating: {{ buyer.buyerRating || 'No Rating' }}</span>
               </h5>
-
               <p class="card-text mb-1">
-                📞 <strong>Contact:</strong> {{ selectedbuyer.contactNumber || 'N/A' }}
+                📞 <strong>Contact:</strong> {{ buyer.contactNumber || 'N/A' }}
               </p>
               <p class="card-text mb-1">
-                📍 <strong>Location:</strong> {{ selectedbuyer.city }}, {{ selectedbuyer.state }}, {{ selectedbuyer.country }}
+                📍 <strong>Location:</strong> 
+                {{ buyer.city || 'N/A' }}, 
+                {{ buyer.state || 'N/A' }}, 
+                {{ buyer.country || 'N/A' }}
               </p>
               <p class="card-text mb-0">
-                📦 <strong>Total Orders:</strong> {{ selectedbuyer.totalOrders || 0 }}
+                📦 <strong>Total Orders:</strong> {{ buyer.totalOrders || 0 }}
               </p>
-
-              <button class="btn btn-custom mt-3" (click)="contactBuyer(selectedbuyer)">Contact Buyer</button>
+              <button class="btn btn-custom mt-3" (click)="contactBuyer(buyer)">Contact Buyer</button>
               <button class="btn btn-secondary mt-3" (click)="goBackToList()">Back to List</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- If no buyer selected -->
-    <ng-template #noBuyer>
-      <p class="text-center">No buyer found.</p>
-    </ng-template>
   </div>
+
+  <!-- If no buyers found -->
+  <ng-template #noBuyer>
+    <p class="text-center">No buyers found.</p>
+  </ng-template>
+</div>
 </main>

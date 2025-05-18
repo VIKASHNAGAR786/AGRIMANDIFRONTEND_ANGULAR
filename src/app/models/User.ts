@@ -107,16 +107,14 @@ export interface UpdateBuyer {
     budgetRange: string;
     purchaseFrequency: string;
     preferredPaymentMethod: string;
-    lastPurchaseDate: string;  // if it's a DateTime in backend, you can also use Date type
+    lastPurchaseDate: string; 
     totalOrders: number;
     totalSpent: number;
     loyaltyPoints: number;
     buyerRating: number;
-
-    bytes: string;    // (base64 string of file)
-    contenttype: string;  // (example: 'image/png')
-    // 🔥 Also optionally add this helper field (not from backend, created in frontend)
-    profileImageUrl?: string; // (Blob URL to display image in UI)
+    bytes: string;    
+    contenttype: string;  
+    profileImageUrl?: string; 
   }
   
   export interface BuyerById {
