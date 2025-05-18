@@ -3,6 +3,7 @@ import { ProductService } from '../../services/product.service';
 import { FormsModule } from '@angular/forms';
 import { AlertComponent } from '../../components/alert/alert.component';
 import { AlertService } from '../../services/alert.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product',
@@ -10,7 +11,7 @@ import { AlertService } from '../../services/alert.service';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css'],
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [FormsModule],
+  imports: [FormsModule,CommonModule],
 })
 export class ProductComponent {
   today: string = new Date().toISOString().split('T')[0]; 

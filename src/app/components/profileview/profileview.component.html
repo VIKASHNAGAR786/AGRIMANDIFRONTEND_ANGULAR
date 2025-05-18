@@ -7,12 +7,8 @@
       <!-- Profile Image -->
       <div class="col-md-4 text-center mb-4 mb-md-0">
         <div class="position-relative mx-auto" style="width: 180px; height: 180px;">
-          <img 
-            [src]="profileImageUrl || defaultProfileImage"
-            class="rounded-circle shadow w-100 h-100"
-            style="object-fit: cover; border: 4px solid white;"
-            alt="Profile Image"
-          />
+          <img [src]="profileImageUrl || defaultProfileImage" class="rounded-circle shadow w-100 h-100"
+            style="object-fit: cover; border: 4px solid white;" alt="Profile Image" />
           <!-- Overlay -->
           <div class="upload-overlay d-flex justify-content-center align-items-center rounded-circle">
             <label class="text-white" style="cursor: pointer;">
@@ -98,23 +94,18 @@
         ]">
           <div class="col-md-4">
             <label class="form-label fw-semibold">{{input.label}}</label>
-            <input [(ngModel)]="farmerForm[input.name]" name="{{input.name}}"
-                   [type]="input.type || 'text'"
-                   class="form-control rounded-3" required>
+            <input [(ngModel)]="farmerForm[input.name]" name="{{input.name}}" [type]="input.type || 'text'"
+              class="form-control rounded-3" required>
           </div>
         </ng-container>
 
         <div class="col-12 text-center mt-3">
-          <button
-  type="submit"
-  class="btn px-5 py-2 fs-5 rounded-pill shadow-sm text-white border-0"
-  [ngStyle]="{
+          <button type="submit" class="btn px-5 py-2 fs-5 rounded-pill shadow-sm text-white border-0" [ngStyle]="{
     'background': selectedColor
-  }"
->
-  <i class="bi bi-check-circle me-2"></i>
-  Save Profile
-</button>
+  }">
+            <i class="bi bi-check-circle me-2"></i>
+            Save Profile
+          </button>
 
         </div>
       </form>
@@ -123,31 +114,119 @@
 
   <!-- Buyer View -->
   <ng-container *ngIf="loginData.userRole === 'BUYER' || showBuyerForm">
-    <h3 class="mb-4">Update Buyer Details</h3>
-    <form (ngSubmit)="submitBuyerForm()" class="row g-3">
+  <h3 class="mb-4">Update Buyer Details</h3>
+  <form (ngSubmit)="submitBuyerForm()" class="row g-3">
 
-      <ng-container *ngFor="let input of [
-        {label:'Contact Number', name:'contactNumber'},
-        {label:'Alternate Contact', name:'alternateContact'},
-        {label:'Address', name:'address'},
-        {label:'City', name:'city'},
-        {label:'State', name:'state'},
-        {label:'Pincode', name:'pincode'},
-        {label:'Company Name', name:'companyName'}
-      ]">
-        <div class="col-md-4">
-          <label class="form-label">{{input.label}}</label>
-          <input [(ngModel)]="buyerForm[input.name]" name="{{input.name}}" class="form-control" required />
-        </div>
-      </ng-container>
+    <!-- Basic Contact Details -->
+    <div class="col-md-4">
+      <label class="form-label">Contact Number</label>
+      <input [(ngModel)]="buyerForm.contactNumber" name="contactNumber" class="form-control" required />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Alternate Contact</label>
+      <input [(ngModel)]="buyerForm.alternateContact" name="alternateContact" class="form-control" />
+    </div>
 
-      <div class="col-12 text-center mt-3">
-        <button type="submit" class="btn btn-primary px-5 py-2 fs-5 rounded-pill shadow-sm">
-          <i class="bi bi-save2 me-2"></i> Save Buyer Profile
-        </button>
-      </div>
-    </form>
-  </ng-container>
+    <!-- Address Details -->
+    <div class="col-md-4">
+      <label class="form-label">Address</label>
+      <input [(ngModel)]="buyerForm.address" name="address" class="form-control" required />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">City</label>
+      <input [(ngModel)]="buyerForm.city" name="city" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">State</label>
+      <input [(ngModel)]="buyerForm.state" name="state" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Pincode</label>
+      <input [(ngModel)]="buyerForm.pincode" name="pincode" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Country</label>
+      <input [(ngModel)]="buyerForm.country" name="country" class="form-control" />
+    </div>
+
+    <!-- Company Info -->
+    <div class="col-md-4">
+      <label class="form-label">Company Name</label>
+      <input [(ngModel)]="buyerForm.companyName" name="companyName" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Company Type</label>
+      <input [(ngModel)]="buyerForm.companyType" name="companyType" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">GST Number</label>
+      <input [(ngModel)]="buyerForm.gstNumber" name="gstNumber" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">PAN Number</label>
+      <input [(ngModel)]="buyerForm.panNumber" name="panNumber" class="form-control" />
+    </div>
+
+    <!-- Preferences -->
+    <div class="col-md-4">
+      <label class="form-label">Preferred Crops</label>
+      <input [(ngModel)]="buyerForm.preferredCrops" name="preferredCrops" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Budget Range</label>
+      <input [(ngModel)]="buyerForm.budgetRange" name="budgetRange" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Purchase Frequency</label>
+      <input [(ngModel)]="buyerForm.purchaseFrequency" name="purchaseFrequency" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Preferred Payment Method</label>
+      <input [(ngModel)]="buyerForm.preferredPaymentMethod" name="preferredPaymentMethod" class="form-control" />
+    </div>
+
+    <!-- Geo Location -->
+    <div class="col-md-4">
+      <label class="form-label">Geo Latitude</label>
+      <input type="number" [(ngModel)]="buyerForm.geoLat" name="geoLat" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Geo Longitude</label>
+      <input type="number" [(ngModel)]="buyerForm.geoLong" name="geoLong" class="form-control" />
+    </div>
+
+    <!-- Additional Info -->
+    <div class="col-md-4">
+      <label class="form-label">Total Orders</label>
+      <input type="number" [(ngModel)]="buyerForm.totalOrders" name="totalOrders" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Total Spent</label>
+      <input type="number" [(ngModel)]="buyerForm.totalSpent" name="totalSpent" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Loyalty Points</label>
+      <input type="number" [(ngModel)]="buyerForm.loyaltyPoints" name="loyaltyPoints" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Buyer Rating</label>
+      <input type="number" [(ngModel)]="buyerForm.buyerRating" name="buyerRating" class="form-control" step="0.1" />
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Last Purchase Date</label>
+      <input type="date" [(ngModel)]="buyerForm.lastPurchaseDate" name="lastPurchaseDate" class="form-control" />
+    </div>
+
+    <!-- Submission -->
+    <div class="col-12 text-center mt-3">
+      <button type="submit" class="btn btn-primary px-5 py-2 fs-5 rounded-pill shadow-sm">
+        <i class="bi bi-save2 me-2"></i> Save Buyer Profile
+      </button>
+    </div>
+  </form>
+</ng-container>
+
 
   <!-- No Products Template -->
   <ng-template #noProducts>

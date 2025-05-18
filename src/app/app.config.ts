@@ -10,7 +10,6 @@ import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProductComponent } from './components/product/product.component';
 import { ProfileviewComponent } from './components/profileview/profileview.component';
-import { BuyerComponent } from './components/buyer/buyer.component';
 
 // ⛔️ Removed ProductinventoryComponent — it's standalone and lazy-loaded
 
@@ -48,7 +47,6 @@ const routes = [
         (m) => m.BuyerComponent
       )
   },
-  // 🔍 Product Detail Page (By ID)
   {
     path: 'buyer/:buyerid',
     loadComponent: () =>

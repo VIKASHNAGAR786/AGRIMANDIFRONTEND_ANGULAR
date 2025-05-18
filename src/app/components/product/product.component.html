@@ -20,15 +20,17 @@
                    [(ngModel)]="product.description" name="description" required />
             <label for="description">Description</label>
           </div>
-<!-- Category (Fixed with form-floating) -->
-<div class="col-md-4 form-floating">
-  <select class="form-select" id="category" [(ngModel)]="product.category" name="category" required>
-    <option value="" disabled selected hidden>Choose category</option>
-    <option *ngFor="let cat of ['Grains','Fruits','Vegetables','Dairy','Flowers','Spices','Pulses','Oilseeds','Herbs','Others']" [value]="cat">
-      {{ cat }}
-    </option>
-  </select>
-  <label for="category">Category</label>
+          <!-- Category (Improved with form-floating and working label) -->
+           <div class="col-md-4">
+  <div class="form-floating">
+    <select class="form-select" id="category" [(ngModel)]="product.category" name="category" aria-label="Category" required>
+      <option value="" selected>Choose category</option>
+      <option *ngFor="let cat of ['Grains','Fruits','Vegetables','Dairy','Flowers','Spices','Pulses','Oilseeds','Herbs','Others']" [value]="cat">
+        {{ cat }}
+      </option>
+    </select>
+    <label for="category">Category</label>
+  </div>
 </div>
 
 

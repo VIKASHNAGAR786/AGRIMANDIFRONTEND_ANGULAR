@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { SignupComponent } from './auth/signup/signup.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProductComponent } from './components/product/product.component';
-import { BuyerComponent } from './components/buyer/buyer.component';
 
 export const routes: Routes = [
   // 🏠 Home Page
@@ -14,8 +13,6 @@ export const routes: Routes = [
   // 📦 Product List Page
   { path: 'components/product', component: ProductComponent },
   //{ path: 'components/buyer', component: BuyerComponent },
-
-  // 🛒 Product Inventory (All Products)
   {
     path: 'products',
     loadComponent: () =>
