@@ -1,138 +1,45 @@
-<!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg shadow-lg"
+<nav class="navbar navbar-expand-lg enhanced-navbar shadow"
      [ngStyle]="{
        'background': selectedColor,
-       'backdrop-filter': 'blur(10px)',
-       '-webkit-backdrop-filter': 'blur(10px)',
-       'border-radius': '0 0 20px 20px'
+       'backdrop-filter': 'blur(15px)',
+       '-webkit-backdrop-filter': 'blur(15px)',
+       'border-radius': '0 0 30px 30px',
+       'box-shadow': '0 8px 24px rgba(0,0,0,0.25)'
      }">
-
   <div class="container-fluid">
     <!-- Logo -->
     <a routerLink="/" class="navbar-brand d-flex align-items-center">
       <img src="images/logo.png" alt="AgriMandi Logo" class="logo-img me-2" />
-      <span class="fw-bold fs-4 text-white">AgriMandi</span>
+      <span class="brand-text">AgriMandi</span>
     </a>
 
-    <!-- Navbar Toggle for Mobile -->
-    <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLinks" aria-controls="navbarLinks" aria-expanded="false" aria-label="Toggle navigation">
+    <!-- Mobile Toggle Button -->
+    <button class="navbar-toggler border-0" type="button" (click)="toggleNavbar()">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <!-- Navbar Links -->
-    <div class="collapse navbar-collapse" id="navbarLinks">
-      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-3">
-        <li class="nav-item">
-          <a routerLink="/" class="nav-link active">Home</a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link" (click)="goToAddProduct($event)">Add Products</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="products" class="nav-link">Products</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="buyer" class="nav-link">Buyers</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/contact" class="nav-link">Help Center</a>
-        </li>
+    <div [ngClass]="{ 'collapse': !isNavbarCollapsed, 'navbar-collapse': true }" id="navbarLinks">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-4">
+        <li class="nav-item"><a routerLink="/" class="nav-link" routerLinkActive="active">Home</a></li>
+        <li class="nav-item"><a href="#" class="nav-link" (click)="goToAddProduct($event)">Add Products</a></li>
+        <li class="nav-item"><a routerLink="products" class="nav-link" routerLinkActive="active">Products</a></li>
+        <li class="nav-item"><a routerLink="buyer" class="nav-link" routerLinkActive="active">Buyers</a></li>
+        <li class="nav-item"><a routerLink="/contact" class="nav-link" routerLinkActive="active">Help Center</a></li>
       </ul>
 
-      <!-- Login / Signup -->
-      <div class="d-flex align-items-center gap-2">
+      <!-- Auth Buttons -->
+      <div class="auth-buttons d-flex flex-wrap align-items-center justify-content-center gap-2 mt-3 mt-lg-0">
         <ng-container *ngIf="!isLoggedIn; else loggedInTemplate">
-          <a routerLink="auth/login" class="btn btn-outline-light">Login</a>
-          <a routerLink="auth/signup" class="btn btn-glow">Sign Up</a>
+          <a routerLink="auth/login" class="btn neon-btn-outline">Login</a>
+          <a routerLink="auth/signup" class="btn neon-btn">Sign Up</a>
         </ng-container>
 
         <ng-template #loggedInTemplate>
-          <a routerLink="components/profileview" class="btn btn-outline-light">Profile</a>
+          <a routerLink="components/profileview" class="btn neon-btn-outline">Profile</a>
           <button (click)="logout()" class="btn btn-danger">Logout</button>
         </ng-template>
       </div>
     </div>
   </div>
 </nav>
-
-<!-- CUSTOM STYLING -->
-<style>
-  /* Glass effect navbar */
-  .navbar-glass {
-    background: rgba(40, 167, 69, 0.8);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 0 0 20px 20px;
-  }
-
-  /* Logo */
-  .logo-img {
-    height: 40px;
-    width: 40px;
-    object-fit: contain;
-  }
-
-  /* Links */
-  .navbar-nav .nav-link {
-    color: white !important;
-    font-weight: 500;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-  }
-
-  .navbar-nav .nav-link:hover {
-    color: #f8f9fa;
-    text-decoration: underline;
-    transform: translateY(-2px);
-  }
-
-  /* Active Link */
-  .navbar-nav .nav-link.active {
-    font-weight: 700;
-    border-bottom: 2px solid #ffffff;
-  }
-
-  /* Buttons */
-  .btn-outline-light {
-    border-radius: 20px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-  }
-
-  .btn-outline-light:hover {
-    background: #ffffff;
-    color: #28a745;
-  }
-
-  /* Glowing Signup Button */
-  .btn-glow {
-    background: linear-gradient(135deg, #00ff99, #00cc66);
-    color: #ffffff;
-    font-weight: bold;
-    border-radius: 25px;
-    box-shadow: 0 4px 20px rgba(0, 255, 153, 0.5);
-    transition: all 0.4s ease;
-  }
-
-  .btn-glow:hover {
-    box-shadow: 0 6px 25px rgba(0, 255, 153, 0.8);
-    transform: scale(1.05);
-  }
-
-  /* Mobile Toggle */
-  .navbar-toggler {
-    font-size: 1.5rem;
-    outline: none;
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .navbar-nav {
-      text-align: center;
-      margin-top: 10px;
-    }
-    .navbar-nav .nav-item {
-      margin-bottom: 10px;
-    }
-  }
-</style>

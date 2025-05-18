@@ -1,0 +1,145 @@
+/* Navbar Base Styling */
+.enhanced-navbar {
+  background: linear-gradient(145deg, rgba(0, 255, 170, 0.25), rgba(0, 200, 140, 0.2));
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 20px rgba(0, 255, 204, 0.15);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0 0 20px 20px;
+  z-index: 1000;
+  transition: all 0.4s ease-in-out;
+}
+
+/* Brand */
+.brand-text {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 0 0 6px #00ffcc, 0 0 12px #00ffcc;
+  animation: pulse 4s infinite ease-in-out;
+}
+
+.logo-img {
+  height: 50px;
+  width: 50px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px rgba(0, 255, 204, 0.5));
+}
+
+/* Navigation Links */
+.navbar-nav .nav-link {
+  color: #ffffff !important;
+  font-weight: 500;
+  font-size: 1.1rem;
+  position: relative;
+  padding: 0.6rem 1.2rem;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.navbar-nav .nav-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0, 255, 204, 0.2), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  border-radius: 10px;
+}
+
+.navbar-nav .nav-link:hover::before {
+  opacity: 1;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #00ffee !important;
+  transform: translateY(-2px);
+  text-shadow: 0 0 10px rgba(0, 255, 204, 0.8);
+}
+
+.navbar-nav .nav-link.active {
+  color: #00ffcc !important;
+  border-bottom: 2px solid #00ffcc;
+}
+
+/* Glowing Buttons */
+.neon-btn {
+  background: linear-gradient(135deg, #00ffcc, #00cc99);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 0.55rem 1.5rem;
+  font-weight: 600;
+  box-shadow: 0 0 12px #00ffee, 0 0 24px #00ffee;
+  transition: 0.3s ease;
+}
+
+.neon-btn:hover {
+  box-shadow: 0 0 18px #00ffee, 0 0 36px #00ffee;
+  transform: scale(1.07);
+}
+
+/* Outline Button */
+.neon-btn-outline {
+  border: 2px solid #00ffee;
+  color: #00ffee;
+  background: transparent;
+  border-radius: 25px;
+  padding: 0.55rem 1.5rem;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.neon-btn-outline:hover {
+  background: #00ffee;
+  color: #000;
+  box-shadow: 0 0 15px #00ffee, 0 0 30px #00ffee;
+}
+
+/* Toggler icon white */
+.navbar-toggler {
+  font-size: 1.5rem;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='3' d='M4 7h22M4 15h22M4 23h22' /%3E%3C/svg%3E");
+  width: 30px;
+  height: 30px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .navbar-nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .auth-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .auth-buttons .btn {
+    width: 80%;
+  }
+
+  .navbar-nav .nav-link {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Pulse animation for brand */
+@keyframes pulse {
+  0% {
+    text-shadow: 0 0 6px #00ffcc;
+  }
+  50% {
+    text-shadow: 0 0 16px #00ffee;
+  }
+  100% {
+    text-shadow: 0 0 6px #00ffcc;
+  }
+}

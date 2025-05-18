@@ -15,6 +15,12 @@ import { ColorserviceService } from '../../services/colorservice.service';
 export class NavbarComponent {
   isLoggedIn: boolean = false;
 
+  isNavbarCollapsed = false;
+  toggleNavbar() {
+    this.isNavbarCollapsed = !this.isNavbarCollapsed;
+  }
+
+
   constructor(private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object,private colorService: ColorserviceService
   ) {
