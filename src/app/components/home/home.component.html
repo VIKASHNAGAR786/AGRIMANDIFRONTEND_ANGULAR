@@ -82,7 +82,7 @@
   <section class="cta-section">
     <h2>Ready to Start?</h2>
     <p>Sign up today and experience the benefits of connecting directly with farmers and buyers.</p>
-    <button class="cta-btn" (click)="goToRegister()">Join Now</button>
+    <button class="cta-btn" (click)="goToRegister()" [ngStyle]="{ 'background-color': selectedColor || '#198754' }">Join Now</button>
   </section>
 
   <section class="faq-section">
@@ -98,6 +98,6 @@
   <footer class="home-footer">
     <h2>Join AgriMandi Today!</h2>
     <p>Be part of the revolution in agriculture. Together, we can build a more sustainable and efficient food supply chain.</p>
-    <button class="get-started-btn" (click)="goToRegister()">Get Started</button>
+    <button class="get-started-btn" (click)="goToRegister()" [ngStyle]="{ 'background-color': selectedColor || '#198754' }">Get Started</button>
   </footer>
 </div>

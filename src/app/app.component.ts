@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AlertComponent } from './components/alert/alert.component';
 import * as AOS from 'aos';
 import { DesignComponent } from "./components/design/design.component";
 import { WheelComponent } from "./components/wheel/wheel.component";
+import { ColorserviceService } from './services/colorservice.service';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule, NavbarComponent, AlertComponent, DesignComponent, WheelComponent],
+  imports: [CommonModule, RouterModule, NavbarComponent, AlertComponent, DesignComponent, WheelComponent],
   styleUrls: ['./app.component.css'],
   template: `
     <!-- 🔵 Animated Background Layer -->
@@ -35,7 +37,7 @@ import { WheelComponent } from "./components/wheel/wheel.component";
       <app-alert></app-alert>
 
       <!-- ✅ Footer -->
-      <footer class="bg-success text-white text-center py-3">
+      <footer class="text-white text-center py-3"  [ngStyle]="{ 'background-color': selectedColor || '#198754' }">
         <div class="container">
           <p class="mb-1">🌱 <strong>AgriMandi</strong> - Empowering Farmers with Technology</p>
           <p class="mb-0">&copy; {{ currentYear }} AgriMandi. All rights reserved.</p>
@@ -44,18 +46,28 @@ import { WheelComponent } from "./components/wheel/wheel.component";
     </div>
   `
 })
+
 export class AppComponent implements OnInit {
+  selectedColor: string = ''; // default
+  constructor(private colorService: ColorserviceService) {
+    // Initialize any necessary services or data here
+  }
   ngOnInit() {
     if (typeof window !== 'undefined') {
       AOS.init();
     }
+    this.colorService.selectedColor$.subscribe(color => {
+      this.selectedColor = color;
+    });
   }
 
   title = 'AgriMandi-Frontend';
   currentYear: number = new Date().getFullYear();
 
   showWheel = false;
-  selectedColor: string = '';
+
+
+
 
   openWheel() {
     this.showWheel = true;

@@ -127,8 +127,14 @@ export class WheelComponent implements AfterViewInit, OnDestroy {
     const radius = 2;
     const segments = 8;
     const colors = [
-      '#FF0000', '#FF7F00', '#FFFF00', '#00FF00',
-      '#00FFFF', '#0000FF', '#8B00FF', '#800080'
+      '#4CAF50', // Fresh green (crops, leaves)
+'#8BC34A', // Light green (saplings, grass)
+'#CDDC39', // Lime yellow (sunlight on crops)
+'#FFEB3B', // Sunflower yellow
+'#FF9800', // Harvest orange (ripe grain, fruits)
+'#A1887F', // Soil brown (earth)
+'#795548', // Deep soil/bark (roots, wood)
+'#3E2723'  // Dark brown (fertile ground)
     ];
 
     for (let i = 0; i < segments; i++) {
@@ -209,8 +215,14 @@ export class WheelComponent implements AfterViewInit, OnDestroy {
     const radius = 2.5;
     const segments = 8;
     const colors = [
-      '#FF0000', '#FF7F00', '#FFFF00', '#00FF00',
-      '#00FFFF', '#0000FF', '#8B00FF', '#800080'
+      '#4CAF50', // Fresh green (crops, leaves)
+      '#8BC34A', // Light green (saplings, grass)
+      '#CDDC39', // Lime yellow (sunlight on crops)
+      '#FFEB3B', // Sunflower yellow
+      '#FF9800', // Harvest orange (ripe grain, fruits)
+      '#A1887F', // Soil brown (earth)
+      '#795548', // Deep soil/bark (roots, wood)
+      '#3E2723'  // Dark brown (fertile ground)
     ];
     this.meshes = [];
     this.raycaster = new THREE.Raycaster();
@@ -258,43 +270,8 @@ export class WheelComponent implements AfterViewInit, OnDestroy {
       glowMesh.scale.multiplyScalar(1.1); // Slightly larger for glowing effect
       this.scene.add(glowMesh);
 
-
-
-
     }
 
-    // After all wheel slices are created, add labels
-// const colorLabels = [
-  // 'Red', 'Orange', 'Yellow', 'Green',
-  // 'Cyan', 'Blue', 'Violet', 'Purple'
-// ];
-// 
-// const fontLoader = new FontLoader();
-// fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
-  // for (let i = 0; i < segments; i++) {
-    // const midAngle = ((i + 0.5) / segments) * Math.PI * 2;
-    // const labelRadius = radius * 0.7;
-// 
-    // const textGeo = new TextGeometry(colorLabels[i], {
-      // font: font,
-      // size: 0.2,
-      // depth: 0.02, // ✅ Use 'depth' instead of 'height'
-      // curveSegments: 4,
-      // bevelEnabled: false,
-    // });
-// 
-    // const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    // const textMesh = new THREE.Mesh(textGeo, textMaterial);
-// 
-    // textMesh.position.x = labelRadius * Math.cos(midAngle) - 0.4;
-    // textMesh.position.y = labelRadius * Math.sin(midAngle) - 0.1;
-    // textMesh.position.z = 0.35;
-    // textMesh.rotation.z = midAngle + Math.PI / 2;
-// 
-    // this.scene!.add(textMesh);
-  // }
-// });
-// 
 
     // Add glossy glass ring overlay
     const shineRing = new THREE.RingGeometry(radius * 0.9, radius, 64);
@@ -356,9 +333,6 @@ export class WheelComponent implements AfterViewInit, OnDestroy {
       material.emissiveIntensity = 0.3;  // Reset the glow after a short delay
     }, 500);
   }
-
-
-
 
   private disposeThreeResources() {
     if (this.scene) {

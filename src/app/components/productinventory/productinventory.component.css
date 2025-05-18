@@ -44,4 +44,26 @@
   button:hover {
     background-color: #24b300;
   }
+
+.card-text {
+  font-size: 0.85rem;
+}
+
+.btn {
+  font-size: 0.8rem;
+}
+.product-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+  }
   
+  .product-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+  
+  .product-card p {
+    font-size: 0.9rem;
+    color: #555;
+  }

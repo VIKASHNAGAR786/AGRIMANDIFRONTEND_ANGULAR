@@ -17,19 +17,3 @@ getColor(): string {
   return this.selectedColorSubject.getValue();
 }
 }
-
-
-
-
-
-  
-  
-
-  
-  
-  
-
-  
-  
-  
-

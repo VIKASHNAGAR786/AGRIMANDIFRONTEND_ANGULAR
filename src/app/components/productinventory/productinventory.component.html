@@ -1,54 +1,92 @@
+
 <!-- Loading Spinner -->
-<div *ngIf="loading">Loading products...</div>
+<div *ngIf="loading" class="d-flex justify-content-center align-items-center my-5">
+  <div class="spinner-border text-success" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
 
 <!-- Single Product Detail View -->
-<div *ngIf="!loading && selectedproduct" class="product-detail">
-  <h2>Product Details</h2>
-  <div class="product-card">
-    <img [src]="selectedproduct.imageUrl || 'https://via.placeholder.com/150'" alt="{{ selectedproduct.name }}" width="150" />
-    <h3>{{ selectedproduct.name }}</h3>
-    <p>{{ selectedproduct.description }}</p>
-    <p><strong>Category:</strong> {{ selectedproduct.category }}</p>
-    <p><strong>Grade:</strong> {{ selectedproduct.grade }}</p>
-    <p><strong>Qty:</strong> {{ selectedproduct.quantity }} {{ selectedproduct.unit }}</p>
-    <p><strong>₹/Unit:</strong> ₹{{ selectedproduct.pricePerUnit }}</p>
-    <p><strong>Total:</strong> ₹{{ selectedproduct.totalPrice }}</p>
-    <p><strong>Status:</strong> {{ selectedproduct.status }}</p>
-    <p><strong>Location:</strong> {{ selectedproduct.location }}</p>
-    <p><strong>Harvest:</strong> {{ selectedproduct.harvestDate | date }}</p>
-    <button (click)="downloadProductPdf(selectedproduct.productid)">Download Product PDF</button>
-    <div class="button-group">
-      <button (click)="contactFarmer(selectedproduct)">Contact Farmer</button>
-      <button (click)="buyProduct(selectedproduct)">Buy</button>
-      <button (click)="goBackToList()">Back to All Products</button>
+<div *ngIf="!loading && selectedproduct" class="container my-5">
+  <div class="card shadow-lg">
+    <div class="row g-0">
+      <div class="col-md-5">
+        <img [src]="selectedproduct.imageUrl || 'https://via.placeholder.com/300'" class="img-fluid rounded-start h-100 object-fit-cover" [alt]="selectedproduct.name">
+      </div>
+      <div class="col-md-7">
+        <div class="card-body">
+          <h2 class="card-title">{{ selectedproduct.name }}</h2>
+          <p class="card-text text-muted">{{ selectedproduct.description }}</p>
+
+          <div class="mb-3">
+            <span class="badge bg-primary me-2">{{ selectedproduct.category }}</span>
+            <span class="badge bg-success">{{ selectedproduct.grade }}</span>
+            <span class="badge bg-info text-dark">{{ selectedproduct.status }}</span>
+          </div>
+
+          <ul class="list-group list-group-flush mb-3">
+            <li class="list-group-item"><strong>Quantity:</strong> {{ selectedproduct.quantity }} {{ selectedproduct.unit }}</li>
+            <li class="list-group-item"><strong>Price per Unit:</strong> ₹{{ selectedproduct.pricePerUnit }}</li>
+            <li class="list-group-item"><strong>Total Price:</strong> ₹{{ selectedproduct.totalPrice }}</li>
+            <li class="list-group-item"><strong>Location:</strong> {{ selectedproduct.location }}</li>
+            <li class="list-group-item"><strong>Harvest Date:</strong> {{ selectedproduct.harvestDate | date }}</li>
+          </ul>
+
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4">
+            <button class="btn btn-outline-secondary btn-sm" (click)="downloadProductPdf(selectedproduct.productid)">
+              <i class="bi bi-file-earmark-arrow-down"></i> Download PDF
+            </button>
+            <button class="btn btn-outline-primary btn-sm" (click)="contactFarmer(selectedproduct)">
+              <i class="bi bi-envelope"></i> Contact Farmer
+            </button>
+            <button class="btn btn-success btn-sm" (click)="buyProduct(selectedproduct)">
+              <i class="bi bi-cart-check"></i> Buy
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="goBackToList()">
+              <i class="bi bi-arrow-left"></i> Back to All Products
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
 
 <!-- No Products Found -->
 <div *ngIf="!loading && !selectedproduct && products.length === 0">
   <p>No products available.</p>
 </div>
-
 <!-- Product List View -->
-<div *ngIf="!loading && !selectedproduct && products.length > 0" class="product-grid">
-  <div *ngFor="let product of products" class="product-card">
-    <img [src]="product.imageUrl || 'https://via.placeholder.com/150'" alt="{{ product.name }}" width="150" />
-    <h3>{{ product.name }}</h3>
-    <p>{{ product.description }}</p>
-    <p><strong>Category:</strong> {{ product.category }}</p>
-    <p><strong>Grade:</strong> {{ product.grade }}</p>
-    <p><strong>Qty:</strong> {{ product.quantity }} {{ product.unit }}</p>
-    <p><strong>₹/Unit:</strong> ₹{{ product.pricePerUnit }}</p>
-    <p><strong>Total:</strong> ₹{{ product.totalPrice }}</p>
-    <p><strong>Status:</strong> {{ product.status }}</p>
-    <p><strong>Location:</strong> {{ product.location }}</p>
-    <p><strong>Harvest:</strong> {{ product.harvestDate | date }}</p>
+<div *ngIf="!loading && !selectedproduct && products.length > 0" class="container my-5">
+  <div class="row g-4">
+    <div *ngFor="let product of products" class="col-sm-6 col-md-4 col-lg-3">
+      <div class="card h-100 shadow-sm">
+        <!-- <img [src]="product.imageUrl || 'https://via.placeholder.com/150'" class="card-img-top img-fluid" [alt]="product.name"> -->
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title text-truncate" title="{{ product.name }}">{{ product.name }}</h5>
+          <p class="card-text text-muted small">{{ product.description | slice:0:60 }}...</p>
+          
+          <div class="mb-2">
+            <span class="badge bg-primary">{{ product.category }}</span>
+            <span class="badge bg-success">{{ product.grade }}</span>
+          </div>
 
-    <div class="button-group">
-      <button (click)="contactFarmer(product)">Contact Farmer</button>
-      <button (click)="viewDetails(product)">Detail View</button>
-      <button (click)="buyProduct(product)">Buy</button>
+          <ul class="list-group list-group-flush mb-2 small">
+            <li class="list-group-item px-0 py-1"><strong>Qty:</strong> {{ product.quantity }} {{ product.unit }}</li>
+            <li class="list-group-item px-0 py-1"><strong>₹/Unit:</strong> ₹{{ product.pricePerUnit }}</li>
+            <li class="list-group-item px-0 py-1"><strong>Location:</strong> {{ product.location }}</li>
+            <li class="list-group-item px-0 py-1"><strong>Harvest:</strong> {{ product.harvestDate | date }}</li>
+          </ul>
+
+          <div class="mt-auto d-grid gap-2">
+            <button class="btn btn-outline-primary btn-sm" (click)="contactFarmer(product)">Contact Farmer</button>
+            <button class="btn btn-outline-secondary btn-sm" (click)="viewDetails(product)">Detail View</button>
+            <button class="btn btn-success btn-sm" (click)="buyProduct(product)">Buy</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+

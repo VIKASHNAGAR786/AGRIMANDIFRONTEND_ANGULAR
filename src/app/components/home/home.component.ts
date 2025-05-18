@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { ColorserviceService } from '../../services/colorservice.service';
 
 @Component({
   selector: 'app-home',
@@ -10,8 +11,13 @@ import { RouterModule, Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  constructor(private router: Router) {}
-
+  constructor(private router: Router, private colorService: ColorserviceService) {}
+selectedColor: string = ''; 
+  ngOnInit() {
+    this.colorService.selectedColor$.subscribe(color => {
+      this.selectedColor = color;
+    });
+  }
   goToRegister() {
     this.router.navigate(['auth/signup']);
   }
