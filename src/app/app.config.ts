@@ -14,6 +14,8 @@ import { BuyerComponent } from './components/buyer/buyer.component';
 
 // ⛔️ Removed ProductinventoryComponent — it's standalone and lazy-loaded
 
+
+
 const routes = [
   { path: '', component: HomeComponent },
   { path: 'auth/signup', component: SignupComponent },
@@ -35,7 +37,8 @@ const routes = [
     loadComponent: () =>
       import('./components/productinventory/productinventory.component').then(
         m => m.ProductinventoryComponent
-      )
+      ),
+       renderMode: 'blocking' // ⚠️ TS will complain
   },
 
   {
@@ -51,7 +54,8 @@ const routes = [
     loadComponent: () =>
       import('./components/buyer/buyer.component').then(
         (m) => m.BuyerComponent
-      )
+      ),
+       renderMode: 'blocking' // ⚠️ TS will complain
   },
 
   // Catch-all for undefined routes

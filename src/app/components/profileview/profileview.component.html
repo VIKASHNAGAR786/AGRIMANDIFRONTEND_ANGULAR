@@ -1,5 +1,6 @@
 <div class="container-fluid px-4 py-5" *ngIf="loginData?.isLoggedIn; else notLoggedIn">
 
+
   <!-- Profile Card -->
   <div class="card shadow rounded-4 border-0 p-4 mb-5">
     <div class="row align-items-center">
@@ -104,9 +105,17 @@
         </ng-container>
 
         <div class="col-12 text-center mt-3">
-          <button type="submit" class="btn btn-success px-5 py-2 fs-5 rounded-pill shadow-sm">
-            <i class="bi bi-check-circle me-2"></i> Save Profile
-          </button>
+          <button
+  type="submit"
+  class="btn px-5 py-2 fs-5 rounded-pill shadow-sm text-white border-0"
+  [ngStyle]="{
+    'background': selectedColor
+  }"
+>
+  <i class="bi bi-check-circle me-2"></i>
+  Save Profile
+</button>
+
         </div>
       </form>
     </div>

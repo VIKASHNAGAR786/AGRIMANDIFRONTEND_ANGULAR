@@ -5,6 +5,9 @@ import {
 import * as THREE from 'three';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ColorserviceService } from '../../services/colorservice.service';
+// Import from 'three/examples/jsm/...'
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 
 @Component({
   selector: 'app-wheel',
@@ -36,19 +39,19 @@ export class WheelComponent implements AfterViewInit, OnDestroy {
   private meshes: THREE.Mesh[] = [];
   private raycaster: THREE.Raycaster | null = null;
   private mouse: THREE.Vector2 = new THREE.Vector2();
-  
+
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private colorService: ColorserviceService) {
     this.platformBrowser = isPlatformBrowser(this.platformId);
-    
+
     this.colorPicker = null!;
   }
-defaultColor: string = '#28a745';  // or any of the default 8 colors
+  defaultColor: string = '#28a745';  // or any of the default 8 colors
   ngAfterViewInit(): void {
     if (!this.platformBrowser) return;
-    
+
     // Emit and set default color
-  this.colorSelected.emit(this.defaultColor);
-  this.colorService.setColor(this.defaultColor);
+    this.colorSelected.emit(this.defaultColor);
+    this.colorService.setColor(this.defaultColor);
     this.colorPicker = this.colorPickerRef?.nativeElement;
     this.initMiniWheel();
   }
@@ -71,7 +74,7 @@ defaultColor: string = '#28a745';  // or any of the default 8 colors
         this.colorPicker.addEventListener('input', (event: Event) => {
           const color = (event.target as HTMLInputElement).value;
           this.colorSelected.emit(color);
-           this.colorService.setColor(color);
+          this.colorService.setColor(color);
           this.showBigWheel = false;
         });
         this.colorPicker.setAttribute('data-listener-added', 'true');
@@ -175,147 +178,184 @@ defaultColor: string = '#28a745';  // or any of the default 8 colors
   //////////////// BIG WHEEL /////////////////////////
 
   private initBigWheel() {
-  const container = this.rendererContainer.nativeElement;
-  const width = container.clientWidth;
-  const height = container.clientHeight;
-  this.disposeThreeResources(); // Clean previous resources
+    const container = this.rendererContainer.nativeElement;
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    this.disposeThreeResources(); // Clean previous resources
 
-  // Scene setup
-  this.scene = new THREE.Scene();
-  this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-  this.camera.position.z = 6;
-  this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  this.renderer.setSize(width, height);
-  this.renderer.setPixelRatio(window.devicePixelRatio);
-  container.appendChild(this.renderer.domElement);
+    // Scene setup
+    this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    this.camera.position.z = 6;
+    this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    this.renderer.setSize(width, height);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(this.renderer.domElement);
 
-  // Lighting setup
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6); // Soft ambient light
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5); // Main light
-  directionalLight.position.set(3, 3, 5);
-  directionalLight.castShadow = true; // Add shadows for realism
-  this.scene.add(ambientLight, directionalLight);
+    // Lighting setup
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6); // Soft ambient light
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5); // Main light
+    directionalLight.position.set(3, 3, 5);
+    directionalLight.castShadow = true; // Add shadows for realism
+    this.scene.add(ambientLight, directionalLight);
 
-  // Add a spotlight for a focused effect
-  const spotlight = new THREE.SpotLight(0xffffff, 1, 10, Math.PI / 4, 0.5, 2);
-  spotlight.position.set(0, 0, 5);
-  spotlight.castShadow = true;
-  this.scene.add(spotlight);
+    // Add a spotlight for a focused effect
+    const spotlight = new THREE.SpotLight(0xffffff, 1, 10, Math.PI / 4, 0.5, 2);
+    spotlight.position.set(0, 0, 5);
+    spotlight.castShadow = true;
+    this.scene.add(spotlight);
 
-  // Wheel configuration
-  const radius = 2.5;
-  const segments = 8;
-  const colors = [
-    '#FF0000', '#FF7F00', '#FFFF00', '#00FF00',
-    '#00FFFF', '#0000FF', '#8B00FF', '#800080'
-  ];
-  this.meshes = [];
-  this.raycaster = new THREE.Raycaster();
+    // Wheel configuration
+    const radius = 2.5;
+    const segments = 8;
+    const colors = [
+      '#FF0000', '#FF7F00', '#FFFF00', '#00FF00',
+      '#00FFFF', '#0000FF', '#8B00FF', '#800080'
+    ];
+    this.meshes = [];
+    this.raycaster = new THREE.Raycaster();
 
-  // Create wheel slices
-  for (let i = 0; i < segments; i++) {
-    const startAngle = (i / segments) * Math.PI * 2;
-    const endAngle = ((i + 1) / segments) * Math.PI * 2;
-    const shape = new THREE.Shape();
-    shape.moveTo(0, 0);
-    shape.absarc(0, 0, radius, startAngle, endAngle, false);
-    shape.lineTo(0, 0);
+    // Create wheel slices
+    for (let i = 0; i < segments; i++) {
+      const startAngle = (i / segments) * Math.PI * 2;
+      const endAngle = ((i + 1) / segments) * Math.PI * 2;
+      const shape = new THREE.Shape();
+      shape.moveTo(0, 0);
+      shape.absarc(0, 0, radius, startAngle, endAngle, false);
+      shape.lineTo(0, 0);
 
-    const extrudeSettings = {
-      depth: 0.3,
-      bevelEnabled: true, // Add bevel for a more polished look
-      bevelSize: 0.1,
-      bevelSegments: 2,
-    };
-    const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+      const extrudeSettings = {
+        depth: 0.3,
+        bevelEnabled: true, // Add bevel for a more polished look
+        bevelSize: 0.1,
+        bevelSegments: 2,
+      };
+      const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
-    const material = new THREE.MeshStandardMaterial({
-      color: colors[i],
-      metalness: 0.6,  // Reflective effect using metalness
-      roughness: 0.3,  // Surface smoothness
-      emissive: new THREE.Color(colors[i]),
-      emissiveIntensity: 0.3,  // Emissive intensity (works for MeshStandardMaterial)
+      const material = new THREE.MeshStandardMaterial({
+        color: colors[i],
+        metalness: 0.6,  // Reflective effect using metalness
+        roughness: 0.3,  // Surface smoothness
+        emissive: new THREE.Color(colors[i]),
+        emissiveIntensity: 0.3,  // Emissive intensity (works for MeshStandardMaterial)
+        side: THREE.DoubleSide,
+      });
+
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.userData = { colorIndex: i };
+      this.meshes.push(mesh);
+      this.scene.add(mesh);
+
+      // Add a subtle glow to each slice
+      const glowMaterial = new THREE.MeshBasicMaterial({
+        color: colors[i],
+        opacity: 0.2,
+        transparent: true,
+        side: THREE.BackSide,
+        blending: THREE.AdditiveBlending,
+      });
+      const glowMesh = new THREE.Mesh(geometry.clone(), glowMaterial);
+      glowMesh.scale.multiplyScalar(1.1); // Slightly larger for glowing effect
+      this.scene.add(glowMesh);
+
+
+
+
+    }
+
+    // After all wheel slices are created, add labels
+// const colorLabels = [
+  // 'Red', 'Orange', 'Yellow', 'Green',
+  // 'Cyan', 'Blue', 'Violet', 'Purple'
+// ];
+// 
+// const fontLoader = new FontLoader();
+// fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
+  // for (let i = 0; i < segments; i++) {
+    // const midAngle = ((i + 0.5) / segments) * Math.PI * 2;
+    // const labelRadius = radius * 0.7;
+// 
+    // const textGeo = new TextGeometry(colorLabels[i], {
+      // font: font,
+      // size: 0.2,
+      // depth: 0.02, // ✅ Use 'depth' instead of 'height'
+      // curveSegments: 4,
+      // bevelEnabled: false,
+    // });
+// 
+    // const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    // const textMesh = new THREE.Mesh(textGeo, textMaterial);
+// 
+    // textMesh.position.x = labelRadius * Math.cos(midAngle) - 0.4;
+    // textMesh.position.y = labelRadius * Math.sin(midAngle) - 0.1;
+    // textMesh.position.z = 0.35;
+    // textMesh.rotation.z = midAngle + Math.PI / 2;
+// 
+    // this.scene!.add(textMesh);
+  // }
+// });
+// 
+
+    // Add glossy glass ring overlay
+    const shineRing = new THREE.RingGeometry(radius * 0.9, radius, 64);
+    const shineMaterial = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      opacity: 0.07,
+      transparent: true,
       side: THREE.DoubleSide,
     });
+    const shineMesh = new THREE.Mesh(shineRing, shineMaterial);
+    this.scene.add(shineMesh);
 
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.userData = { colorIndex: i };
-    this.meshes.push(mesh);
-    this.scene.add(mesh);
+    // Mouse interaction
+    this.renderer.domElement.addEventListener('click', (event: MouseEvent) => {
+      const rect = this.renderer!.domElement.getBoundingClientRect();
+      this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      this.raycaster!.setFromCamera(this.mouse, this.camera!);
+      const intersects = this.raycaster!.intersectObjects(this.meshes);
 
-    // Add a subtle glow to each slice
-    const glowMaterial = new THREE.MeshBasicMaterial({
-      color: colors[i],
-      opacity: 0.2,
-      transparent: true,
-      side: THREE.BackSide,
-      blending: THREE.AdditiveBlending,
+      if (intersects.length > 0) {
+        const selected = intersects[0].object as THREE.Mesh;
+        if (selected.material instanceof THREE.MeshStandardMaterial) {
+          const currentColor = `#${selected.material.color.getHexString()}`;
+          console.log('Selected color:', currentColor);  // Print the color in console
+          this.colorSelected.emit(currentColor); // Emit the selected color
+          this.colorService.setColor(currentColor);
+          this.showBigWheel = false;  // Close the wheel
+
+          // Optionally, add smooth color transition feedback or sound effects
+          this.playClickSound();
+          this.addGlowEffect(selected);
+        }
+
+      }
     });
-    const glowMesh = new THREE.Mesh(geometry.clone(), glowMaterial);
-    glowMesh.scale.multiplyScalar(1.1); // Slightly larger for glowing effect
-    this.scene.add(glowMesh);
+
+
+    // Animate the wheel rotation and rendering
+    const animate = () => {
+      requestAnimationFrame(animate);
+      this.scene!.rotation.z += 0.000; // Smooth slow spin
+      this.renderer!.render(this.scene!, this.camera!);
+    };
+    animate();
   }
 
-  // Add glossy glass ring overlay
-  const shineRing = new THREE.RingGeometry(radius * 0.9, radius, 64);
-  const shineMaterial = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    opacity: 0.07,
-    transparent: true,
-    side: THREE.DoubleSide,
-  });
-  const shineMesh = new THREE.Mesh(shineRing, shineMaterial);
-  this.scene.add(shineMesh);
+  // Play a subtle click sound when a color is selected (optional)
+  private playClickSound() {
+    const audio = new Audio('path_to_sound_effect.mp3'); // Add sound path
+    audio.play();
+  }
 
-  // Mouse interaction
-  this.renderer.domElement.addEventListener('click', (event: MouseEvent) => {
-    const rect = this.renderer!.domElement.getBoundingClientRect();
-    this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-    this.raycaster!.setFromCamera(this.mouse, this.camera!);
-    const intersects = this.raycaster!.intersectObjects(this.meshes);
-
-    if (intersects.length > 0) {
-      const selected = intersects[0].object as THREE.Mesh;
-      if (selected.material instanceof THREE.MeshStandardMaterial) {
-        const currentColor = `#${selected.material.color.getHexString()}`;
-        console.log('Selected color:', currentColor);  // Print the color in console
-        this.colorSelected.emit(currentColor); // Emit the selected color
-        this.colorService.setColor(currentColor);
-        this.showBigWheel = false;  // Close the wheel
-
-        // Optionally, add smooth color transition feedback or sound effects
-        this.playClickSound();
-        this.addGlowEffect(selected);
-      }
-      
-    }
-  });
-
-  
-  // Animate the wheel rotation and rendering
-  const animate = () => {
-    requestAnimationFrame(animate);
-    this.scene!.rotation.z += 0.000; // Smooth slow spin
-    this.renderer!.render(this.scene!, this.camera!);
-  };
-  animate();
-}
-
-// Play a subtle click sound when a color is selected (optional)
-private playClickSound() {
-  const audio = new Audio('path_to_sound_effect.mp3'); // Add sound path
-  audio.play();
-}
-
-// Add a glow effect to the selected color for emphasis
-private addGlowEffect(selected: THREE.Mesh) {
-  const material = selected.material as THREE.MeshStandardMaterial;
-  material.emissiveIntensity = 1.5;  // Increase the glow on selection
-  setTimeout(() => {
-    material.emissiveIntensity = 0.3;  // Reset the glow after a short delay
-  }, 500);
-}
+  // Add a glow effect to the selected color for emphasis
+  private addGlowEffect(selected: THREE.Mesh) {
+    const material = selected.material as THREE.MeshStandardMaterial;
+    material.emissiveIntensity = 1.5;  // Increase the glow on selection
+    setTimeout(() => {
+      material.emissiveIntensity = 0.3;  // Reset the glow after a short delay
+    }, 500);
+  }
 
 
 

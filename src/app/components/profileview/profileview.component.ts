@@ -8,6 +8,7 @@ import { ProductService } from '../../services/product.service';
 import { UserService } from '../../services/user.service';
 import { BuyerById, BuyerByIdForProfile, Farmer, FarmerDTO, UpdateBuyer } from '../../models/User';
 import { AlertService } from '../../services/alert.service';
+import { ColorserviceService } from '../../services/colorservice.service';
 
 @Component({
   selector: 'app-profileview',
@@ -61,7 +62,8 @@ export class ProfileviewComponent implements OnInit {
     private productService: ProductService,
     private userService: UserService,
     private alertService: AlertService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private colorService: ColorserviceService
   ) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -179,7 +181,7 @@ status:'',
       }
     });
   }
-
+ selectedColor: string = ''; // default
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       if (this.loginData) {
@@ -194,6 +196,9 @@ status:'',
           this.getProfileImage(userId);
         }
       }
+      this.colorService.selectedColor$.subscribe(color => {
+  this.selectedColor = color;
+});
     }
   }
   
