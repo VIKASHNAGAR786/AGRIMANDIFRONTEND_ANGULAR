@@ -1,0 +1,82 @@
+body {
+  background: linear-gradient(135deg, #e9f5e9 0%, #d4edda 100%), 
+              url('https://images.unsplash.com/photo-1560807707-8cc77767d783?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.form-control,
+.form-select {
+  border-radius: 1rem;
+  border: 1px solid #dee2e6;
+  padding-left: 1.25rem;
+  font-size: 1rem;
+}
+
+.form-floating > label {
+  padding-left: 1.25rem;
+  font-size: 0.95rem;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border: none;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+h2 {
+  text-shadow: 1px 1px 2px rgba(0, 128, 0, 0.2);
+  font-size: 1.75rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .card {
+    margin: 0 0.5rem;
+    border-radius: 1.5rem;
+  }
+
+  .card-body {
+    padding: 1.25rem;
+  }
+
+  .form-control,
+  .form-select {
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .form-floating > label {
+    font-size: 0.85rem;
+  }
+
+  .btn-success {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}

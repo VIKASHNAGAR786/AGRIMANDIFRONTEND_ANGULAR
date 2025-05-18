@@ -3,13 +3,13 @@ import { FarmerService } from '../../services/signup.service';
 import { FormsModule } from '@angular/forms';
 import { AlertComponent } from '../../components/alert/alert.component';
 import { AlertService } from '../../services/alert.service';
-
+import { isPlatformBrowser, CommonModule } from '@angular/common';
 @Component({
   selector: 'app-signup',
   standalone: true,
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
-  imports: [FormsModule],
+  imports: [FormsModule,CommonModule],
 })
 export class SignupComponent {
   farmer = {
@@ -17,7 +17,10 @@ export class SignupComponent {
   userName: '',
   password: '',
   role: '',
-  email: ''
+  email: '',
+  companyName: '',
+  companyType: '',
+
   };
 
   constructor(private farmerService: FarmerService, private alertService: AlertService) {}
@@ -39,6 +42,8 @@ export class SignupComponent {
     { label: 'Password', name: 'password', type: 'text' },
     { label: 'Role', name: 'Role', type: 'text' },
     { label: 'Email', name: 'email', type: 'email' },
+    { label: 'Company Name', name: 'companyName', type: 'text' },
+    { label: 'Company Type', name: 'companyType', type: 'text' },
   ];
   
   testSuccess() {

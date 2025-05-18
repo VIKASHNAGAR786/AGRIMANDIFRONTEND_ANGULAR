@@ -5,15 +5,15 @@
   padding: 10px;
   margin-top: 60px; /* 👈 pushes it down */
 }
-  .product-card {
-    border: 1px solid #ccc;
-    padding: 8px 10px;
-    border-radius: 8px;
-    background-color: #fdfdfd;
-    text-align: center;
-    font-size: 14px; /* slightly smaller text */
-    margin-top: 10px;
-  }
+  /* .product-card { */
+    /* border: 1px solid #ccc; */
+    /* padding: 8px 10px; */
+    /* border-radius: 8px; */
+    /* background-color: #fdfdfd; */
+    /* text-align: center; */
+    /* font-size: 14px; slightly smaller text */
+    /* margin-top: 10px; */
+  /* } */
   
   .product-card img {
     width: 100%;
@@ -67,3 +67,16 @@
     font-size: 0.9rem;
     color: #555;
   }
+  .card {
+  background: rgba(255, 255, 255, 0.6); /* semi-transparent */
+  backdrop-filter: blur(12px);         /* glass blur effect */
+  -webkit-backdrop-filter: blur(12px); /* Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 1.25rem;
+  transition: all 0.3s ease-in-out;
+}
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
