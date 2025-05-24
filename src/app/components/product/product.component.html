@@ -4,7 +4,7 @@
     <div class="card-body p-5">
       <h2 class="text-center mb-4 fw-bold text-success">Add New Product</h2>
 
-      <form (ngSubmit)="signup()">
+      <form #productForm="ngForm" (ngSubmit)="signup()">
         <div class="row g-4">
 
           <!-- Product Name -->

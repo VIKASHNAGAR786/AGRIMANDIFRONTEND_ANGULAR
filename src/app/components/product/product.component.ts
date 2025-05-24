@@ -1,9 +1,10 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component,ViewChild, ViewEncapsulation } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { FormsModule } from '@angular/forms';
-import { AlertComponent } from '../../components/alert/alert.component';
 import { AlertService } from '../../services/alert.service';
 import { CommonModule } from '@angular/common';
+import { NgForm } from '@angular/forms';
+
 
 @Component({
   selector: 'app-product',
@@ -14,6 +15,7 @@ import { CommonModule } from '@angular/common';
   imports: [FormsModule,CommonModule],
 })
 export class ProductComponent {
+  @ViewChild('productForm') productForm!: NgForm; // Reference to the form
   today: string = new Date().toISOString().split('T')[0]; 
  product = { 
   name: '',
@@ -57,6 +59,7 @@ export class ProductComponent {
           (response) => {
             console.log('✅ Product registered:', response);
             this.alertService.showAlert('Product Added successfully!', 'success');
+            this.productForm.resetForm();
           },
           (error) => {
             console.error('❌ Failed to save product:', error);
