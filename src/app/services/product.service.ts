@@ -36,13 +36,14 @@ export class ProductService {
     const url = `${this.GetProductByIdUrl}?productid=${productId}`;
     return this.http.get<ProductByID>(url);
   }
+  
+getProductPdf(productId: number): Observable<Blob> {
+  return this.http.get(`${this.GetProductReportPdfUrl}`, {
+    params: new HttpParams().set('productid', productId.toString()),
+    responseType: 'blob'
+  });
+}
 
-  getProductPdf(productId: number): Observable<Blob> {
-    return this.http.get(`${this.GetProductReportPdfUrl}`, {
-      params: { productid: productId },
-      responseType: 'blob'
-    });
-  }
   // ✅ New method: Get products by farmer ID and email
   getProductByFarmerId(id: number, email: string): Observable<UserByproduct[]> {
     const params = new HttpParams()
