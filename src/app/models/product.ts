@@ -74,4 +74,11 @@ export interface Product {
     updatedDate?: Date;
     status: string;
   }
-  
+  export interface ProductFilter {
+         Name?: string | null;
+          Category?: string | null;
+          Location?: string | null;
+          MinPrice?: number | null;
+          MaxPrice?: number | null;
+          Availability?: boolean | null;
+  }

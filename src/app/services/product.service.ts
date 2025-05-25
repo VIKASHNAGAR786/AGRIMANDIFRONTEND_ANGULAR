@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from './../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ProductByID, UserByproduct } from '../models/product';
+import { Product, ProductByID, ProductFilter, UserByproduct } from '../models/product';
 
 
 @Injectable({
@@ -16,8 +16,8 @@ export class ProductService {
   private GetProductReportPdfUrl = environment.APIUrl + 'Product/GetProductPdf';
   private GetProductByFarmerIdUrl = environment.APIUrl + 'Farmer/Getproductbyfarmerid';
 
-  constructor(private http: HttpClient) {   }
-  
+  constructor(private http: HttpClient) { }
+
   saveproduct(productdata: any): Observable<any> {
     return this.http.post(this.apiUrl, productdata);
   }
@@ -28,21 +28,30 @@ export class ProductService {
     return this.http.get(`${this.getFarmerIdUrl}?email=${email}&name=${name}`);
   }
 
-  GetAllProduct(): Observable<any> {
-    return this.http.get(this.GetAllProductUrl);
+  GetAllProduct(filter?: ProductFilter): Observable<Product[]> {
+    const cleanedFilter: { [key: string]: string | number | boolean } = {};
+    if (filter) {
+      Object.entries(filter).forEach(([key, value]) => {
+        if (value !== null && value !== undefined) {
+          cleanedFilter[key] = value as string | number | boolean;
+        }
+      });
+    }
+    const params = new HttpParams({ fromObject: cleanedFilter });
+    return this.http.get<Product[]>(this.GetAllProductUrl, { params });
   }
-  
+
   GetProductById(productId: number): Observable<ProductByID> {
     const url = `${this.GetProductByIdUrl}?productid=${productId}`;
     return this.http.get<ProductByID>(url);
   }
-  
-getProductPdf(productId: number): Observable<Blob> {
-  return this.http.get(`${this.GetProductReportPdfUrl}`, {
-    params: new HttpParams().set('productid', productId.toString()),
-    responseType: 'blob'
-  });
-}
+
+  getProductPdf(productId: number): Observable<Blob> {
+    return this.http.get(`${this.GetProductReportPdfUrl}`, {
+      params: new HttpParams().set('productid', productId.toString()),
+      responseType: 'blob'
+    });
+  }
 
   // ✅ New method: Get products by farmer ID and email
   getProductByFarmerId(id: number, email: string): Observable<UserByproduct[]> {

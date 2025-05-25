@@ -1,4 +1,3 @@
-
 <!-- Loading Spinner -->
 <div *ngIf="loading" class="d-flex justify-content-center align-items-center my-5">
   <div class="spinner-border text-success" role="status">
@@ -11,7 +10,8 @@
   <div class="card shadow-lg">
     <div class="row g-0">
       <div class="col-md-5">
-        <img [src]="selectedproduct.imageUrl || 'https://via.placeholder.com/300'" class="img-fluid rounded-start h-100 object-fit-cover" [alt]="selectedproduct.name">
+        <img [src]="selectedproduct.imageUrl || 'https://via.placeholder.com/300'"
+          class="img-fluid rounded-start h-100 object-fit-cover" [alt]="selectedproduct.name">
       </div>
       <div class="col-md-7">
         <div class="card-body">
@@ -25,7 +25,8 @@
           </div>
 
           <ul class="list-group list-group-flush mb-3">
-            <li class="list-group-item"><strong>Quantity:</strong> {{ selectedproduct.quantity }} {{ selectedproduct.unit }}</li>
+            <li class="list-group-item"><strong>Quantity:</strong> {{ selectedproduct.quantity }} {{
+              selectedproduct.unit }}</li>
             <li class="list-group-item"><strong>Price per Unit:</strong> ₹{{ selectedproduct.pricePerUnit }}</li>
             <li class="list-group-item"><strong>Total Price:</strong> ₹{{ selectedproduct.totalPrice }}</li>
             <li class="list-group-item"><strong>Location:</strong> {{ selectedproduct.location }}</li>
@@ -55,10 +56,85 @@
 
 <!-- No Products Found -->
 <div *ngIf="!loading && !selectedproduct && products.length === 0">
+  <!-- Filter Form -->
   <p>No products available.</p>
 </div>
 <!-- Product List View -->
 <div *ngIf="!loading && !selectedproduct && products.length > 0" class="container my-5">
+
+<!-- Product Filter -->
+<div class="card mb-4 p-4 shadow-sm bg-white border rounded-4">
+  <form (ngSubmit)="loadAllProducts(filterForm)" class="row g-3 align-items-end" autocomplete="off">
+    
+    <!-- Product Name -->
+    <div class="col-md-3">
+      <div class="form-floating">
+        <input type="text" [(ngModel)]="filterForm.Name" name="name" class="form-control" id="name" placeholder="Product Name">
+        <label for="name"><i class="bi bi-box-seam me-2"></i>Product Name</label>
+      </div>
+    </div>
+
+    <!-- Category -->
+    <div class="col-md-3">
+      <div class="form-floating">
+        <input type="text" [(ngModel)]="filterForm.Category" name="category" class="form-control" id="category" placeholder="Category">
+        <label for="category"><i class="bi bi-tags me-2"></i>Category</label>
+      </div>
+    </div>
+
+    <!-- Location -->
+    <div class="col-md-3">
+      <div class="form-floating">
+        <input type="text" [(ngModel)]="filterForm.Location" name="location" class="form-control" id="location" placeholder="Location">
+        <label for="location"><i class="bi bi-geo-alt me-2"></i>Location</label>
+      </div>
+    </div>
+
+    <!-- Availability -->
+    <div class="col-md-3">
+      <div class="form-floating">
+        <select [(ngModel)]="filterForm.Availability" name="availability" class="form-select" id="availability">
+          <option [ngValue]="null">-- All --</option>
+          <option [value]="true">Available</option>
+          <option [value]="false">Not Available</option>
+        </select>
+        <label for="availability"><i class="bi bi-check-circle me-2"></i>Availability</label>
+      </div>
+    </div>
+
+    <!-- Price Range -->
+    <div class="col-md-3">
+      <div class="form-floating">
+        <input type="number" [(ngModel)]="filterForm.MinPrice" name="minPrice" class="form-control" id="minPrice" placeholder="Min Price">
+        <label for="minPrice"><i class="bi bi-cash-coin me-2"></i>Min Price</label>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-floating">
+        <input type="number" [(ngModel)]="filterForm.MaxPrice" name="maxPrice" class="form-control" id="maxPrice" placeholder="Max Price">
+        <label for="maxPrice"><i class="bi bi-cash-stack me-2"></i>Max Price</label>
+      </div>
+    </div>
+
+    <!-- Search -->
+    <div class="col-md-3 d-grid">
+      <button type="submit" class="btn btn-success btn-lg">
+        <i class="bi bi-search me-2"></i>Search Products
+      </button>
+    </div>
+
+    <!-- Reset -->
+    <div class="col-md-3 d-grid">
+      <button type="button" class="btn btn-outline-danger btn-lg" (click)="resetFilters()">
+        <i class="bi bi-arrow-counterclockwise me-2"></i>Reset Filters
+      </button>
+    </div>
+  </form>
+</div>
+
+  
+
   <div class="row g-4">
     <div *ngFor="let product of products" class="col-sm-6 col-md-4 col-lg-3">
       <div class="card h-100 shadow-sm">
@@ -66,7 +142,7 @@
         <div class="card-body d-flex flex-column">
           <h5 class="card-title text-truncate" title="{{ product.name }}">{{ product.name }}</h5>
           <p class="card-text text-muted small">{{ product.description | slice:0:60 }}...</p>
-          
+
           <div class="mb-2">
             <span class="badge bg-primary">{{ product.category }}</span>
             <span class="badge bg-success">{{ product.grade }}</span>
@@ -89,4 +165,3 @@
     </div>
   </div>
 </div>
-

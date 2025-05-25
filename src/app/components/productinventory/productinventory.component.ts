@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
-import { Product, ProductByID } from '../../models/product';
+import { Product, ProductByID, ProductFilter } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +15,15 @@ import { FormsModule } from '@angular/forms';
 export class ProductinventoryComponent implements OnInit {
   products: Product[] = [];
   selectedproduct: ProductByID | null = null;
+  filterForm: ProductFilter = {
+  Name: '',
+  Category: '',
+  Location: '',
+  MinPrice: null,
+  MaxPrice: null,
+  Availability: null
+};
+
   loading: boolean = true;
 
   constructor(
@@ -27,7 +36,17 @@ export class ProductinventoryComponent implements OnInit {
   ngOnInit() {
     this.checkAndLoadData(); // Using the extracted method directly
   }
-
+resetFilters(): void {
+  this.filterForm = {
+    Name: '',
+  Category: '',
+    Location: '',
+    Availability: true,
+    MinPrice: 0,
+    MaxPrice: 0
+  };
+  this.loadAllProducts(this.filterForm);
+}
   checkAndLoadData() {
     this.route.params.subscribe(params => {
       const productId = params['productid'];
@@ -55,20 +74,22 @@ export class ProductinventoryComponent implements OnInit {
     });
   }
 
-  loadAllProducts(): void {
-    this.loading = true;
-    this.productService.GetAllProduct().subscribe({
-      next: (data: Product[]) => {
-        this.products = data;
-        this.loading = false;
-        this.selectedproduct = null;
-      },
-      error: (err) => {
-        this.loading = false;
-        console.error('❌ Error fetching products:', err);
-      }
-    });
-  }
+  // component.ts
+loadAllProducts(filter: ProductFilter | null = null): void {
+  this.loading = true;
+  this.productService.GetAllProduct(filter || undefined).subscribe({
+    next: (data: Product[]) => {
+      this.products = data;
+      this.loading = false;
+      this.selectedproduct = null;
+    },
+    error: (err) => {
+      this.loading = false;
+      console.error('❌ Error fetching products:', err);
+    }
+  });
+}
+
 
   viewDetails(product: Product): void {
     this.router.navigate(['products', product.productid]);
