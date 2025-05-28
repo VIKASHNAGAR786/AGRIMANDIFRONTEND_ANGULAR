@@ -26,9 +26,11 @@ import { ColorserviceService } from './services/colorservice.service';
       </header>
 
       <!-- ✅ Router View -->
+       <div class="pt-24">
       <main class="main-content">
         <router-outlet></router-outlet>
       </main>
+      </div>
 
       <!-- ✅ Wheel Component with Click Binding -->
       <app-wheel></app-wheel>

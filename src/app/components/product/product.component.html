@@ -1,172 +1,117 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-<div class="container py-5">
-  <div class="card shadow-lg border-0 rounded-4">
-    <div class="card-body p-5">
-      <h2 class="text-center mb-4 fw-bold text-success">Add New Product</h2>
+<script src="https://cdn.tailwindcss.com"></script>
 
-      <form #productForm="ngForm" (ngSubmit)="signup()">
-        <div class="row g-4">
+<div class="max-w-4xl mx-auto p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-md transition-colors duration-300">
+  <h1 class="text-3xl font-extrabold text-green-600 dark:text-green-400 mb-8 text-center">
+    Add New Product
+  </h1>
 
-          <!-- Product Name -->
-          <div class="col-md-6 form-floating">
-            <input type="text" class="form-control" id="productName" placeholder="Product Name"
-                   [(ngModel)]="product.name" name="name" required />
-            <label for="productName">Product Name</label>
-          </div>
+  <form [formGroup]="productForm" (ngSubmit)="submitProduct()" class="space-y-6">
 
-          <!-- Description -->
-          <div class="col-md-6 form-floating">
-            <input type="text" class="form-control" id="description" placeholder="Description"
-                   [(ngModel)]="product.description" name="description" required />
-            <label for="description">Description</label>
-          </div>
-          <!-- Category (Improved with form-floating and working label) -->
-           <div class="col-md-4">
-  <div class="form-floating">
-    <select class="form-select" id="category" [(ngModel)]="product.category" name="category" aria-label="Category" required>
-      <option value="" selected>Choose category</option>
-      <option *ngFor="let cat of ['Grains','Fruits','Vegetables','Dairy','Flowers','Spices','Pulses','Oilseeds','Herbs','Others']" [value]="cat">
-        {{ cat }}
-      </option>
-    </select>
-    <label for="category">Category</label>
-  </div>
-</div>
-
-
-          <!-- Type -->
-          <div class="col-md-4 form-floating">
-            <input type="text" class="form-control" id="type" placeholder="Type"
-                   [(ngModel)]="product.type" name="type" required />
-            <label for="type">Type</label>
-          </div>
-
-          <!-- Variety -->
-          <div class="col-md-4 form-floating">
-            <input type="text" class="form-control" id="variety" placeholder="Variety"
-                   [(ngModel)]="product.variety" name="variety" required />
-            <label for="variety">Variety</label>
-          </div>
-
-          <!-- Grade -->
-          <div class="col-md-6 form-floating">
-            <select class="form-select" id="grade" [(ngModel)]="product.grade" name="grade" required>
-              <option value="A">A</option>
-              <option value="B">B</option>
-              <option value="C">C</option>
-              <option value="Organic">Organic</option>
-              <option value="Premium">Premium</option>
-              <option value="Standard" selected>Standard</option>
-            </select>
-            <label for="grade">Grade</label>
-          </div>
-
-          <!-- Quantity -->
-          <div class="col-md-3 form-floating">
-            <input type="number" class="form-control" id="quantity" placeholder="Quantity"
-                   [(ngModel)]="product.quantity" name="quantity" min="0" required />
-            <label for="quantity">Quantity</label>
-          </div>
-
-          <!-- Unit -->
-          <div class="col-md-3 form-floating">
-            <select class="form-select" id="unit" [(ngModel)]="product.unit" name="unit" required>
-              <option value="Kg">Kg</option>
-              <option value="Quintal">Quintal</option>
-              <option value="Ton">Ton</option>
-              <option value="Liters">Liters</option>
-              <option value="Packets">Packets</option>
-              <option value="Bunch">Bunch</option>
-              <option value="Dozen">Dozen</option>
-            </select>
-            <label for="unit">Unit</label>
-          </div>
-
-          <!-- Price Per Unit -->
-          <div class="col-md-6 form-floating">
-            <input type="number" class="form-control" id="price" placeholder="Price"
-                   [(ngModel)]="product.pricePerUnit" name="pricePerUnit" min="0" required />
-            <label for="price">Price Per Unit (₹)</label>
-          </div>
-
-          <!-- Availability -->
-          <div class="col-md-6 d-flex align-items-center gap-3">
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox"
-                     [(ngModel)]="product.availability" name="availability" id="availability" />
-              <label class="form-check-label" for="availability">Available for Sale</label>
-            </div>
-          </div>
-
-          <!-- Location -->
-          <div class="col-md-6 form-floating">
-            <input type="text" class="form-control" id="location" placeholder="Location"
-                   [(ngModel)]="product.location" name="location" required />
-            <label for="location">Location</label>
-          </div>
-
-          <!-- Harvest Date -->
-          <div class="col-md-3 form-floating">
-            <input type="date" class="form-control" id="harvestDate" placeholder="Harvest Date"
-                   [(ngModel)]="product.harvestDate" name="harvestDate" max="{{ today }}" required />
-            <label for="harvestDate">Harvest Date</label>
-          </div>
-
-          <!-- Expiry Date -->
-          <div class="col-md-3 form-floating">
-            <input type="date" class="form-control" id="expiryDate" placeholder="Expiry Date"
-                   [(ngModel)]="product.expiryDate" name="expiryDate" min="{{ product.harvestDate }}" required />
-            <label for="expiryDate">Expiry Date</label>
-          </div>
-
-          <!-- Storage Condition -->
-          <div class="col-md-6 form-floating">
-            <input type="text" class="form-control" id="storage" placeholder="Storage Condition"
-                   [(ngModel)]="product.storageCondition" name="storageCondition" required />
-            <label for="storage">Storage Condition</label>
-          </div>
-
-          <!-- Packaging Type -->
-          <div class="col-md-6 form-floating">
-            <input type="text" class="form-control" id="packaging" placeholder="Packaging Type"
-                   [(ngModel)]="product.packagingType" name="packagingType" required />
-            <label for="packaging">Packaging Type</label>
-          </div>
-
-          <!-- Certification -->
-          <div class="col-md-6 form-floating">
-            <input type="text" class="form-control" id="certification" placeholder="Certification"
-                   [(ngModel)]="product.certification" name="certification" required />
-            <label for="certification">Certification</label>
-          </div>
-
-          <!-- Image URL -->
-          <div class="col-md-6 form-floating">
-            <input type="url" class="form-control" id="imageUrl" placeholder="Image URL"
-                   [(ngModel)]="product.imageUrl" name="imageUrl" required />
-            <label for="imageUrl">Image URL</label>
-          </div>
-
-          <!-- Status -->
-          <div class="col-12 form-floating">
-            <select class="form-select" id="status" [(ngModel)]="product.status" name="status" required>
-              <option value="Available">Available</option>
-              <option value="Sold">Sold</option>
-              <option value="Pending">Pending</option>
-              <option value="In Transit">In Transit</option>
-            </select>
-            <label for="status">Status</label>
-          </div>
-
-          <!-- Submit -->
-          <div class="col-12 text-center mt-4">
-            <button type="submit" class="btn btn-success px-5 py-2 fs-5 rounded-pill shadow-sm">
-              <i class="bi bi-plus-circle me-2"></i> Add Product
-            </button>
-          </div>
-
-        </div>
-      </form>
+    <!-- Product Name -->
+    <div>
+      <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">
+        Product Name <span class="text-red-500">*</span>
+      </label>
+      <input
+        type="text"
+        formControlName="name"
+        placeholder="E.g., Golden Apples"
+        class="w-full rounded-lg border px-4 py-2 focus:ring-green-400 focus:border-green-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+      />
     </div>
-  </div>
+
+    <!-- Description -->
+    <div>
+      <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">
+        Description <span class="text-red-500">*</span>
+      </label>
+      <textarea
+        formControlName="description"
+        rows="3"
+        placeholder="Briefly describe the product"
+        class="w-full rounded-lg border px-4 py-2 resize-y focus:ring-green-400 focus:border-green-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+      ></textarea>
+    </div>
+
+    <!-- Category, Type, Variety -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div>
+        <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Category <span class="text-red-500">*</span></label>
+        <select formControlName="category" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+          <option value="" disabled>Select a category</option>
+          <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Type <span class="text-red-500">*</span></label>
+        <input type="text" formControlName="type" placeholder="E.g., Fuji" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+      </div>
+
+      <div>
+        <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Variety <span class="text-red-500">*</span></label>
+        <input type="text" formControlName="variety" placeholder="E.g., Organic" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+      </div>
+    </div>
+
+    <!-- Grade, Quantity, Unit -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div>
+        <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Grade <span class="text-red-500">*</span></label>
+        <select formControlName="grade" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+          <option *ngFor="let g of grades" [value]="g">{{ g }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Quantity <span class="text-red-500">*</span></label>
+        <input type="number" formControlName="quantity" min="0" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+      </div>
+
+      <div>
+        <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Unit <span class="text-red-500">*</span></label>
+        <select formControlName="unit" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+          <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Price -->
+    <div>
+      <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Price Per Unit (₹) <span class="text-red-500">*</span></label>
+      <input type="number" formControlName="pricePerUnit" min="0" step="0.01" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+    </div>
+
+    <!-- Availability -->
+    <div class="flex items-center gap-3">
+      <input type="checkbox" formControlName="availability" class="h-5 w-5 text-green-600 rounded focus:ring-green-500 border-gray-300 dark:border-gray-600" />
+      <label class="text-gray-700 dark:text-gray-300 font-semibold">Available for Sale</label>
+    </div>
+
+    <!-- Location -->
+    <div>
+      <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Location <span class="text-red-500">*</span></label>
+      <input type="text" formControlName="location" placeholder="E.g., Jaipur, Rajasthan" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+    </div>
+
+    <!-- Dates -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Harvest Date <span class="text-red-500">*</span></label>
+        <input type="date" formControlName="harvestDate" max="{{ today }}" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+      </div>
+
+      <div>
+        <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Expiry Date <span class="text-red-500">*</span></label>
+        <input type="date" formControlName="expiryDate" [min]="productForm.value.harvestDate" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+      <button type="submit" [disabled]="productForm.invalid" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-2xl shadow">
+        Submit Product
+      </button>
+    </div>
+  </form>
 </div>

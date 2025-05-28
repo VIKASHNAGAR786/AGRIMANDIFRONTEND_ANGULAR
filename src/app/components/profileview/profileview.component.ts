@@ -103,15 +103,15 @@ export class ProfileviewComponent implements OnInit {
   };
 
   farmerForm: Farmer = {
-    phoneNumber: '',
-    address: '',
-    state: '',
-    district: '',
-    village: '',
-    postalCode: '',
-    landArea: 0,
+    phoneNumber: null,
+    address: null,
+    state: null,
+    district: null,
+    village: null,
+    postalCode: null,
+    landArea: null,
     farmingType: 'Conventional',
-    farmerId: 0
+    farmerId: null
   };
   
   farmerData: FarmerDTO = {
@@ -337,5 +337,11 @@ status:'',
       this.saveProfileImage(file);  // Call method to save profile image
     }
   }
+
+  onEditProfile() {
+  // TODO: Open a modal or navigate to profile edit route
+  console.log("Edit Profile Clicked");
+}
+
   
 }

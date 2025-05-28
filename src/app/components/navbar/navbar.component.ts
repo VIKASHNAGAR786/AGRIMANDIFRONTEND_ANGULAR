@@ -1,4 +1,4 @@
-import { Component,Inject, PLATFORM_ID, ViewEncapsulation  } from '@angular/core';
+import { Component,HostListener,Inject, PLATFORM_ID, ViewEncapsulation  } from '@angular/core';
 import { ProductComponent } from "../product/product.component";
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
@@ -15,7 +15,7 @@ import { ColorserviceService } from '../../services/colorservice.service';
 export class NavbarComponent {
   isLoggedIn: boolean = false;
 
-  isNavbarCollapsed = false;
+  isNavbarCollapsed = true;
   toggleNavbar() {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }
@@ -62,4 +62,13 @@ export class NavbarComponent {
     this.isLoggedIn = false;
     this.router.navigate(['/auth/login']);
   }
+
+  @HostListener('document:click', ['$event'])
+onClickOutside(event: MouseEvent) {
+  const clickedInside = (event.target as HTMLElement).closest('nav');
+  if (!clickedInside && this.isNavbarCollapsed) {
+    this.isNavbarCollapsed = false;
+  }
+}
+
 }

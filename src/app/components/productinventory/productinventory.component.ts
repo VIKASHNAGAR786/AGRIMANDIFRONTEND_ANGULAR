@@ -41,9 +41,9 @@ resetFilters(): void {
     Name: '',
   Category: '',
     Location: '',
-    Availability: true,
-    MinPrice: 0,
-    MaxPrice: 0
+    Availability: null,
+    MinPrice: null,
+    MaxPrice: null
   };
   this.loadAllProducts(this.filterForm);
 }

@@ -61,75 +61,91 @@
 </div>
 <!-- Product List View -->
 <div *ngIf="!loading && !selectedproduct && products.length > 0" class="container my-5">
-
 <!-- Product Filter -->
-<div class="card mb-4 p-4 shadow-sm bg-white border rounded-4">
-  <form (ngSubmit)="loadAllProducts(filterForm)" class="row g-3 align-items-end" autocomplete="off">
-    
+<div class="bg-white dark:bg-gray-900 shadow-lg border border-gray-200 dark:border-gray-800 rounded-3xl p-6 mb-8">
+  <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6">🔍 Filter Products</h3>
+
+  <form (ngSubmit)="loadAllProducts(filterForm)" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6" autocomplete="off">
+
     <!-- Product Name -->
-    <div class="col-md-3">
-      <div class="form-floating">
-        <input type="text" [(ngModel)]="filterForm.Name" name="name" class="form-control" id="name" placeholder="Product Name">
-        <label for="name"><i class="bi bi-box-seam me-2"></i>Product Name</label>
-      </div>
+    <div>
+      <label for="name" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
+        <i class="bi bi-box-seam mr-2"></i>Product Name
+      </label>
+      <input type="text" id="name" name="name" [(ngModel)]="filterForm.Name"
+        class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+        placeholder="Enter product name" />
     </div>
 
     <!-- Category -->
-    <div class="col-md-3">
-      <div class="form-floating">
-        <input type="text" [(ngModel)]="filterForm.Category" name="category" class="form-control" id="category" placeholder="Category">
-        <label for="category"><i class="bi bi-tags me-2"></i>Category</label>
-      </div>
+    <div>
+      <label for="category" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
+        <i class="bi bi-tags mr-2"></i>Category
+      </label>
+      <input type="text" id="category" name="category" [(ngModel)]="filterForm.Category"
+        class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+        placeholder="Enter category" />
     </div>
 
     <!-- Location -->
-    <div class="col-md-3">
-      <div class="form-floating">
-        <input type="text" [(ngModel)]="filterForm.Location" name="location" class="form-control" id="location" placeholder="Location">
-        <label for="location"><i class="bi bi-geo-alt me-2"></i>Location</label>
-      </div>
+    <div>
+      <label for="location" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
+        <i class="bi bi-geo-alt mr-2"></i>Location
+      </label>
+      <input type="text" id="location" name="location" [(ngModel)]="filterForm.Location"
+        class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+        placeholder="Enter location" />
     </div>
 
     <!-- Availability -->
-    <div class="col-md-3">
-      <div class="form-floating">
-        <select [(ngModel)]="filterForm.Availability" name="availability" class="form-select" id="availability">
-          <option [ngValue]="null">-- All --</option>
-          <option [value]="true">Available</option>
-          <option [value]="false">Not Available</option>
-        </select>
-        <label for="availability"><i class="bi bi-check-circle me-2"></i>Availability</label>
-      </div>
+    <div>
+      <label for="availability" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
+        <i class="bi bi-check-circle mr-2"></i>Availability
+      </label>
+      <select id="availability" name="availability" [(ngModel)]="filterForm.Availability"
+        class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition">
+        <option [ngValue]="null">-- All --</option>
+        <option [value]="true">Available</option>
+        <option [value]="false">Not Available</option>
+      </select>
     </div>
 
-    <!-- Price Range -->
-    <div class="col-md-3">
-      <div class="form-floating">
-        <input type="number" [(ngModel)]="filterForm.MinPrice" name="minPrice" class="form-control" id="minPrice" placeholder="Min Price">
-        <label for="minPrice"><i class="bi bi-cash-coin me-2"></i>Min Price</label>
-      </div>
+    <!-- Min Price -->
+    <div>
+      <label for="minPrice" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
+        <i class="bi bi-cash-coin mr-2"></i>Min Price
+      </label>
+      <input type="number" id="minPrice" name="minPrice" [(ngModel)]="filterForm.MinPrice"
+        class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+        placeholder="Minimum price" />
     </div>
 
-    <div class="col-md-3">
-      <div class="form-floating">
-        <input type="number" [(ngModel)]="filterForm.MaxPrice" name="maxPrice" class="form-control" id="maxPrice" placeholder="Max Price">
-        <label for="maxPrice"><i class="bi bi-cash-stack me-2"></i>Max Price</label>
-      </div>
+    <!-- Max Price -->
+    <div>
+      <label for="maxPrice" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
+        <i class="bi bi-cash-stack mr-2"></i>Max Price
+      </label>
+      <input type="number" id="maxPrice" name="maxPrice" [(ngModel)]="filterForm.MaxPrice"
+        class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+        placeholder="Maximum price" />
     </div>
 
-    <!-- Search -->
-    <div class="col-md-3 d-grid">
-      <button type="submit" class="btn btn-success btn-lg">
-        <i class="bi bi-search me-2"></i>Search Products
+    <!-- Search Button -->
+    <div class="flex items-end">
+      <button type="submit"
+        class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-semibold shadow transition duration-300">
+        <i class="bi bi-search mr-2"></i>Search
       </button>
     </div>
 
-    <!-- Reset -->
-    <div class="col-md-3 d-grid">
-      <button type="button" class="btn btn-outline-danger btn-lg" (click)="resetFilters()">
-        <i class="bi bi-arrow-counterclockwise me-2"></i>Reset Filters
+    <!-- Reset Button -->
+    <div class="flex items-end">
+      <button type="button" (click)="resetFilters()"
+        class="w-full bg-red-50 text-red-600 hover:bg-red-100 border border-red-300 px-6 py-3 rounded-xl font-semibold shadow transition duration-300">
+        <i class="bi bi-arrow-counterclockwise mr-2"></i>Reset
       </button>
     </div>
+
   </form>
 </div>
 

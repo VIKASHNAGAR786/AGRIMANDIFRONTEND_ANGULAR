@@ -54,19 +54,18 @@ export interface UpdateBuyer {
   // }
 
   export interface Farmer {
-  phoneNumber: string;
-  address: string;
-  state: string;
-  district: string;
-  village: string;
-  postalCode: string;
-  landArea: number;
-  farmingType: string;
-  farmerId: number;
-
-  // Add this index signature:
-  [key: string]: string | number;
+  phoneNumber: string | null;
+  address: string | null;
+  state: string | null;
+  district: string | null;
+  village: string | null;
+  postalCode: string | null;
+  landArea: number | null;
+  farmingType: string | null;
+  farmerId: number | null;
+  [key: string]: string | number | null;
 }
+
 
 
   export interface FarmerDTO {
