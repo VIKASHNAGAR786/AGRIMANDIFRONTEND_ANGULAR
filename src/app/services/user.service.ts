@@ -9,6 +9,7 @@ import { isPlatformBrowser } from '@angular/common';
   providedIn: 'root'
 })
 export class UserService {
+  private BASE_URL = environment.BASE_URL; 
   private registerAsBuyerUrl = environment.APIUrl + 'Buyer/Registerasabuyer';
   private savefarmerurl = environment.APIUrl + 'Farmer/Savefarmer';
   private getfarmerurl = environment.APIUrl + 'Farmer/Getfarmerdata';
@@ -83,38 +84,24 @@ export class UserService {
     // const headers = this.getAuthHeaders();
     // return headers ? this.http.get<AllBuyer[]>(this.getallbuyers, { headers }) : of([]);
   // }
+
   GetAllBuyers(): Observable<AllBuyer[]> {
-    const headers = this.getAuthHeaders();
-    return headers ? this.http.get<AllBuyer[]>(this.getallbuyers, { headers }).pipe(
-      map(buyers => {
-        return buyers.map(buyer => {
-          if (buyer.bytes && buyer.contenttype) {
-            // Convert the base64 string to byte array
-            const byteArray = this.base64ToByteArray(buyer.bytes);
-            const blob = new Blob([byteArray], { type: buyer.contenttype });
-            const url = URL.createObjectURL(blob);
-  
-            buyer.profileImageUrl = url; // ✅ Save blob URL to use in component
-          } else {
-            // In case there's no image, use a default one
-            buyer.profileImageUrl = 'images/profile.jpeg';
-          }
-          return buyer;
-        });
-      })
-    ) : of([]);
-  }
-  
-  // Helper function to convert base64 string to byte array
-  private base64ToByteArray(base64String: string): Uint8Array {
-    const binaryString = atob(base64String);
-    const len = binaryString.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
+  const headers = this.getAuthHeaders();
+  return headers ? this.http.get<AllBuyer[]>(this.getallbuyers, { headers }).pipe(
+    map(buyers => {
+      return buyers.map(buyer => {
+        // Use image URL directly
+        if (buyer.profileimage) {
+      buyer.profileImageUrl = `${this.BASE_URL}/UserProfileImages/${buyer.profileimage}`;
+    } else {
+      buyer.profileImageUrl = 'images/profile.jpeg';
     }
-    return bytes;
-  }
+        return buyer;
+      });
+    })
+  ) : of([]);
+}
+
   
   GetBuyerById(buyerid: number): Observable<BuyerById> {
     const headers = this.getAuthHeaders();

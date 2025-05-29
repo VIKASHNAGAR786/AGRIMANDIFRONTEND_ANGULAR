@@ -111,8 +111,6 @@ export interface UpdateBuyer {
     totalSpent: number;
     loyaltyPoints: number;
     buyerRating: number;
-    bytes: string;    
-    contenttype: string;  
     profileImageUrl?: string; 
   }
   
