@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AllBuyer, BuyerById } from '../../models/User';
 import { UserService } from '../../services/user.service';
-import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 
 @Component({
@@ -93,7 +92,7 @@ export class BuyerComponent {
   
 
   viewDetails(buyers: AllBuyer): void {
-    this.router.navigate(['buyer', buyers.buyerId]);
+    this.router.navigate(['/buyer', buyers.buyerId]);
   }
   goBackToList(): void {
     this.router.navigate(['/buyer']);

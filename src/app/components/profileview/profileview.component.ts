@@ -9,6 +9,7 @@ import { UserService } from '../../services/user.service';
 import { BuyerById, BuyerByIdForProfile, Farmer, FarmerDTO, UpdateBuyer } from '../../models/User';
 import { AlertService } from '../../services/alert.service';
 import { ColorserviceService } from '../../services/colorservice.service';
+import { error } from 'console';
 
 @Component({
   selector: 'app-profileview',
@@ -155,18 +156,18 @@ status:'',
     }
             },
             error: (err) => {
-              console.error('Error saving farmer:', err);
-              alert('Error saving farmer data');
+              this.alertService.showAlert('Error saving farmer:', err);
+              this.alertService.showAlert('Error saving farmer data','error');
             }
           });
         },
         error: (err) => {
-          console.error('Error fetching farmer ID:', err);
-          alert('Could not fetch farmer ID');
+          this.alertService.showAlert('Error fetching farmer ID:', 'error');
+          this.alertService.showAlert('Could not fetch farmer ID','error');
         }
       });
     } else {
-      alert('User information is missing. Please login again.');
+      this.alertService.showAlert('User information is missing. Please login again.','error');
     }
   }
 
@@ -177,7 +178,7 @@ status:'',
         console.log('Farmer data retrieved:', this.farmerData);
       },
       error: (err) => {
-        console.error('Error fetching farmer data:', err);
+        this.alertService.showAlert('Error fetching farmer data:', 'error');
       }
     });
   }
@@ -211,11 +212,11 @@ status:'',
         if (this.buyerid) {
           this.fetchBuyerData();
         } else {
-          console.error('❌ Buyer ID is null or undefined');
+          this.alertService.showAlert('❌ Buyer ID is null or undefined','error');
         }
       },
       error: (err) => {
-        console.error('Error fetching buyer ID:', err);
+        this.alertService.showAlert('Error fetching buyer ID:', err);
       }
     });
   }
@@ -227,7 +228,7 @@ status:'',
         console.log('✅ Buyer data retrieved:', this.buyerData);
       },
       error: (err) => {
-        console.error('Error fetching buyer data:', err);
+        this.alertService.showAlert('Error fetching buyer data:', err);
       }
     });
   }
@@ -266,13 +267,13 @@ status:'',
   submitBuyerForm() {
     this.userService.registerAsBuyer(this.buyerForm).subscribe({
       next: (res) => {
-        console.log('Buyer registered successfully:', res);
-        alert('You are now registered as a Buyer!');
+        this.alertService.showAlert('Buyer registered successfully:', 'success');
+        this.alertService.showAlert('You are now registered as a Buyer!', 'success');
         this.showBuyerForm = false;
       },
       error: (err) => {
-        console.error('Error registering buyer:', err);
-        alert('Error registering buyer');
+        this.alertService.showAlert('Error registering buyer:', err);
+        this.alertService.showAlert('Error registering buyer','error');
       }
     });
   }
@@ -284,7 +285,7 @@ status:'',
         console.log('Products fetched:', this.products1);
       },
       error: (error) => {
-        console.error('Error fetching products:', error);
+        this.alertService.showAlert('Error fetching products:', error);
       }
     });
   }
@@ -297,18 +298,18 @@ status:'',
       this.userService.uploadProfileImage(file, UserId).subscribe({
         next: (res) => {
           if (res.success) {
-            console.log('Profile image saved successfully.');
+            this.alertService.showAlert('Profile image saved successfully.', 'success');
             this.getProfileImage(UserId);  // Reload profile image after saving
           } else {
-            console.error('Failed to save profile image.');
+            this.alertService.showAlert('Failed to save profile image.','error');
           }
         },
         error: (err) => {
-          console.error('Error saving profile image:', err);
+          this.alertService.showAlert('Error saving profile image:', err);
         }
       });
     } else {
-      console.error('User ID is invalid or no file selected.');
+      this.alertService.showAlert('User ID is invalid or no file selected.', 'error');
     }
   }
   }

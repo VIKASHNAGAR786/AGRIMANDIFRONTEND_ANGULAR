@@ -4,6 +4,7 @@ import { Product, ProductByID, ProductFilter } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-productinventory',
@@ -30,7 +31,8 @@ export class ProductinventoryComponent implements OnInit {
     private productService: ProductService,
     private router: Router,
     private route: ActivatedRoute,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private alertService: AlertService
   ) {}
 
   ngOnInit() {
@@ -69,7 +71,7 @@ resetFilters(): void {
       error: (error) => {
         this.loading = false;
         this.selectedproduct = null;
-        console.error('❌ Error loading product details:', error);
+        this.alertService.showAlert('❌ Error loading product details:', error);
       }
     });
   }
@@ -85,7 +87,7 @@ loadAllProducts(filter: ProductFilter | null = null): void {
     },
     error: (err) => {
       this.loading = false;
-      console.error('❌ Error fetching products:', err);
+      this.alertService.showAlert('❌ Error fetching products:', err);
     }
   });
 }
@@ -119,8 +121,8 @@ loadAllProducts(filter: ProductFilter | null = null): void {
       setTimeout(() => URL.revokeObjectURL(url), 5000);
     },
     error: (err) => {
-      console.error('Failed to load PDF:', err);
-      alert('Unable to open the product PDF. Please try again later.');
+      this.alertService.showAlert('Failed to load PDF:', err);
+      alert(err);
     }
   });
 }
