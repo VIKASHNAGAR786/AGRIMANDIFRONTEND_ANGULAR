@@ -122,7 +122,7 @@ loadAllProducts(filter: ProductFilter | null = null): void {
     },
     error: (err) => {
       this.alertService.showAlert('Failed to load PDF:', err);
-      alert(err);
+      this.alertService.showAlert('unable to open pdf please try again', 'error');
     }
   });
 }

@@ -7,45 +7,39 @@ import { AlertService } from '../../services/alert.service';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div *ngIf="alertData.message" class="alert" [ngClass]="alertData.type">
-      {{ alertData.message }}
+    <div
+      *ngIf="alertData.message"
+      class="fixed z-[9999] right-5 top-[90px] max-w-sm w-auto px-6 py-4 rounded-lg shadow-2xl text-white transition-all duration-300 animate-fade-top"
+      [ngClass]="{
+        'bg-green-600': alertData.type === 'success',
+        'bg-red-600': alertData.type === 'error',
+        'bg-yellow-500': alertData.type === 'warning',
+        'bg-blue-600': alertData.type === 'info'
+      }"
+    >
+      <span class="font-semibold tracking-wide text-sm sm:text-base">
+        {{ alertData.message }}
+      </span>
     </div>
   `,
   styles: [`
-    .alert {
-      position: fixed;
-      bottom: 20px;  /* ✅ Changed from top to bottom */
-      right: 20px;   /* ✅ Changed from left to right */
-      padding: 12px 16px;
-      border-radius: 6px;
-      font-size: 16px;
-      color: white;
-      z-index: 1000;
-      animation: fadeInOut 3s ease-in-out;
-      min-width: 250px;
-      text-align: center;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .success {
-      background-color: #28a745;
-    }
-    .error {
-      background-color: #dc3545;
-    }
-    @keyframes fadeInOut {
-      0% { opacity: 0; transform: translateY(20px); }
+    @keyframes fadeTop {
+      0% { opacity: 0; transform: translateY(-20px); }
       10% { opacity: 1; transform: translateY(0); }
       90% { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 0; transform: translateY(-20px); }
+    }
+    .animate-fade-top {
+      animation: fadeTop 4s ease-in-out forwards;
     }
   `]
 })
 export class AlertComponent {
-  alertData = { message: '', type: 'success' as 'success' | 'error' | null };
+  alertData = { message: '', type: 'success' as 'success' | 'error' | 'warning' | 'info' | null };
 
   constructor(private alertService: AlertService) {
     this.alertService.alert$.subscribe((data) => {
-      console.log('🟡 Alert received:', data); // ✅ Debugging log
+      console.log('🟡 Alert received:', data);
       this.alertData = data;
     });
   }
