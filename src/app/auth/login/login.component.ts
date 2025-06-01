@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+// login.component.ts
+import { Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AlertComponent } from '../../components/alert/alert.component';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
-import { LoginService, LoginRequest, LoginResponse } from '../../services/login.service';
-import { Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { LoginService, LoginRequest } from '../../services/login.service';
+import { PLATFORM_ID } from '@angular/core';
 
 @Component({
   selector: 'app-login',
@@ -23,31 +23,20 @@ export class LoginComponent {
   constructor(
     private loginService: LoginService,
     private alertService: AlertService,
-    private router: Router ,
+    private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   login() {
-    this.loginService.login(this.loginData).subscribe(
-      (response: LoginResponse) => {
-        console.log('✅ Login successful:', response);
-
-        if (isPlatformBrowser(this.platformId)) {
-          localStorage.setItem('auth_token', response.token);
-          localStorage.setItem('user_name', response.name);
-          localStorage.setItem('user_role', response.role);
-          localStorage.setItem('user_email', response.email);
-          localStorage.setItem('nameid', response.id.toString());
-        }
-
+    this.loginService.login(this.loginData).subscribe({
+      next: () => {
         this.alertService.showAlert('Login successful!', 'success');
         this.router.navigate(['components/product']);
       },
-      (error) => {
-        console.error('❌ Login failed:', error);
+      error: () => {
         this.alertService.showAlert('Login failed! Please check your credentials.', 'error');
       }
-    );
+    });
   }
 
   testSuccess() {

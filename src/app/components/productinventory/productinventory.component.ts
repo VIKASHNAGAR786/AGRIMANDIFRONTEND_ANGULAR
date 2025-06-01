@@ -87,7 +87,7 @@ loadAllProducts(filter: ProductFilter | null = null): void {
     },
     error: (err) => {
       this.loading = false;
-      this.alertService.showAlert('❌ Error fetching products:', err);
+      this.alertService.showAlert('❌ Error fetching products: Please Login first', 'error');
     }
   });
 }
