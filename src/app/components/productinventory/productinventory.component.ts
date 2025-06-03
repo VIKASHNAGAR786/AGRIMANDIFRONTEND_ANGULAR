@@ -5,6 +5,7 @@ import { ProductService } from '../../services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AlertService } from '../../services/alert.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-productinventory',
@@ -23,8 +24,9 @@ export class ProductinventoryComponent implements OnInit {
   MinPrice: null,
   MaxPrice: null,
   Availability: null
+  
 };
-
+  private BASE_URL = environment.BASE_URL; 
   loading: boolean = true;
 
   constructor(
@@ -65,8 +67,15 @@ resetFilters(): void {
     this.productService.GetProductById(productId).subscribe({
       next: (data: ProductByID) => {
         this.loading = false;
+        
+        if (data.imageUrl) {
+        data.imageUrl = `${this.BASE_URL}${data.imageUrl}`;
+      }
+
+
         this.selectedproduct = data || null;
         this.products = [];
+        console.log('📦 Product details loaded:', this.selectedproduct);
       },
       error: (error) => {
         this.loading = false;
@@ -79,9 +88,34 @@ resetFilters(): void {
   // component.ts
 loadAllProducts(filter: ProductFilter | null = null): void {
   this.loading = true;
-  this.productService.GetAllProduct(filter || undefined).subscribe({
+this.productService.GetAllProduct(filter || undefined).subscribe({
     next: (data: Product[]) => {
-      this.products = data;
+      this.products = data.map(product => ({
+        productid: product.productid,
+        name: product.name,
+        description: product.description,
+        category: product.category,
+        type: product.type,
+        variety: product.variety,
+        grade: product.grade,
+        quantity: product.quantity,
+        unit: product.unit,
+        pricePerUnit: product.pricePerUnit,
+        totalPrice: product.totalPrice,
+        availability: product.availability,
+        location: product.location,
+        harvestDate: product.harvestDate,
+        expiryDate: product.expiryDate,
+        storageCondition: product.storageCondition,
+        packagingType: product.packagingType,
+        certification: product.certification,
+       imageUrl: product.imageUrl ? `${this.BASE_URL}/ProductImages/${product.imageUrl}` : undefined,
+        farmerId: product.farmerId,
+        addedDate: product.addedDate,
+        updatedDate: product.updatedDate,
+        status: product.status
+      }));
+
       this.loading = false;
       this.selectedproduct = null;
     },

@@ -52,9 +52,9 @@ export class ProductComponent implements OnInit {
         storageCondition: [''],
         packagingType: [''],
         certification: [''],
-        imageUrl: [''],
         farmerId: [0],
         status: ['Pending'],
+        imageUrl: [null], //  for files
       },
       {
         validators: this.expiryDateAfterHarvestDate('harvestDate', 'expiryDate'),
@@ -97,11 +97,37 @@ export class ProductComponent implements OnInit {
 
     this.productService.getFarmerId(email, name).subscribe({
       next: (farmerId: number) => {
-        const productData = {
-          ...this.productForm.value,
-          farmerId,
-          status: 'Pending',
-        };
+        // const productData = {
+          // ...this.productForm.value,
+          // farmerId,
+          // status: 'Pending',
+          const productData = new FormData();
+productData.append('name', this.productForm.value.name);
+productData.append('description', this.productForm.value.description);
+productData.append('category', this.productForm.value.category);
+productData.append('type', this.productForm.value.type);
+productData.append('variety', this.productForm.value.variety);
+productData.append('grade', this.productForm.value.grade);
+productData.append('quantity', this.productForm.value.quantity);
+productData.append('unit', this.productForm.value.unit);
+productData.append('pricePerUnit', this.productForm.value.pricePerUnit);
+productData.append('availability', this.productForm.value.availability);
+productData.append('location', this.productForm.value.location);
+productData.append('harvestDate', this.productForm.value.harvestDate);
+productData.append('expiryDate', this.productForm.value.expiryDate);
+productData.append('storageCondition', this.productForm.value.storageCondition);
+productData.append('packagingType', this.productForm.value.packagingType);
+productData.append('certification', this.productForm.value.certification);
+productData.append('farmerId', farmerId.toString());
+productData.append('status', 'Pending');
+
+// Add files (if any)
+const fileList: FileList = this.productForm.get('imageUrl')?.value;
+if (fileList && fileList.length > 0) {
+  for (let i = 0; i < fileList.length; i++) {
+    productData.append('files', fileList[i]);
+  }
+}
 
         this.productService.saveproduct(productData).subscribe({
           next: (response) => {
@@ -121,4 +147,9 @@ export class ProductComponent implements OnInit {
       },
     });
   }
+  onFileChange(event: any): void {
+  if (event.target.files && event.target.files.length > 0) {
+    this.productForm.patchValue({ imageUrl: event.target.files });
+  }
+}
 }

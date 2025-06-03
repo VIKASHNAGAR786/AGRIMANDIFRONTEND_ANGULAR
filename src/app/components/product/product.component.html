@@ -105,7 +105,16 @@
         <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Expiry Date <span class="text-red-500">*</span></label>
         <input type="date" formControlName="expiryDate" [min]="productForm.value.harvestDate" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
       </div>
+      
+       <!-- File Upload -->
+    <div class="mb-4">
+      <label class="block font-semibold mb-1">Upload Images</label>
+      <input type="file" (change)="onFileChange($event)" multiple class="w-full" />
     </div>
+
+
+    </div>
+
 
     <!-- Submit Button -->
     <div class="text-center">
