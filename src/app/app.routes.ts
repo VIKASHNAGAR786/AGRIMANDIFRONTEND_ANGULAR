@@ -23,14 +23,14 @@ export const routes: Routes = [
 
   // 🔍 Product Detail Page (By ID)
   {
-  path: 'products/:productid',
-  loadComponent: () =>
-    import('./components/productinventory/productinventory.component').then(
-      (m) => m.ProductinventoryComponent
-    ),
-  renderMode: 'blocking' // ⚠️ TS will complain
-} as any
-,
+    path: 'products/:productid',
+    loadComponent: () =>
+      import('./components/productinventory/productinventory.component').then(
+        (m) => m.ProductinventoryComponent
+      ),
+    renderMode: 'blocking' // ⚠️ TS will complain
+  } as any
+  ,
   {
     path: 'buyer',
     loadComponent: () =>
@@ -48,6 +48,14 @@ export const routes: Routes = [
     renderMode: 'blocking' // disables prerendering
   } as any,
 
+  {
+    path: 'help-center',
+    loadComponent: () =>
+      import('./components/help-center/help-center.component').then(
+        (m) => m.HelpCenterComponent
+      ),
+    renderMode: 'blocking' // disables prerendering
+  } as any,
   // 🚨 Wildcard route for 404s — must be last
   { path: '**', redirectTo: '' }
 ];

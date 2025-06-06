@@ -55,6 +55,14 @@ const routes = [
       ),
        renderMode: 'blocking' // ⚠️ TS will complain
   },
+  {
+  path: 'help-center',
+  loadComponent: () =>
+    import('./components/help-center/help-center.component').then(
+      (m) => m.HelpCenterComponent
+    ),
+  renderMode: 'blocking' // disables prerendering
+} as any,
 
   // Catch-all for undefined routes
   { path: '**', redirectTo: '' },

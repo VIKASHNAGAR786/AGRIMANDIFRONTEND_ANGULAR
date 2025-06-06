@@ -58,7 +58,8 @@ export class UserService {
   }
 
   getFarmerId(email: string, name: string): Observable<any> {
-    return this.http.get(`${this.getFarmerIdUrl}?email=${email}&name=${name}`);
+    const headers = this.getAuthHeaders();
+     return headers ? this.http.get(`${this.getFarmerIdUrl}?email=${email}&name=${name}` , { headers }) : of(null);
   }
 
   uploadProfileImage(file: File, userId: number): Observable<any> {

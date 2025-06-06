@@ -67,14 +67,16 @@ resetFilters(): void {
     this.productService.GetProductById(productId).subscribe({
       next: (data: ProductByID) => {
         this.loading = false;
-        
-        if (data.imageUrl) {
+         
+        if (data.imageUrl != null) {
+          console.log('📦 Product details loaded: before', data);
         data.imageUrl = `${this.BASE_URL}${data.imageUrl}`;
       }
 
 
         this.selectedproduct = data || null;
         this.products = [];
+
         console.log('📦 Product details loaded:', this.selectedproduct);
       },
       error: (error) => {

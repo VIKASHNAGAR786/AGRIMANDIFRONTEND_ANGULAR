@@ -10,8 +10,9 @@
   <div class="card shadow-lg">
     <div class="row g-0">
       <div class="col-md-5">
-       <img [src]="selectedproduct.imageUrl || 'https://via.placeholder.com/300'"
-          class="img-fluid rounded-start h-100 object-fit-cover" [alt]="selectedproduct.name">
+        <img [src]="selectedproduct.imageUrl || 'images/defaultproduct.webp'"
+          [ngStyle]="{'height': '100%', 'object-fit': 'cover'}" class="img-fluid rounded-start h-100 object-fit-cover"
+          [alt]="selectedproduct.name">
       </div>
       <div class="col-md-7">
         <div class="card-body">
@@ -57,107 +58,109 @@
 <!-- No Products Found -->
 <div *ngIf="!loading && !selectedproduct && products.length === 0">
   <div class="tw">
-  <div class="flex flex-col items-center justify-center py-10 px-4 bg-gradient-to-r from-indigo-900 via-purple-800 to-indigo'900 rounded-xl shadow-2xl animate-fade-in">
-    <p class="text-xl font-semibold text-white tracking-wide">
-      🔒 Kindly <span class="text-yellow-300">log in</span> to unveil the marketplace magic!
-    </p>
-    <p class="text-sm text-purple-200 mt-2 italic">
-      Only the worthy may pass beyond this gate...
-    </p>
+    <div
+      class="flex flex-col items-center justify-center py-10 px-4 bg-gradient-to-r from-indigo-900 via-purple-800 to-indigo'900 rounded-xl shadow-2xl animate-fade-in">
+      <p class="text-xl font-semibold text-white tracking-wide">
+        🔒 Kindly <span class="text-yellow-300">log in</span> to unveil the marketplace magic!
+      </p>
+      <p class="text-sm text-purple-200 mt-2 italic">
+        Only the worthy may pass beyond this gate...
+      </p>
+    </div>
   </div>
 </div>
-</div>
 <!-- Product List View -->
-<div *ngIf="!loading && !selectedproduct && products.length > 0" class="container my-5">
-<!-- Product Filter -->
-<div class="bg-white dark:bg-gray-900 shadow-lg border border-gray-200 dark:border-gray-800 rounded-3xl p-6 mb-8">
-  <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6">🔍 Filter Products</h3>
+<div *ngIf="!loading && !selectedproduct && products.length > 0" class="w-full px-4 my-5">
+  <!-- Product Filter -->
+  <div class="bg-white dark:bg-gray-900 shadow-lg border border-gray-200 dark:border-gray-800 rounded-3xl p-6 mb-8">
+    <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6">🔍 Filter Products</h3>
 
-  <form (ngSubmit)="loadAllProducts(filterForm)" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6" autocomplete="off">
+    <form (ngSubmit)="loadAllProducts(filterForm)"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6" autocomplete="off">
 
-    <!-- Product Name -->
-    <div>
-      <label for="name" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
-        <i class="bi bi-box-seam mr-2"></i>Product Name
-      </label>
-      <input type="text" id="name" name="name" [(ngModel)]="filterForm.Name"
-        class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
-        placeholder="Enter product name" />
-    </div>
+      <!-- Product Name -->
+      <div>
+        <label for="name" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
+          <i class="bi bi-box-seam mr-2"></i>Product Name
+        </label>
+        <input type="text" id="name" name="name" [(ngModel)]="filterForm.Name"
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+          placeholder="Enter product name" />
+      </div>
 
-    <!-- Category -->
-    <div>
-      <label for="category" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
-        <i class="bi bi-tags mr-2"></i>Category
-      </label>
-      <input type="text" id="category" name="category" [(ngModel)]="filterForm.Category"
-        class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
-        placeholder="Enter category" />
-    </div>
+      <!-- Category -->
+      <div>
+        <label for="category" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
+          <i class="bi bi-tags mr-2"></i>Category
+        </label>
+        <input type="text" id="category" name="category" [(ngModel)]="filterForm.Category"
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+          placeholder="Enter category" />
+      </div>
 
-    <!-- Location -->
-    <div>
-      <label for="location" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
-        <i class="bi bi-geo-alt mr-2"></i>Location
-      </label>
-      <input type="text" id="location" name="location" [(ngModel)]="filterForm.Location"
-        class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
-        placeholder="Enter location" />
-    </div>
+      <!-- Location -->
+      <div>
+        <label for="location" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
+          <i class="bi bi-geo-alt mr-2"></i>Location
+        </label>
+        <input type="text" id="location" name="location" [(ngModel)]="filterForm.Location"
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+          placeholder="Enter location" />
+      </div>
 
-    <!-- Availability -->
-    <div>
-      <label for="availability" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
-        <i class="bi bi-check-circle mr-2"></i>Availability
-      </label>
-      <select id="availability" name="availability" [(ngModel)]="filterForm.Availability"
-        class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition">
-        <option [ngValue]="null">-- All --</option>
-        <option [value]="true">Available</option>
-        <option [value]="false">Not Available</option>
-      </select>
-    </div>
+      <!-- Availability -->
+      <div>
+        <label for="availability" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
+          <i class="bi bi-check-circle mr-2"></i>Availability
+        </label>
+        <select id="availability" name="availability" [(ngModel)]="filterForm.Availability"
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition">
+          <option [ngValue]="null">-- All --</option>
+          <option [value]="true">Available</option>
+          <option [value]="false">Not Available</option>
+        </select>
+      </div>
 
-    <!-- Min Price -->
-    <div>
-      <label for="minPrice" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
-        <i class="bi bi-cash-coin mr-2"></i>Min Price
-      </label>
-      <input type="number" id="minPrice" name="minPrice" [(ngModel)]="filterForm.MinPrice"
-        class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
-        placeholder="Minimum price" />
-    </div>
+      <!-- Min Price -->
+      <div>
+        <label for="minPrice" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
+          <i class="bi bi-cash-coin mr-2"></i>Min Price
+        </label>
+        <input type="number" id="minPrice" name="minPrice" [(ngModel)]="filterForm.MinPrice"
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+          placeholder="Minimum price" />
+      </div>
 
-    <!-- Max Price -->
-    <div>
-      <label for="maxPrice" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
-        <i class="bi bi-cash-stack mr-2"></i>Max Price
-      </label>
-      <input type="number" id="maxPrice" name="maxPrice" [(ngModel)]="filterForm.MaxPrice"
-        class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
-        placeholder="Maximum price" />
-    </div>
+      <!-- Max Price -->
+      <div>
+        <label for="maxPrice" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
+          <i class="bi bi-cash-stack mr-2"></i>Max Price
+        </label>
+        <input type="number" id="maxPrice" name="maxPrice" [(ngModel)]="filterForm.MaxPrice"
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+          placeholder="Maximum price" />
+      </div>
 
-    <!-- Search Button -->
-    <div class="flex items-end">
-      <button type="submit"
-        class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-semibold shadow transition duration-300">
-        <i class="bi bi-search mr-2"></i>Search
-      </button>
-    </div>
+      <!-- Search Button -->
+      <div class="flex items-end">
+        <button type="submit"
+          class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-semibold shadow transition duration-300">
+          <i class="bi bi-search mr-2"></i>Search
+        </button>
+      </div>
 
-    <!-- Reset Button -->
-    <div class="flex items-end">
-      <button type="button" (click)="resetFilters()"
-        class="w-full bg-red-50 text-red-600 hover:bg-red-100 border border-red-300 px-6 py-3 rounded-xl font-semibold shadow transition duration-300">
-        <i class="bi bi-arrow-counterclockwise mr-2"></i>Reset
-      </button>
-    </div>
+      <!-- Reset Button -->
+      <div class="flex items-end">
+        <button type="button" (click)="resetFilters()"
+          class="w-full bg-red-50 text-red-600 hover:bg-red-100 border border-red-300 px-6 py-3 rounded-xl font-semibold shadow transition duration-300">
+          <i class="bi bi-arrow-counterclockwise mr-2"></i>Reset
+        </button>
+      </div>
 
-  </form>
-</div>
+    </form>
+  </div>
 
-  
+
 
   <div class="row g-4">
     <div *ngFor="let product of products" class="col-sm-6 col-md-4 col-lg-3">
