@@ -7,6 +7,7 @@ import * as AOS from 'aos';
 import { DesignComponent } from "./components/design/design.component";
 import { WheelComponent } from "./components/wheel/wheel.component";
 import { ColorserviceService } from './services/colorservice.service';
+import { SignalrService } from './services/signalr.service';
 
 
 @Component({
@@ -51,10 +52,11 @@ import { ColorserviceService } from './services/colorservice.service';
 
 export class AppComponent implements OnInit {
   selectedColor: string = ''; // default
-  constructor(private colorService: ColorserviceService) {
+  constructor(private colorService: ColorserviceService,private signalRService: SignalrService) {
     // Initialize any necessary services or data here
   }
   ngOnInit() {
+    this.signalRService.startConnection();
     if (typeof window !== 'undefined') {
       AOS.init();
     }
