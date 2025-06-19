@@ -8,19 +8,23 @@ import { DesignComponent } from "./components/design/design.component";
 import { WheelComponent } from "./components/wheel/wheel.component";
 import { ColorserviceService } from './services/colorservice.service';
 import { SignalrService } from './services/signalr.service';
+import { SidebarComponent } from "./components/sidebar/sidebar.component";
+import { LayoutService } from './services/layout.service';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavbarComponent, AlertComponent, DesignComponent, WheelComponent],
+  imports: [CommonModule, RouterModule, NavbarComponent, AlertComponent, DesignComponent, WheelComponent, SidebarComponent],
   styleUrls: ['./app.component.css'],
   template: `
     <!-- 🔵 Animated Background Layer -->
     <app-design></app-design>
-
+<app-sidebar></app-sidebar>
     <!-- 🔴 Foreground Content Overlay -->
-    <div class="content-overlay">
+    <div class="content-overlay transition-all duration-300"
+     [class.md:ml-64]="sidebarVisible"
+     [class.ml-0]="!sidebarVisible">
       <!-- ✅ Navbar -->
       <header>
         <app-navbar></app-navbar>
@@ -52,7 +56,11 @@ import { SignalrService } from './services/signalr.service';
 
 export class AppComponent implements OnInit {
   selectedColor: string = ''; // default
-  constructor(private colorService: ColorserviceService,private signalRService: SignalrService) {
+  sidebarVisible = true;
+  constructor(private colorService: ColorserviceService,
+    private signalRService: SignalrService,
+  private layoutService: LayoutService 
+) {
     // Initialize any necessary services or data here
   }
   ngOnInit() {
@@ -62,6 +70,10 @@ export class AppComponent implements OnInit {
     }
     this.colorService.selectedColor$.subscribe(color => {
       this.selectedColor = color;
+    });
+    // ✅ Subscribe to sidebar state
+    this.layoutService.sidebarVisible$.subscribe(visible => {
+      this.sidebarVisible = visible;
     });
   }
 
