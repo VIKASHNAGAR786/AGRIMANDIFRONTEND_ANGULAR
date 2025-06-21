@@ -1,103 +1,142 @@
-<div class="home-container">
-  <header class="home-header">
-    <h1>Welcome to AgriMandi</h1>
-    <p class="intro-text">
-      🌱 <strong>AgriMandi</strong> is your <span class="highlight">gateway</span> to a direct connection between farmers and buyers—bringing fresh produce to your doorstep with just a click. 🚜🤝
-    </p>
-  </header>
+<div class="home-container w-full px-4 sm:px-6 lg:px-20 py-16 space-y-28 bg-gradient-to-b from-[#f7fff5] via-[#e7fce4] to-[#d9f9d0] border-y border-green-100 rounded-b-[4rem] shadow-xl overflow-x-hidden">
+  <!-- Your homepage content continues here -->
 
-  <section class="features-section">
-    <h2>Why Choose AgriMandi?</h2>
-    <div class="features-list">
-      <div class="features-column">
-        <div class="feature-item">
-          <img src="images/3.jpg" alt="Direct Market" class="feature-image" />
-          <p>🌾 <strong>Direct Market Access:</strong> Empowering farmers to showcase their produce directly to buyers.</p>
-        </div>
-        <div class="feature-item">
-          <img src="images/2.jpg" alt="Easy Negotiations" class="feature-image" />
-          <p>💬 <strong>Easy Negotiations:</strong> Transparent communication between farmers and consumers for better deals.</p>
-        </div>
+
+  <!-- 🌱 Header -->
+   <header class="text-center px-4 sm:px-6 lg:px-12 py-10 md:py-16 bg-gradient-to-r from-[#e7f6d5] to-[#f0fff4] rounded-3xl shadow-md" data-aos="fade-down">
+  <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-green-700 tracking-tight leading-tight drop-shadow-xl">
+    Welcome to <span class="text-green-800">AgriMandi</span>
+  </h1>
+  <p class="mt-6 text-base sm:text-lg lg:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+    🌱 <strong class="text-green-700">AgriMandi</strong> is your <span class="text-green-600 font-semibold">gateway</span> to a direct connection
+    between <span class="underline decoration-green-300">farmers</span> and <span class="underline decoration-green-300">buyers</span> — bringing fresh produce to your doorstep with just a click. 🚜🤝
+  </p>
+</header>
+
+
+  <!-- ✅ Features -->
+   <section class="features-section px-4 sm:px-6 lg:px-20 py-20 bg-white rounded-3xl shadow-lg border border-green-100" data-aos="zoom-in-up">
+  <h2 class="text-3xl sm:text-4xl font-extrabold text-center text-green-700 mb-14 tracking-tight">
+    🌟 Why Choose <span class="text-green-800">AgriMandi</span>?
+  </h2>
+  <div class="row g-4">
+    <div class="col-12 col-md-6">
+      <div class="d-flex align-items-start p-4 rounded-4 bg-success-subtle shadow-sm h-100 transition duration-300 hover:shadow-lg">
+        <img src="images/3.jpg" alt="Direct Market" class="rounded-3 object-cover shadow border border-success-subtle me-3" style="width: 80px; height: 80px;" />
+        <p class="text-gray-800 lead mb-0">
+          🌾 <strong class="text-success">Direct Market Access:</strong> Empowering farmers to showcase their produce directly to buyers.
+        </p>
       </div>
-      <div class="features-column">
-        <div class="feature-item">
-          <img src="images/6.jpeg" alt="Secure Payments" class="feature-image" />
-          <p>📊 <strong>Efficient Transactions:</strong> Simplified buying and selling process with secure payments.</p>
-        </div>
-        <div class="feature-item">
-          <img src="images/5.jpeg" alt="Global Reach" class="feature-image" />
-          <p>🌍 <strong>Broader Reach:</strong> Expand your market beyond local boundaries.</p>
-        </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="d-flex align-items-start p-4 rounded-4 bg-success-subtle shadow-sm h-100 transition duration-300 hover:shadow-lg">
+        <img src="images/2.jpg" alt="Easy Negotiations" class="rounded-3 object-cover shadow border border-success-subtle me-3" style="width: 80px; height: 80px;" />
+        <p class="text-gray-800 lead mb-0">
+          💬 <strong class="text-success">Easy Negotiations:</strong> Transparent communication between farmers and consumers for better deals.
+        </p>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="d-flex align-items-start p-4 rounded-4 bg-success-subtle shadow-sm h-100 transition duration-300 hover:shadow-lg">
+        <img src="images/6.jpeg" alt="Secure Payments" class="rounded-3 object-cover shadow border border-success-subtle me-3" style="width: 80px; height: 80px;" />
+        <p class="text-gray-800 lead mb-0">
+          📊 <strong class="text-success">Efficient Transactions:</strong> Simplified buying and selling process with secure payments.
+        </p>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="d-flex align-items-start p-4 rounded-4 bg-success-subtle shadow-sm h-100 transition duration-300 hover:shadow-lg">
+        <img src="images/5.jpeg" alt="Global Reach" class="rounded-3 object-cover shadow border border-success-subtle me-3" style="width: 80px; height: 80px;" />
+        <p class="text-gray-800 lead mb-0">
+          🌍 <strong class="text-success">Broader Reach:</strong> Expand your market beyond local boundaries.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- ⚙️ How It Works -->
+   <section class="how-it-works-section px-4 sm:px-6 lg:px-20 py-20 bg-light rounded-3xl shadow-lg border border-green-100 text-center" data-aos="fade-up">
+  <h2 class="text-3xl sm:text-4xl font-extrabold text-green-700 mb-14 tracking-tight">
+    ⚙️ How <span class="text-green-800">It Works</span>
+  </h2>
+  <div class="row g-4 justify-content-center">
+    <div class="col-12 col-md-4" *ngFor="let step of steps">
+      <div class="p-5 bg-white rounded-4 shadow-sm h-100 transition-all duration-300 hover:shadow-xl border border-success-subtle d-flex flex-column align-items-center">
+        <img [src]="'images/' + step.image" [alt]="step.title" class="rounded-circle shadow mb-3 object-cover border border-success-subtle" style="width: 80px; height: 80px;" />
+        <h3 class="h5 fw-bold text-success mb-2">{{ step.number }}. {{ step.title }}</h3>
+        <p class="text-secondary small">{{ step.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- 💬 Testimonials -->
+  <section class="text-center">
+    <h2 class="text-3xl font-bold text-green-700 mb-12">What Our Users Say</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="bg-green-100 p-6 rounded-lg shadow">
+        <p class="italic text-gray-700">"AgriMandi has revolutionized the way I sell my produce. The direct connection with buyers has increased my income!"</p>
+        <h4 class="mt-4 font-semibold text-green-800">- Ramesh Kumar, Farmer</h4>
+      </div>
+      <div class="bg-green-100 p-6 rounded-lg shadow">
+        <p class="italic text-gray-700">"Buying fresh produce directly from farmers has never been easier. I love the transparency and quality."</p>
+        <h4 class="mt-4 font-semibold text-green-800">- Anjali Sharma, Buyer</h4>
       </div>
     </div>
   </section>
 
-  <section class="how-it-works">
-    <h2>How It Works</h2>
-    <div class="steps-container">
-      <div class="step" *ngFor="let step of steps">
-        <img [src]="'images/' + step.image" [alt]="step.title" class="step-image" />
-        <h3>{{ step.number }}. {{ step.title }}</h3>
-        <p>{{ step.description }}</p>
+  <!-- 📊 Impact -->
+  <section class="text-center">
+    <h2 class="text-3xl font-bold text-green-700 mb-12">Our Impact</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div class="stat bg-white p-6 rounded-xl shadow-md" *ngFor="let stat of impactStats">
+        <h3 class="text-4xl font-bold text-green-600">{{ stat.value }}</h3>
+        <p class="text-gray-700 text-sm mt-2">{{ stat.label }}</p>
       </div>
     </div>
   </section>
 
-  <section class="testimonials-section">
-    <h2>What Our Users Say</h2>
-    <div class="testimonials-container">
-      <div class="testimonial">
-        <p>"AgriMandi has revolutionized the way I sell my produce. The direct connection with buyers has increased my income!"</p>
-        <h4>- Ramesh Kumar, Farmer</h4>
-      </div>
-      <div class="testimonial">
-        <p>"Buying fresh produce directly from farmers has never been easier. I love the transparency and quality."</p>
-        <h4>- Anjali Sharma, Buyer</h4>
+  <!-- 📝 Blog -->
+  <section>
+    <h2 class="text-3xl font-bold text-center text-green-700 mb-12">Latest Insights</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="blog-post bg-white p-4 rounded-xl shadow hover:shadow-lg transition" *ngFor="let blog of blogs">
+        <img src="images/latest.png" [alt]="blog.title" class="w-full h-44 object-cover rounded-lg mb-4" />
+        <h4 class="text-lg font-semibold mb-1 text-green-800">{{ blog.title }}</h4>
+        <p class="text-sm text-gray-600">{{ blog.description }}</p>
       </div>
     </div>
   </section>
 
-  <section class="impact-section">
-    <h2>Our Impact</h2>
-    <div class="impact-stats">
-      <div class="stat" *ngFor="let stat of impactStats">
-        <h3>{{ stat.value }}</h3>
-        <p>{{ stat.label }}</p>
+  <!-- 🚀 CTA -->
+  <section class="bg-green-600 text-white text-center py-12 rounded-lg shadow-lg">
+    <h2 class="text-3xl font-bold mb-4">Ready to Start?</h2>
+    <p class="mb-6 text-lg">Sign up today and experience the benefits of connecting directly with farmers and buyers.</p>
+    <button class="btn btn-light text-green-700 font-semibold px-6 py-2 rounded-full shadow" (click)="goToRegister()">
+      Join Now
+    </button>
+  </section>
+
+  <!-- ❓ FAQ -->
+  <section>
+    <h2 class="text-3xl font-bold text-center text-green-700 mb-12">Frequently Asked Questions</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="faq-item bg-white p-6 rounded-xl shadow" *ngFor="let faq of faqs">
+        <h4 class="text-lg font-semibold text-green-800 mb-2">{{ faq.question }}</h4>
+        <p class="text-gray-600">{{ faq.answer }}</p>
       </div>
     </div>
   </section>
 
-  <section class="blog-section">
-    <h2>Latest Insights</h2>
-    <div class="blog-container">
-      <div class="blog-post" *ngFor="let blog of blogs">
-        <img src="images/latest.png" [alt]="blog.title" class="blog-image" />
-        <h4>{{ blog.title }}</h4>
-        <p>{{ blog.description }}</p>
-        <!-- <a [routerLink]="['/blog', blog.id]">Read More</a> -->
-      </div>
-    </div>
-  </section>
-
-  <section class="cta-section">
-    <h2>Ready to Start?</h2>
-    <p>Sign up today and experience the benefits of connecting directly with farmers and buyers.</p>
-    <button class="cta-btn" (click)="goToRegister()" [ngStyle]="{ 'background-color': selectedColor || '#198754' }">Join Now</button>
-  </section>
-
-  <section class="faq-section">
-    <h2>Frequently Asked Questions</h2>
-    <div class="faq-container">
-      <div class="faq-item" *ngFor="let faq of faqs">
-        <h4>{{ faq.question }}</h4>
-        <p>{{ faq.answer }}</p>
-      </div>
-    </div>
-  </section>
-
-  <footer class="home-footer">
-    <h2>Join AgriMandi Today!</h2>
-    <p>Be part of the revolution in agriculture. Together, we can build a more sustainable and efficient food supply chain.</p>
-    <button class="get-started-btn" (click)="goToRegister()" [ngStyle]="{ 'background-color': selectedColor || '#198754' }">Get Started</button>
+  <!-- 👣 Footer -->
+  <footer class="text-center mt-20">
+    <h2 class="text-2xl font-bold mb-2 text-green-800">Join AgriMandi Today!</h2>
+    <p class="text-gray-700 max-w-xl mx-auto mb-6">Be part of the revolution in agriculture. Together, we can build a more sustainable and efficient food supply chain.</p>
+    <button class="btn btn-success px-6 py-2 rounded-full shadow-md" (click)="goToRegister()" [ngStyle]="{ 'background-color': selectedColor || '#198754' }">
+      Get Started
+    </button>
   </footer>
 </div>

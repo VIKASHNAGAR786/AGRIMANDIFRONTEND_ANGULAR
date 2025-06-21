@@ -31,10 +31,11 @@ export class SidebarComponent implements OnInit {
   { label: 'Dashboard', path: '/', icon: 'bi bi-house-door-fill' },
   { label: 'Products', path: '/products', icon: 'bi bi-box-seam' },
   { label: 'Farmers', path: '/farmers', icon: 'bi bi-people-fill' },
-  { label: 'Buyers', path: '/buyers', icon: 'bi bi-person-badge-fill' },
+  { label: 'Buyers', path: '/buyer', icon: 'bi bi-person-badge-fill' },
   { label: 'Orders', path: '/orders', icon: 'bi bi-bag-check-fill' },
   { label: 'Payments', path: '/payments', icon: 'bi bi-cash-stack' },
   { label: 'Reports', path: '/reports', icon: 'bi bi-clipboard-data-fill' },
+  { label: 'Help Center', path: '/help-center', icon: 'bi bi-info-circle-fill' },
   { label: 'Settings', path: '/settings', icon: 'bi bi-gear-fill' },
 ];
 
