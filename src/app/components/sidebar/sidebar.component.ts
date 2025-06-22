@@ -28,7 +28,8 @@ export class SidebarComponent implements OnInit {
 
   // Core navigation links
   coreLinks = [
-  { label: 'Dashboard', path: '/', icon: 'bi bi-house-door-fill' },
+  { label: 'Home', path: '/', icon: 'bi bi-house-door-fill' },
+  { label: 'Dashboard', path: '/dashboard', icon: 'bi bi-house-door-fill' },
   { label: 'Products', path: '/products', icon: 'bi bi-box-seam' },
   { label: 'Farmers', path: '/farmers', icon: 'bi bi-people-fill' },
   { label: 'Buyers', path: '/buyer', icon: 'bi bi-person-badge-fill' },

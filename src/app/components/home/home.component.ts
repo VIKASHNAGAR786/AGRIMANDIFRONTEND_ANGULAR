@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ColorserviceService } from '../../services/colorservice.service';
+import * as AOS from 'aos';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +18,7 @@ selectedColor: string = '';
     this.colorService.selectedColor$.subscribe(color => {
       this.selectedColor = color;
     });
+    AOS.init({ duration: 1000 });
   }
   goToRegister() {
     this.router.navigate(['auth/signup']);

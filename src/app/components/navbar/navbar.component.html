@@ -1,121 +1,80 @@
-<nav class="fixed top-0 left-0 w-full z-50 backdrop-blur-xl transition-all duration-500" [ngStyle]="{
+<nav class="fixed top-0 left-0 w-full z-50 backdrop-blur-xl transition-all duration-500 shadow-lg" [ngStyle]="{
     background: selectedColor,
     backdropFilter: 'blur(15px)',
     WebkitBackdropFilter: 'blur(15px)',
-    borderRadius: '0 0 30px 30px',
-    boxShadow: '0 8px 24px rgba(0,0,0,0.25)'
+    borderRadius: '0 0 30px 30px'
   }">
-  <div class="content-overlay transition-all duration-300"
-[ngClass]="{
-  'ml-0': !sidebarVisible || !isDesktop,
-  'ml-64': sidebarVisible && isDesktop
-}"
->
-
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-
-    <!-- Logo -->
-    <a routerLink="/" class="flex items-center space-x-3">
-      <img src="images/logo.jpg" alt="AgriMandi Logo"
-        class="w-12 h-12 object-contain drop-shadow-[0_0_6px_rgba(0,255,204,0.8)]" />
-      <span class="text-white text-3xl font-extrabold tracking-wider animate-pulse drop-shadow-[0_0_15px_#00ffee]">
-        AgriMandi
-      </span>
-    </a>
-
-    <!-- Mobile Toggle Button -->
-    <button class="lg:hidden text-white focus:outline-none relative z-50" (click)="toggleNavbar()"
-      aria-label="Toggle Menu">
-      <div class="space-y-2">
-        <span [ngClass]="{
-            'transform rotate-45 translate-y-2': isNavbarCollapsed,
-            'block': true
-          }" class="block w-8 h-1 bg-white rounded transition-transform duration-300"></span>
-        <span [ngClass]="{
-            'opacity-0': isNavbarCollapsed,
-            'block': true
-          }" class="block w-8 h-1 bg-white rounded transition-opacity duration-300"></span>
-        <span [ngClass]="{
-            '-rotate-45 -translate-y-2': isNavbarCollapsed,
-            'block': true
-          }" class="block w-8 h-1 bg-white rounded transition-transform duration-300"></span>
+  <div class="content-overlay transition-all duration-300" [ngClass]="{
+      'ml-0': !sidebarVisible || !isDesktop,
+      'ml-64': sidebarVisible && isDesktop
+    }">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap md:flex-nowrap items-center justify-between gap-4">
+      <!-- Left: Logo -->
+      <div class="flex items-center space-x-3">
+        <a routerLink="/" class="flex items-center space-x-3">
+          <img src="images/logo.jpg" alt="AgriMandi Logo"
+            class="w-12 h-12 object-contain drop-shadow-[0_0_6px_rgba(0,255,204,0.8)]" />
+          <span
+            class="text-white text-2xl sm:text-3xl font-extrabold tracking-wider animate-pulse drop-shadow-[0_0_15px_#00ffee]">
+            AgriMandi
+          </span>
+        </a>
       </div>
-    </button>
 
-    <!-- Links and Auth Buttons -->
-    <div [ngClass]="{
-        'hidden': !isNavbarCollapsed,
-        'block': isNavbarCollapsed,
-        'lg:flex': true
-      }"
-      class="absolute lg:static top-full left-0 w-full lg:w-auto bg-black bg-opacity-40 backdrop-blur-lg lg:bg-transparent rounded-b-[30px] px-6 lg:px-0 pt-4 lg:pt-0 pb-6 lg:pb-0 flex flex-col lg:flex-row lg:items-center lg:space-x-8 transition-all duration-500 ease-in-out">
-      <!-- Navigation Links -->
-      <ul
-        class="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-6 text-white font-medium text-lg">
-        <li>
-          <a routerLink="/" routerLinkActive="text-[#00ffee] underline underline-offset-4"
-            class="hover:text-[#00ffee] hover:underline underline-offset-4 transition duration-300">Home</a>
-        </li>
-        <li>
-          <a href="#" (click)="goToAddProduct($event)"
-            class="hover:text-[#00ffee] hover:underline underline-offset-4 transition duration-300">Add Products</a>
-        </li>
-        <li>
-          <a routerLink="products" routerLinkActive="text-[#00ffee] underline underline-offset-4"
-            class="hover:text-[#00ffee] transition duration-300">Products</a>
-        </li>
-        <li>
-          <a routerLink="buyer" routerLinkActive="text-[#00ffee] underline underline-offset-4"
-            class="hover:text-[#00ffee] transition duration-300">Buyers</a>
-        </li>
-        <li>
-          <a routerLink="/help-center" routerLinkActive="text-[#00ffee] underline underline-offset-4"
-            class="hover:text-[#00ffee] transition duration-300">Help Center</a>
-        </li>
-      </ul>
+      <!-- Center: Search Bar -->
+      <div class="flex-1 mx-auto w-full max-w-md">
+        <input type="text" placeholder="Search products, buyers..."
+          class="w-full px-4 py-2 rounded-full bg-white/90 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#00ffee] shadow-inner placeholder-gray-500" />
+      </div>
 
-    <!--  -->
-      <!-- Authentication Buttons -->
-<div class="mt-4 lg:mt-0 flex flex-col lg:flex-row items-center gap-4 lg:ml-6">
-  <ng-container *ngIf="!isLoggedIn; else loggedInTemplate">
-    <a
-      routerLink="auth/login"
-      class="px-6 py-2 border-2 border-[#00ffee] text-[#00ffee] font-semibold rounded-full
-             hover:bg-[#00ffee] hover:text-black shadow-md hover:shadow-[0_0_20px_#00ffee]
-             transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-[#00ffee]/50 cursor-pointer"
-      >
-      Login
-    </a>
-    <a
-      routerLink="auth/signup"
-      class="px-6 py-2 font-semibold bg-gradient-to-r from-[#00ffcc] to-[#00cc99] text-white rounded-full
-             shadow-lg hover:shadow-[0_0_30px_#00ffee] transition duration-300 transform hover:scale-105
-             focus:outline-none focus:ring-4 focus:ring-[#00ffcc]/70 cursor-pointer"
-      >
-      Sign Up
-    </a>
-  </ng-container>
-  <ng-template #loggedInTemplate>
-    <a
-      routerLink="components/profileview"
-      class="px-6 py-2 border-2 border-[#00ffee] text-[#00ffee] font-semibold rounded-full
-             hover:bg-[#00ffee] hover:text-black shadow-md hover:shadow-[0_0_20px_#00ffee]
-             transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-[#00ffee]/50 cursor-pointer"
-      >
-      Profile
-    </a>
-    <button
-      (click)="logout()"
-      class="px-6 py-2 border-2 border-[#00ffee] text-[#00ffee] font-semibold rounded-full
-             hover:bg-[#00ffee] hover:text-black shadow-md hover:shadow-[0_0_20px_#00ffee]
-             transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-[#00ffee]/50 cursor-pointer"
-      >
-      Logout
-    </button>
-  </ng-template>
-</div>
+      <!-- Right: User Dropdown or Auth Buttons -->
+      <div class="flex items-center gap-4">
 
+        <!-- User Dropdown -->
+        <div class="relative user-dropdown" *ngIf="isLoggedIn; else authButtons">
+          <button (click)="toggleUserMenu()"
+            class="flex items-center gap-2 rounded-full px-2 py-1 hover:bg-white/10 transition duration-300 focus:outline-none">
+            <img [src]="profileImageUrl || defaultProfileImage" alt="User Avatar"
+              class="w-10 h-10 rounded-full border-2 border-[#00ffee] shadow-md" />
+            <span class="text-white font-medium hidden sm:inline-block truncate max-w-[120px]">{{ username || 'User'
+              }}</span>
+            <i class="bi bi-caret-down-fill text-white text-sm"></i>
+          </button>
+
+          <div *ngIf="showUserMenu"
+            class="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-xl z-50 py-2 animate-fade-in-down">
+
+            <ng-container *ngFor="let item of dropdownLinks">
+              <ng-container *ngIf="item.showIf()">
+                <a *ngIf="!item.isButton" [routerLink]="item.routerLink"
+                  class="px-4 py-2 text-gray-800 hover:bg-gray-100 transition duration-200 flex items-center gap-2">
+                  <i class="bi" [ngClass]="item.icon"></i> {{ item.label }}
+                </a>
+                <button *ngIf="item.isButton" (click)="item.click?.($event)"
+                  class="w-full text-left px-4 py-2 hover:bg-gray-100 transition duration-200 flex items-center gap-2"
+                  [ngClass]="item.class || 'text-gray-800'">
+                  <i class="bi" [ngClass]="item.icon"></i> {{ item.label }}
+                </button>
+              </ng-container>
+            </ng-container>
+
+          </div>
+        </div>
+        <!-- Auth Buttons -->
+        <ng-template #authButtons>
+          <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
+            <a routerLink="auth/login"
+              class="px-5 py-2 border-2 border-[#00ffee] text-[#00ffee] font-medium rounded-full hover:bg-[#00ffee] hover:text-black transition duration-300 shadow-sm">
+              Login
+            </a>
+            <a routerLink="auth/signup"
+              class="px-5 py-2 bg-gradient-to-r from-[#00ffcc] to-[#00cc99] text-white font-medium rounded-full hover:shadow-[0_0_20px_#00ffee] transition duration-300">
+              Sign Up
+            </a>
+          </div>
+        </ng-template>
+      </div>
+    </div>
   </div>
-</div>
-</div>
 </nav>
