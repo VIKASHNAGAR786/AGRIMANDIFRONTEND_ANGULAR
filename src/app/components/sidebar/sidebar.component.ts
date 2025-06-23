@@ -57,12 +57,17 @@ export class SidebarComponent implements OnInit {
     private colorService: ColorserviceService,
     private layoutService: LayoutService
   ) {}
-
+sidebarBackground: string = '#14532d'; // fallback
   ngOnInit(): void {
-    // Update selected theme color
     this.colorService.selectedColor$.subscribe((color) => {
       this.selectedColor = color;
-    });
+
+     if (color === '#4CAF50' || color === '#8BC34A') {
+      this.sidebarBackground = '#1B5E20'; // A dark green shade
+    } else {
+      this.sidebarBackground = color;
+    }
+  });
 
     // Detect login status
     this.router.events

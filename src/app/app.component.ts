@@ -44,12 +44,45 @@ import { LayoutService } from './services/layout.service';
       <app-alert></app-alert>
 
       <!-- ✅ Footer -->
-      <footer class="text-white text-center py-3"  [ngStyle]="{ 'background-color': selectedColor || '#198754' }">
-        <div class="container">
-          <p class="mb-1">🌱 <strong>AgriMandi</strong> - Empowering Farmers with Technology</p>
-          <p class="mb-0">&copy; {{ currentYear }} AgriMandi. All rights reserved.</p>
-        </div>
-      </footer>
+       <footer
+  class="text-white py-8 text-center md:text-left mt-16"
+  [ngStyle]="{ 'background-color': selectedColor || '#198754' }"
+>
+  <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+    
+    <!-- Left: Branding -->
+    <div>
+      <h2 class="text-2xl font-bold mb-2 tracking-wider">🌱 AgriMandi</h2>
+      <p class="text-sm opacity-80">Empowering Farmers with Technology for a Better Tomorrow</p>
+    </div>
+
+    <!-- Center: Social Media Icons -->
+    <div class="flex justify-center space-x-6 text-lg mt-4 md:mt-0">
+      <a href="https://github.com/VIKASHNAGAR786" target="_blank" class="hover:text-[#00ffee] transition">
+        <i class="bi bi-github"></i>
+      </a>
+      <a href="https://linkedin.com/in/vikashnagar786" target="_blank" class="hover:text-[#00ffee] transition">
+        <i class="bi bi-linkedin"></i>
+      </a>
+      <a href="mailto:vikashnagar872@gmail.com" class="hover:text-[#00ffee] transition">
+        <i class="bi bi-envelope-fill"></i>
+      </a>
+      <a href="#" class="hover:text-[#00ffee] transition">
+        <i class="bi bi-twitter-x"></i>
+      </a>
+      <a href="#" class="hover:text-[#00ffee] transition">
+        <i class="bi bi-facebook"></i>
+      </a>
+    </div>
+
+    <!-- Right: Developer Credit -->
+    <div class="text-sm text-gray-100 mt-6 md:mt-0 text-center md:text-right">
+      <p>&copy; {{ currentYear }} AgriMandi. All rights reserved.</p>
+      <p>Developed with 💚 by <strong class="text-[#00ffee]">Vikash Nagar</strong></p>
+    </div>
+  </div>
+</footer>
+
     </div>
   `
 })
