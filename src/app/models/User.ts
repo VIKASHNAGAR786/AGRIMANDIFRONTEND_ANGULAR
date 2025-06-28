@@ -41,19 +41,19 @@ export interface UpdateBuyer {
 }
 
 
-  // export interface Farmer {
-    // phoneNumber?: string;
-    // address?: string;
-    // state?: string;
-    // district?: string;
-    // village?: string;
-    // postalCode?: string;
-    // landArea?: number;
-    // farmingType?: string;
-    // farmerId?: number;
-  // }
+// export interface Farmer {
+// phoneNumber?: string;
+// address?: string;
+// state?: string;
+// district?: string;
+// village?: string;
+// postalCode?: string;
+// landArea?: number;
+// farmingType?: string;
+// farmerId?: number;
+// }
 
-  export interface Farmer {
+export interface Farmer {
   phoneNumber: string | null;
   address: string | null;
   state: string | null;
@@ -68,106 +68,120 @@ export interface UpdateBuyer {
 
 
 
-  export interface FarmerDTO {
-    name?: string;
-    email?: string;
-    phoneNumber?: string;
-    address?: string;
-    state?: string;
-    district?: string;
-    village?: string;
-    postalCode?: string;
-    landArea?: number;
-    farmingType?: string;
-    status?: string;
-  }
-  
-  export interface AllBuyer {
-    buyerId: number;
-    userId: number;
-    profileimage: string | null;
-    contactNumber: string;
-    alternateContact: string;
-    emailVerified: boolean;
-    phoneVerified: boolean;
-    address: string;
-    city: string;
-    state: string;
-    country: string;
-    pincode: string;
-    geoLat: number;
-    geoLong: number;
-    companyName: string;
-    companyType: string;
-    gstNumber: string;
-    panNumber: string;
-    isVerified: boolean;
-    preferredCrops: string;
-    budgetRange: string;
-    purchaseFrequency: string;
-    preferredPaymentMethod: string;
-    lastPurchaseDate: string; 
-    totalOrders: number;
-    totalSpent: number;
-    loyaltyPoints: number;
-    buyerRating: number;
-    profileImageUrl?: string; 
-  }
-  
-  export interface BuyerById {
-    contactNumber?: string;
-    alternateContact: string;
-    emailVerified : boolean;
-    phoneVerified : boolean;
-    address : string;
-    city : string;
-    state : string;
-    country : string;
-    pincode : string;
-    geoLat : number;
-    geoLong : number;
-    companyName : string;
-    companyType : string;
-    gstNumber : string;
-    panNumber : string;
-    isVerified : boolean;
-    preferredCrops : string;
-    budgetRange : string;
-    purchaseFrequency : string;
-    preferredPaymentMethod : string;
-    lastPurchaseDate : string;  // if it's a DateTime in ba
-    totalOrders : number;
-    totalSpent : number;
-    loyaltyPoints : number;
-    buyerRating : number;
-    profileImageUrl?: string; 
-  
-  }
-  
-  export interface BuyerByIdForProfile {
-    contactNumber?: string;
-    alternateContact: string;
-    emailVerified : boolean;
-    phoneVerified : boolean;
-    address : string;
-    city : string;
-    state : string;
-    country : string;
-    pincode : string;
-    geoLat : number;
-    geoLong : number;
-    companyName : string;
-    companyType : string;
-    gstNumber : string;
-    panNumber : string;
-    isVerified : boolean;
-    preferredCrops : string;
-    budgetRange : string;
-    purchaseFrequency : string;
-    preferredPaymentMethod : string;
-    lastPurchaseDate : string;  // if it's a DateTime in ba
-    totalOrders : number;
-    totalSpent : number;
-    loyaltyPoints : number;
-    buyerRating : number;
-  }
+export interface FarmerDTO {
+  name?: string;
+  email?: string;
+  phoneNumber?: string;
+  address?: string;
+  state?: string;
+  district?: string;
+  village?: string;
+  postalCode?: string;
+  landArea?: number;
+  farmingType?: string;
+  status?: string;
+}
+
+export interface AllBuyer {
+  buyerId: number;
+  userId: number;
+  profileimage: string | null;
+  contactNumber: string;
+  alternateContact: string;
+  emailVerified: boolean;
+  phoneVerified: boolean;
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  pincode: string;
+  geoLat: number;
+  geoLong: number;
+  companyName: string;
+  companyType: string;
+  gstNumber: string;
+  panNumber: string;
+  isVerified: boolean;
+  preferredCrops: string;
+  budgetRange: string;
+  purchaseFrequency: string;
+  preferredPaymentMethod: string;
+  lastPurchaseDate: string;
+  totalOrders: number;
+  totalSpent: number;
+  loyaltyPoints: number;
+  buyerRating: number;
+  profileImageUrl?: string;
+}
+
+export interface BuyerById {
+  contactNumber?: string;
+  alternateContact: string;
+  emailVerified: boolean;
+  phoneVerified: boolean;
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  pincode: string;
+  geoLat: number;
+  geoLong: number;
+  companyName: string;
+  companyType: string;
+  gstNumber: string;
+  panNumber: string;
+  isVerified: boolean;
+  preferredCrops: string;
+  budgetRange: string;
+  purchaseFrequency: string;
+  preferredPaymentMethod: string;
+  lastPurchaseDate: string;  // if it's a DateTime in ba
+  totalOrders: number;
+  totalSpent: number;
+  loyaltyPoints: number;
+  buyerRating: number;
+  profileImageUrl?: string;
+
+}
+
+export interface BuyerByIdForProfile {
+  contactNumber?: string;
+  alternateContact: string;
+  emailVerified: boolean;
+  phoneVerified: boolean;
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  pincode: string;
+  geoLat: number;
+  geoLong: number;
+  companyName: string;
+  companyType: string;
+  gstNumber: string;
+  panNumber: string;
+  isVerified: boolean;
+  preferredCrops: string;
+  budgetRange: string;
+  purchaseFrequency: string;
+  preferredPaymentMethod: string;
+  lastPurchaseDate: string;  // if it's a DateTime in ba
+  totalOrders: number;
+  totalSpent: number;
+  loyaltyPoints: number;
+  buyerRating: number;
+}
+
+export interface MessageDTO {
+  id: number;
+  productId: number;
+  buyerId: number;
+  message: string;
+  isRead: boolean;
+  createdAt: string; // Use ISO 8601 string for DateTime
+  type: string;
+}
+export interface UserRoleDto {
+  roleid: number;
+  role: string;
+}

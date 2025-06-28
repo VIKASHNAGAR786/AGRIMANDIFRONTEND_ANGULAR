@@ -25,6 +25,7 @@ export class NavbarComponent {
   showUserMenu = false;
   profileImageUrl: string = '';
   defaultProfileImage: string = 'images/profile.jpeg';
+  notificationCount = 3;
   constructor(
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object,

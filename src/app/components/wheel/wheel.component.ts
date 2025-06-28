@@ -128,13 +128,13 @@ export class WheelComponent implements AfterViewInit, OnDestroy {
     const segments = 8;
     const colors = [
       '#4CAF50', // Fresh green (crops, leaves)
-'#8BC34A', // Light green (saplings, grass)
-'#CDDC39', // Lime yellow (sunlight on crops)
-'#FFEB3B', // Sunflower yellow
-'#FF9800', // Harvest orange (ripe grain, fruits)
-'#A1887F', // Soil brown (earth)
-'#795548', // Deep soil/bark (roots, wood)
-'#3E2723'  // Dark brown (fertile ground)
+      '#8BC34A', // Light green (saplings, grass)
+      '#CDDC39', // Lime yellow (sunlight on crops)
+      '#FFEB3B', // Sunflower yellow
+      '#FF9800', // Harvest orange (ripe grain, fruits)
+      '#A1887F', // Soil brown (earth)
+      '#795548', // Deep soil/bark (roots, wood)
+      '#3E2723'  // Dark brown (fertile ground)
     ];
 
     for (let i = 0; i < segments; i++) {

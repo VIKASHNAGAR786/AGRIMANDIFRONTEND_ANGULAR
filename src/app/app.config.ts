@@ -56,6 +56,14 @@ const routes = [
        renderMode: 'blocking' // ⚠️ TS will complain
   },
   {
+  path: 'notifications',
+  loadComponent: () =>
+    import('./components/notification/notification.component').then(
+      (m) => m.NotificationComponent
+    ),
+     renderMode: 'blocking' // ⚠️ TS will complain
+},
+  {
   path: 'help-center',
   loadComponent: () =>
     import('./components/help-center/help-center.component').then(
