@@ -9,6 +9,7 @@ import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ColorserviceService } from '../../services/colorservice.service';
 import { LayoutService } from '../../services/layout.service';
+import path from 'path';
 
 @Component({
   selector: 'app-sidebar',
@@ -37,13 +38,13 @@ export class SidebarComponent implements OnInit {
   { label: 'Payments', path: '/payments', icon: 'bi bi-cash-stack' },
   { label: 'Reports', path: '/reports', icon: 'bi bi-clipboard-data-fill' },
   { label: 'Help Center', path: '/help-center', icon: 'bi bi-info-circle-fill' },
+  { label: 'Chat with Farmer/Buyer', path : '/chat', icon: 'bi bi-chat-dots-fill' },
   { label: 'Settings', path: '/settings', icon: 'bi bi-gear-fill' },
 ];
 
 
   // Upcoming/future modules
   futureLinks = [
-  { label: 'Chat with Farmer/Buyer', icon: 'bi bi-chat-dots-fill', badge: 'Planned', badgeClass: 'bg-yellow-500 text-black' },
   { label: 'Leaf Disease Detection', icon: 'bi bi-eye-fill', badge: 'Beta Soon', badgeClass: 'bg-gray-500 text-white' },
   { label: 'Logistics Tracking', icon: 'bi bi-truck-front-fill', badge: 'Planned', badgeClass: 'bg-yellow-500 text-black' },
   { label: 'AI Crop Recommendation', icon: 'bi bi-cpu-fill', badge: 'In Design', badgeClass: 'bg-gray-500 text-white' },

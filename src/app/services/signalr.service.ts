@@ -1,34 +1,47 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
+import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SignalrService {
-  private hubConnection!: signalR.HubConnection;
+  private hubConnection: signalR.HubConnection;
 
-  public startConnection(): void {
+  constructor() {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`${environment.APIUrl.replace('/api/', '')}notificationHub`, {
-        accessTokenFactory: () => localStorage.getItem('token') || ''
-      })
-      .withAutomaticReconnect()
+      .withUrl(`${environment.BASE_URL}/notificationHub`) // if you already use environment setup
+ // SignalR hub URL
       .build();
+  }
 
-    this.hubConnection.start()
-      .then(() => console.log('SignalR Connected'))
-      .catch(err => console.error('SignalR Connection Error: ', err));
-
-    this.hubConnection.on('ReceiveNotification', (message: string) => {
-      alert('📢 Notification: ' + message);
-      // Alternatively, emit via Subject or update your component’s state
+  startConnection(): Observable<void> {
+    return new Observable<void>((observer) => {
+      this.hubConnection
+        .start()
+        .then(() => {
+          console.log('Connection established with SignalR hub');
+          observer.next();
+          observer.complete();
+        })
+        .catch((error) => {
+          console.error('Error connecting to SignalR hub:', error);
+          observer.error(error);
+        });
     });
   }
 
-  public stopConnection(): void {
-    if (this.hubConnection) {
-      this.hubConnection.stop();
-    }
+  receiveMessage(): Observable<string> {
+    return new Observable<string>((observer) => {
+      this.hubConnection.on('ReceiveMessage', (message: string) => {
+        console.log("Notification received:", message); // ✅ for debugging
+        observer.next(message);
+      });
+    });
+  }
+
+  sendMessage(message: string): void {
+    this.hubConnection.invoke('SendMessage', message);
   }
 }

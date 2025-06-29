@@ -6,6 +6,7 @@ import { filter } from 'rxjs/operators';
 import { ColorserviceService } from '../../services/colorservice.service';
 import { LayoutService } from '../../services/layout.service';
 import { UserService } from '../../services/user.service';
+import { SignalrService } from '../../services/signalr.service';
 
 @Component({
   selector: 'app-navbar',
@@ -25,20 +26,26 @@ export class NavbarComponent {
   showUserMenu = false;
   profileImageUrl: string = '';
   defaultProfileImage: string = 'images/profile.jpeg';
-  notificationCount = 3;
+  notificationCount = 0;
   constructor(
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object,
     private colorService: ColorserviceService,
     private layoutService: LayoutService,
      private userService: UserService,
+    private signalrService: SignalrService
   ) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => this.checkLoginStatus());
   }
 
+  notifications: string[] = [];
   ngOnInit() {
+    this.signalrService.receiveMessage().subscribe((msg) => {
+  this.notifications.push(msg);
+  this.notificationCount = this.notifications.length;
+});
     this.checkLoginStatus();
     this.colorService.selectedColor$.subscribe(color => this.selectedColor = color);
     this.layoutService.sidebarVisible$.subscribe(v => this.sidebarVisible = v);

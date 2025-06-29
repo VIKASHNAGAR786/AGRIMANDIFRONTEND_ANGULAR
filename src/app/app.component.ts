@@ -90,6 +90,7 @@ import { LayoutService } from './services/layout.service';
 export class AppComponent implements OnInit {
   selectedColor: string = ''; // default
   sidebarVisible = true;
+  receivedMessage: string = "";
   constructor(private colorService: ColorserviceService,
     private signalRService: SignalrService,
   private layoutService: LayoutService 
@@ -108,6 +109,16 @@ export class AppComponent implements OnInit {
     this.layoutService.sidebarVisible$.subscribe(visible => {
       this.sidebarVisible = visible;
     });
+
+    this.signalRService.startConnection().subscribe(() => {
+      this.signalRService.receiveMessage().subscribe((message) => {
+        this.receivedMessage = message;
+      });
+    });
+  }
+
+  sendMessage(message: string): void {
+    this.signalRService.sendMessage(message);
   }
 
   title = 'AgriMandi-Frontend';
