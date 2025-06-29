@@ -17,18 +17,25 @@ export class NotificationComponent implements OnInit {
   constructor(private notificationservice: NotificationService) {}
 
   ngOnInit(): void {
-    this.notificationservice.GetUserRole().subscribe({
-      next: (response) => {
-        const userRole = response.data as UserRoleDto;
-        console.log('User Role:', userRole);
-        const buyerid = userRole.roleid;
-        this.getMessages(buyerid);
-      },
-      error: (err) => {
-        console.error('Error fetching user role:', err);
+  this.notificationservice.GetUserRole().subscribe({
+    next: (response) => {
+      const userRole = response.data as UserRoleDto;
+      let buyerid = 0; // use 'let' instead of 'const' if it can change
+
+      console.log('User Role:', userRole);
+
+      if (userRole.role === 'BUYER') {
+        buyerid = userRole.roleid;
       }
-    });
-  }
+
+      this.getMessages(buyerid);
+    },
+    error: (err) => {
+      console.error('Error fetching user role:', err);
+    }
+  });
+}
+
 
   private getMessages(buyerid: number): void {
     this.notificationservice.GettAllMessage(buyerid).subscribe({
