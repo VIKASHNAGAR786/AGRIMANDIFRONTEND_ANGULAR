@@ -37,7 +37,7 @@ const routes = [
       import('./components/productinventory/productinventory.component').then(
         m => m.ProductinventoryComponent
       ),
-       renderMode: 'blocking' // ⚠️ TS will complain
+    renderMode: 'blocking' // ⚠️ TS will complain
   },
 
   {
@@ -53,25 +53,81 @@ const routes = [
       import('./components/buyer/buyer.component').then(
         (m) => m.BuyerComponent
       ),
-       renderMode: 'blocking' // ⚠️ TS will complain
+    renderMode: 'blocking' // ⚠️ TS will complain
   },
   {
-  path: 'notifications',
-  loadComponent: () =>
-    import('./components/notification/notification.component').then(
-      (m) => m.NotificationComponent
-    ),
-     renderMode: 'blocking' // ⚠️ TS will complain
-},
+    path: 'notifications',
+    loadComponent: () =>
+      import('./components/notification/notification.component').then(
+        (m) => m.NotificationComponent
+      ),
+    renderMode: 'blocking' // ⚠️ TS will complain
+  },
   {
-  path: 'help-center',
+    path: 'orders',
+    loadComponent: () =>
+      import('./components/orders/orders.component').then(
+        (m) => m.OrdersComponent
+      ),
+    renderMode: 'blocking' // ⚠️ TS will complain
+  },
+  {
+    path: 'payments',
+    loadComponent: () =>
+      import('./components/payments/payments.component').then(
+        (m) => m.PaymentsComponent
+      ),
+    renderMode: 'blocking' // ⚠️ TS will complain
+  },
+  {
+    path: 'messages',
+    loadComponent: () =>
+      import('./components/message/message.component').then(
+        (m) => m.MessageComponent
+      ),
+    renderMode: 'blocking' // ⚠️ TS will complain
+  },
+  {
+    path: 'help-center',
+    loadComponent: () =>
+      import('./components/help-center/help-center.component').then(
+        (m) => m.HelpCenterComponent
+      ),
+    renderMode: 'blocking' // disables prerendering
+  } as any,
+
+  {
+  path: 'dashboard',
   loadComponent: () =>
-    import('./components/help-center/help-center.component').then(
-      (m) => m.HelpCenterComponent
+    import('./components/dashboard/dashboard.component').then(
+      (m) => m.DashboardComponent
     ),
   renderMode: 'blocking' // disables prerendering
 } as any,
-
+{
+  path: 'farmers',
+  loadComponent: () =>
+    import('./components/farmers/farmers.component').then(
+      (m) => m.FarmersComponent
+    ),
+  renderMode: 'blocking' // disables prerendering
+} as any,
+{
+  path: 'reports',
+  loadComponent: () =>
+    import('./components/reports/reports.component').then(
+      (m) => m.ReportsComponent
+    ),
+  renderMode: 'blocking' // disables prerendering
+} as any,
+{
+  path: 'settings',
+  loadComponent: () =>
+    import('./components/setting/setting.component').then(
+      (m) => m.SettingComponent
+    ),
+  renderMode: 'blocking' // disables prerendering
+} as any,
   // Catch-all for undefined routes
   { path: '**', redirectTo: '' },
 ];

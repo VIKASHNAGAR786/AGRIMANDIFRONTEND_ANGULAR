@@ -38,7 +38,7 @@ export class SidebarComponent implements OnInit {
   { label: 'Payments', path: '/payments', icon: 'bi bi-cash-stack' },
   { label: 'Reports', path: '/reports', icon: 'bi bi-clipboard-data-fill' },
   { label: 'Help Center', path: '/help-center', icon: 'bi bi-info-circle-fill' },
-  { label: 'Chat with Farmer/Buyer', path : '/chat', icon: 'bi bi-chat-dots-fill' },
+  { label: 'Chat with Farmer/Buyer', path : '/messages', icon: 'bi bi-chat-dots-fill' },
   { label: 'Settings', path: '/settings', icon: 'bi bi-gear-fill' },
 ];
 
