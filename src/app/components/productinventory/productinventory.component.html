@@ -38,7 +38,7 @@
             <button class="btn btn-outline-secondary btn-sm" (click)="viewProductPdf(selectedproduct.productid)">
               <i class="bi bi-file-earmark-arrow-down"></i> Download PDF
             </button>
-            <button class="btn btn-outline-primary btn-sm" (click)="contactFarmer(selectedproduct)">
+            <button class="btn btn-outline-primary btn-sm" (click)="toggleContactForm()">
               <i class="bi bi-envelope"></i> Contact Farmer
             </button>
             <button class="btn btn-success btn-sm" (click)="buyProduct(selectedproduct)">
@@ -48,6 +48,33 @@
               <i class="bi bi-arrow-left"></i> Back to All Products
             </button>
           </div>
+          <div *ngIf="showContactForm" class="mt-6 p-6 bg-white rounded-2xl shadow-md border border-gray-200 max-w-xl mx-auto">
+  <h5 class="text-xl font-semibold text-green-700 mb-4 flex items-center gap-2">
+    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 14h.01M16 10h.01M21 16V8a2 2 0 00-2-2h-3.586a1 1 0 01-.707-.293l-2.414-2.414a1 1 0 00-.707-.293H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2z" />
+    </svg>
+    Send Message to Farmer
+  </h5>
+
+  <form (ngSubmit)="sendMessage()" class="space-y-4">
+    <textarea 
+      [(ngModel)]="message.MessageText" 
+      name="MessageText"
+      placeholder="Write your message here..." 
+      required
+      rows="4"
+      class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+    ></textarea>
+
+    <button 
+      type="submit" 
+      class="w-full bg-green-600 text-white font-medium py-2 rounded-lg hover:bg-green-700 transition duration-300 shadow-sm"
+    >
+      📩 Send Message
+    </button>
+  </form>
+</div>
+
         </div>
       </div>
     </div>
@@ -183,7 +210,7 @@
           </ul>
 
           <div class="mt-auto d-grid gap-2">
-            <button class="btn btn-outline-primary btn-sm" (click)="contactFarmer(product)">Contact Farmer</button>
+            <button class="btn btn-outline-primary btn-sm" (click)="sendMessage()">Contact Farmer</button>
             <button class="btn btn-outline-secondary btn-sm" (click)="viewDetails(product)">Detail View</button>
             <button class="btn btn-success btn-sm" (click)="buyProduct(product)">Buy</button>
           </div>

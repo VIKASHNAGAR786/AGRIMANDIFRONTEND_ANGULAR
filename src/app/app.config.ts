@@ -128,6 +128,7 @@ const routes = [
     ),
   renderMode: 'blocking' // disables prerendering
 } as any,
+
   // Catch-all for undefined routes
   { path: '**', redirectTo: '' },
 ];

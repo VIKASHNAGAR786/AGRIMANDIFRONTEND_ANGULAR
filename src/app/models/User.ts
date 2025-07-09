@@ -185,3 +185,12 @@ export interface UserRoleDto {
   roleid: number;
   role: string;
 }
+export interface MessageToFarmerModel
+ {
+   //receiver
+   farmerid: number
+   //sender
+   BuyerId: number
+   MessageText: string 
+   RelatedProductId: number;
+ }

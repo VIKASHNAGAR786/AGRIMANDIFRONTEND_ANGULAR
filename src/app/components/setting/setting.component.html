@@ -1,73 +1,16 @@
-<!-- Banner -->
-<div class="bg-yellow-100 text-yellow-800 text-center py-2 px-4 font-medium shadow">
-  ⚙️ Settings feature is under development and will be available soon!
-</div>
+<div class="min-h-screen flex flex-col justify-center items-center bg-gray-100">
+  <!-- Language Switch Dropdown -->
+  <label for="lang" class="mb-2 text-lg font-semibold">🌐 Choose Language:</label>
+  <select id="lang"
+          #langSelect
+          (change)="onLangChange(langSelect.value)"
+          class="p-2 border rounded mb-6 shadow-md bg-white">
+    <option value="en">English</option>
+    <option value="hi">हिन्दी</option>
+  </select>
 
-<!-- Settings Layout -->
-<div class="max-w-4xl mx-auto p-6 bg-white shadow mt-6 rounded-lg">
-  <!-- Heading -->
-  <h2 class="text-2xl font-bold text-green-700 mb-6">Account Settings</h2>
-
-  <!-- Account Info -->
-  <div class="space-y-6">
-    <!-- Name -->
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-      <input
-        type="text"
-        disabled
-        value="Vikash Nagar"
-        class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-gray-600"
-      />
-    </div>
-
-    <!-- Email -->
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-      <input
-        type="email"
-        disabled
-        value="vikash@example.com"
-        class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-gray-600"
-      />
-    </div>
-
-    <!-- Notification Preferences -->
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-2">Notifications</label>
-      <div class="space-y-2">
-        <label class="flex items-center">
-          <input type="checkbox" class="mr-2" checked disabled />
-          Receive Order Updates
-        </label>
-        <label class="flex items-center">
-          <input type="checkbox" class="mr-2" disabled />
-          Receive Promotional Emails
-        </label>
-      </div>
-    </div>
-
-    <!-- Change Password (disabled placeholder) -->
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Change Password</label>
-      <input
-        type="password"
-        placeholder="••••••••"
-        disabled
-        class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-gray-400"
-      />
-    </div>
-
-    <!-- Save Button -->
-    <div class="text-right mt-6">
-      <button class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition" disabled>
-        Save Changes
-      </button>
-    </div>
-  </div>
-
-  <!-- Future Settings -->
-  <div class="mt-10 text-center text-gray-500 italic">
-    🛡️ Security settings, profile picture upload, and 2FA coming soon...
-  </div>
+  <!-- Translated Output -->
+  <h2 class="text-2xl font-bold text-green-700">
+    {{ 'DEMO.CAR' | translate }}
+  </h2>
 </div>

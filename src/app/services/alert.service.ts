@@ -14,7 +14,7 @@ export class AlertService {
   alert$ = this.alertSubject.asObservable();
 
   // Show alert with message and type
-  showAlert(message: string, type: 'success' | 'error') {
+  async showAlert(message: string, type: 'success' | 'error') {
     console.log('🔴 Emitting alert:', { message, type });
     this.alertSubject.next({ message, type });
 
