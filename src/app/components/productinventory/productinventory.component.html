@@ -48,32 +48,76 @@
               <i class="bi bi-arrow-left"></i> Back to All Products
             </button>
           </div>
-          <div *ngIf="showContactForm" class="mt-6 p-6 bg-white rounded-2xl shadow-md border border-gray-200 max-w-xl mx-auto">
-  <h5 class="text-xl font-semibold text-green-700 mb-4 flex items-center gap-2">
-    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 14h.01M16 10h.01M21 16V8a2 2 0 00-2-2h-3.586a1 1 0 01-.707-.293l-2.414-2.414a1 1 0 00-.707-.293H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2z" />
-    </svg>
-    Send Message to Farmer
-  </h5>
 
+           <!-- Backdrop -->
+            <!-- Backdrop -->
+<div *ngIf="showContactForm"
+     class="fixed inset-0 z-40 flex items-center justify-center 
+            bg-gradient-to-br from-black/60 via-green-950/50 to-black/60 
+            backdrop-blur-md transition-opacity duration-300 animate-fadeBackdrop"
+     (click)="showContactForm = false">
+</div>
+
+
+<!-- Modal -->
+<div *ngIf="showContactForm"
+     class="fixed z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+            bg-white rounded-2xl shadow-2xl border border-green-200 max-w-lg w-full
+            p-6 transition duration-300 ease-out scale-100 opacity-100"
+     (click)="$event.stopPropagation()">
+
+     <!-- Header -->
+<div class="flex justify-between items-center mb-6 border-b border-green-100 pb-3 relative">
+  <!-- Icon + Title -->
+  <div class="flex items-center gap-3 animate-slideInLeft">
+    <div class="bg-green-100 p-2 rounded-full shadow-sm">
+      <svg class="w-6 h-6 text-green-700" fill="none" stroke="currentColor" stroke-width="2"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M8 10h.01M12 14h.01M16 10h.01M21 16V8a2 2 0 00-2-2h-3.586a1 1 0 01-.707-.293l-2.414-2.414a1 1 0 00-.707-.293H7a2 2 0 00-2 2v12a2 2 0 002 2h10" />
+      </svg>
+    </div>
+    <h2 class="text-xl font-bold text-green-800 tracking-wide">
+      ✉️ Send Message to Farmer
+    </h2>
+  </div>
+
+  <!-- Close Button -->
+  <button (click)="showContactForm = false"
+          class="absolute right-0 top-0 text-gray-400 hover:text-red-600 transition-all text-2xl font-bold leading-none px-2 py-1 rounded-full hover:bg-red-100">
+    &times;
+  </button>
+</div>
+
+
+  <!-- Message Form -->
   <form (ngSubmit)="sendMessage()" class="space-y-4">
-    <textarea 
-      [(ngModel)]="message.MessageText" 
-      name="MessageText"
-      placeholder="Write your message here..." 
-      required
-      rows="4"
-      class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
-    ></textarea>
+    <div>
+      <label for="MessageText" class="block text-sm font-medium text-gray-700 mb-1">
+        Your Message
+      </label>
+      <textarea [(ngModel)]="message.MessageText"
+                name="MessageText"
+                id="MessageText"
+                placeholder="Write your message to the farmer here..."
+                required
+                rows="5"
+                class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 transition shadow-sm"></textarea>
+    </div>
 
-    <button 
-      type="submit" 
-      class="w-full bg-green-600 text-white font-medium py-2 rounded-lg hover:bg-green-700 transition duration-300 shadow-sm"
-    >
-      📩 Send Message
+    <button type="submit"
+            class="w-full flex justify-center items-center gap-2 bg-green-600 text-white font-semibold py-2.5 rounded-lg hover:bg-green-700 transition duration-300 shadow-md">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-18 8h18a2 2 0 002-2V6a2 2 0 00-2-2H3a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+      </svg>
+      Send Message
     </button>
   </form>
 </div>
+
+
 
         </div>
       </div>
@@ -210,7 +254,7 @@
           </ul>
 
           <div class="mt-auto d-grid gap-2">
-            <button class="btn btn-outline-primary btn-sm" (click)="sendMessage()">Contact Farmer</button>
+            <button class="btn btn-outline-primary btn-sm" (click)="buyProduct(product)">Contact Farmer</button>
             <button class="btn btn-outline-secondary btn-sm" (click)="viewDetails(product)">Detail View</button>
             <button class="btn btn-success btn-sm" (click)="buyProduct(product)">Buy</button>
           </div>
