@@ -121,3 +121,19 @@
 }
 
 
+.info-item {
+  background: #f8f9fa;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  font-size: 0.95rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    transition: box-shadow 0.2s ease;
+}
+.info-item .text-primary {
+  font-size: 1.2rem;
+  margin-right: 10px;
+}
+.info-item:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}

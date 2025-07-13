@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ColorserviceService } from '../../services/colorservice.service';
 import * as AOS from 'aos';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-home',
@@ -12,9 +13,20 @@ import * as AOS from 'aos';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  constructor(private router: Router, private colorService: ColorserviceService) {}
+  constructor(private router: Router, 
+    private colorService: ColorserviceService,
+  private loginService: LoginService,) {}
 selectedColor: string = ''; 
   ngOnInit() {
+
+     if (!this.loginService.isLoggedIn()) {
+    // User not logged in, redirect to login page
+    this.router.navigate(['auth/login']);
+  } else {
+    console.log('User is logged in:', localStorage.getItem('user_name'));
+  }
+
+
     this.colorService.selectedColor$.subscribe(color => {
       this.selectedColor = color;
     });

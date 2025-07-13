@@ -4,79 +4,178 @@
     <div class="row g-0">
 
       <!-- Image Side -->
-      <div class="col-md-4 text-center p-4">
-        <img [src]="selectedbuyer.profileImageUrl || 'https://via.placeholder.com/150'"
-          class="img-fluid rounded-circle border border-3" [alt]="selectedbuyer.companyName">
-        <h3 class="mt-3">{{ selectedbuyer.companyName }}</h3>
-        <p class="text-muted">{{ selectedbuyer.address }}</p>
+      <div class="col-md-4 text-center p-4 bg-light rounded-start border-end">
+        <div class="d-flex flex-column align-items-center">
+          <div class="position-relative">
+            <img [src]="selectedbuyer.profileImageUrl || 'https://via.placeholder.com/150'"
+              class="img-fluid rounded-circle border border-3 shadow"
+              style="width: 150px; height: 150px; object-fit: cover;"
+              [alt]="selectedbuyer.companyName || 'Buyer Profile'">
+
+            <!-- Optional Status Badge -->
+            <span
+              class="position-absolute top-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle"
+              title="Active Buyer">
+              <span class="visually-hidden">Online</span>
+            </span>
+          </div>
+
+          <h3 class="mt-3 fw-semibold text-dark">
+            {{ selectedbuyer.companyName || 'Unknown Company' }}
+          </h3>
+
+          <p class="text-secondary small">
+            {{ selectedbuyer.address || 'N/A' }}
+          </p>
+        </div>
       </div>
 
       <!-- Details Side -->
       <div class="col-md-8">
         <div class="card-body">
-          <h4 class="card-title mb-3">Buyer Details</h4>
+          <h4 class="card-title mb-4 text-primary fw-bold border-bottom pb-2">
+            🧾 Buyer Details
+          </h4>
 
-          <div class="row">
-            <div class="col-sm-6 mb-2">
-              <strong>Alternate Contact:</strong> {{ selectedbuyer.alternateContact }}
+          <div class="row row-cols-1 row-cols-md-2 g-3">
+
+            <div class="col">
+              <div class="info-item">
+                <strong>📞 Alternate Contact:</strong>
+                <div>{{ selectedbuyer.alternateContact || 'N/A' }}</div>
+              </div>
             </div>
-            <div class="col-sm-6 mb-2">
-              <strong>Company Type:</strong> {{ selectedbuyer.companyType }}
+
+            
+            <div class="col">
+  <div class="info-item d-flex align-items-center gap-3 p-3 bg-gradient border-0 rounded-3 shadow-sm h-100"
+       style="background: linear-gradient(135deg, #f0f4ff, #ffffff); transition: transform 0.3s ease;">
+    
+    <div class="icon-box d-flex align-items-center justify-content-center bg-primary text-white rounded-circle"
+         style="width: 40px; height: 40px;">
+      🏢
+    </div>
+
+    <div>
+      <div class="label text-uppercase text-secondary small fw-semibold letter-spacing">
+        Company Type
+      </div>
+      <div class="value fs-6 fw-bold text-dark">
+        {{ selectedbuyer.companyType || 'N/A' }}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+            <div class="col">
+              <div class="info-item">
+                <strong>🧾 GST Number:</strong>
+                <div>{{ selectedbuyer.gstNumber || 'N/A' }}</div>
+              </div>
             </div>
-            <div class="col-sm-6 mb-2">
-              <strong>GST Number:</strong> {{ selectedbuyer.gstNumber }}
+
+            <div class="col">
+              <div class="info-item">
+                <strong>🧾 PAN Number:</strong>
+                <div>{{ selectedbuyer.panNumber || 'N/A' }}</div>
+              </div>
             </div>
-            <div class="col-sm-6 mb-2">
-              <strong>PAN Number:</strong> {{ selectedbuyer.panNumber }}
+
+            <div class="col">
+              <div class="info-item">
+                <strong>🌾 Preferred Crops:</strong>
+                <div>{{ selectedbuyer.preferredCrops || 'N/A' }}</div>
+              </div>
             </div>
-            <div class="col-sm-6 mb-2">
-              <strong>Preferred Crops:</strong> {{ selectedbuyer.preferredCrops }}
+
+            <div class="col">
+              <div class="info-item">
+                <strong>💰 Budget Range (₹):</strong>
+                <div>₹{{ selectedbuyer.budgetRange || '0' }}</div>
+              </div>
             </div>
-            <div class="col-sm-6 mb-2">
-              <strong>Budget Range (₹):</strong> ₹{{ selectedbuyer.budgetRange }}
+
+            <div class="col">
+              <div class="info-item">
+                <strong>🔁 Purchase Frequency:</strong>
+                <div>{{ selectedbuyer.purchaseFrequency || 'N/A' }}</div>
+              </div>
             </div>
-            <div class="col-sm-6 mb-2">
-              <strong>Purchase Frequency:</strong> {{ selectedbuyer.purchaseFrequency }}
+
+            <div class="col">
+              <div class="info-item">
+                <strong>💳 Payment Method:</strong>
+                <div>{{ selectedbuyer.preferredPaymentMethod || 'N/A' }}</div>
+              </div>
             </div>
-            <div class="col-sm-6 mb-2">
-              <strong>Preferred Payment Method:</strong> {{ selectedbuyer.preferredPaymentMethod }}
+
+            <div class="col">
+              <div class="info-item">
+                <strong>📅 Last Purchase:</strong>
+                <div>{{ selectedbuyer.lastPurchaseDate | date:'mediumDate' }}</div>
+              </div>
             </div>
-            <div class="col-sm-6 mb-2">
-              <strong>Last Purchase Date:</strong> {{ selectedbuyer.lastPurchaseDate | date:'mediumDate' }}
+
+            <div class="col">
+              <div class="info-item">
+                <strong>📦 Total Orders:</strong>
+                <div>{{ selectedbuyer.totalOrders || 0 }}</div>
+              </div>
             </div>
-            <div class="col-sm-6 mb-2">
-              <strong>Total Orders:</strong> {{ selectedbuyer.totalOrders }}
+
+            <div class="col">
+              <div class="info-item">
+                <strong>💸 Total Spent (₹):</strong>
+                <div>₹{{ selectedbuyer.totalSpent || 0 }}</div>
+              </div>
             </div>
-            <div class="col-sm-6 mb-2">
-              <strong>Total Spent (₹):</strong> ₹{{ selectedbuyer.totalSpent }}
+
+            <div class="col">
+              <div class="info-item">
+                <strong>🎁 Loyalty Points:</strong>
+                <div>{{ selectedbuyer.loyaltyPoints || 0 }}</div>
+              </div>
             </div>
-            <div class="col-sm-6 mb-2">
-              <strong>Loyalty Points:</strong> {{ selectedbuyer.loyaltyPoints }}
-            </div>
-            <div class="col-sm-6 mb-2">
-              <strong>Buyer Rating:</strong> {{ selectedbuyer.buyerRating }}
+
+            <div class="col">
+              <div class="info-item">
+                <strong>⭐ Buyer Rating:</strong>
+                <div>{{ selectedbuyer.buyerRating || 'N/A' }}</div>
+              </div>
             </div>
           </div>
 
-          <!-- Buttons -->
+          <!-- Action Buttons -->
           <div class="d-flex justify-content-end gap-3 mt-4">
-            <button class="btn btn-success" (click)="contactBuyer(selectedbuyer)">📞 Contact Buyer</button>
-            <button class="btn btn-outline-primary" (click)="goBackToList()">⬅️ Back to All Buyers</button>
+            <button class="btn btn-success shadow-sm px-4" (click)="contactBuyer(selectedbuyer)">
+              📞 Contact Buyer
+            </button>
+            <button class="btn btn-outline-primary shadow-sm px-4" (click)="goBackToList()">
+              ⬅️ Back to All Buyers
+            </button>
           </div>
-
         </div>
       </div>
+
 
     </div>
   </div>
 </div>
 
-<!--  -->
-<!-- All Buyers -->
+
+
+
+
+
+
+
+<!-- All Buyers Section -->
 <main class="container my-5">
   <h2 class="text-center">🌟 Buyer Details 🌟</h2>
 
-  <!-- Shimmer effect while loading -->
+  <!-- Shimmer Loading -->
   <div *ngIf="loading" class="row mb-4">
     <div *ngFor="let shimmer of [1, 2, 3]" class="col-12">
       <div class="card buyer-card p-3 shadow-sm shimmer-card">
@@ -87,7 +186,7 @@
     </div>
   </div>
 
-  <!-- Actual Buyer Data when loading is false -->
+  <!-- Buyer Cards -->
   <div *ngIf="!loading">
     <div *ngIf="(buyers?.length || 0) > 0; else noBuyer">
       <div class="row mb-4" *ngFor="let buyer of buyers">
@@ -95,24 +194,16 @@
           <div class="card buyer-card p-3 shadow-sm" data-aos="fade-up" data-aos-duration="1000">
             <div class="card-body d-flex align-items-center">
               <img [src]="buyer.profileImageUrl || 'assets/default-profile.png'"
-                class="rounded-circle me-4 buyer-profile" alt="Profile">
+                class="rounded-circle me-4 buyer-profile" alt="Buyer Profile">
               <div class="flex-grow-1">
                 <h5 class="card-title mb-2">
                   {{ buyer.companyName || 'Unknown Company' }}
                   <span class="badge">Rating: {{ buyer.buyerRating || 'No Rating' }}</span>
                 </h5>
-                <p class="card-text mb-1">
-                  📞 <strong>Contact:</strong> {{ buyer.contactNumber || 'N/A' }}
-                </p>
-                <p class="card-text mb-1">
-                  📍 <strong>Location:</strong>
-                  {{ buyer.city || 'N/A' }},
-                  {{ buyer.state || 'N/A' }},
-                  {{ buyer.country || 'N/A' }}
-                </p>
-                <p class="card-text mb-0">
-                  📦 <strong>Total Orders:</strong> {{ buyer.totalOrders || 0 }}
-                </p>
+                <p class="card-text mb-1">📞 <strong>Contact:</strong> {{ buyer.contactNumber || 'N/A' }}</p>
+                <p class="card-text mb-1">📍 <strong>Location:</strong> {{ buyer.city || 'N/A' }}, {{ buyer.state ||
+                  'N/A' }}, {{ buyer.country || 'N/A' }}</p>
+                <p class="card-text mb-0">📦 <strong>Total Orders:</strong> {{ buyer.totalOrders || 0 }}</p>
                 <button class="btn btn-custom mt-3" (click)="contactBuyer(buyer)">Contact Buyer</button>
                 <button class="btn btn-custom mt-3" (click)="viewDetails(buyer)">See Profile</button>
               </div>
@@ -122,7 +213,7 @@
       </div>
     </div>
 
-    <!-- If no buyers found -->
+    <!-- No Buyer Template -->
     <ng-template #noBuyer>
       <div class="tw">
         <div
@@ -136,7 +227,5 @@
         </div>
       </div>
     </ng-template>
-
-
   </div>
 </main>

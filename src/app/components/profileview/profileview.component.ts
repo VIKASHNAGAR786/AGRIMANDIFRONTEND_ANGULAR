@@ -70,7 +70,7 @@ export class ProfileviewComponent implements OnInit {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => this.Collectlogindata());
   }
-
+activeTab: string = 'personal'; 
   isLoggedIn: boolean = false;
   showBuyerForm: boolean = false;
 

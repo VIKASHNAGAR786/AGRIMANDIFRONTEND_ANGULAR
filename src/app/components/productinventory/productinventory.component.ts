@@ -32,7 +32,7 @@ export class ProductinventoryComponent implements OnInit {
   };
   private BASE_URL = environment.BASE_URL;
   loading: boolean = true;
-  showContactForm = true;
+  showContactForm = false;
   
 message: MessageToFarmerModel = {
     farmerid: 0,

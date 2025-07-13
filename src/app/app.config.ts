@@ -5,31 +5,30 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideClientHydration } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+// Components
 import { SignupComponent } from './auth/signup/signup.component';
 import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProductComponent } from './components/product/product.component';
 import { ProfileviewComponent } from './components/profileview/profileview.component';
 
-// ⛔️ Removed ProductinventoryComponent — it's standalone and lazy-loaded
-
-
+// Guard
+import { AuthGuard } from './auth.guard'; // Adjust path if needed
 
 const routes = [
   { path: '', component: HomeComponent },
   { path: 'auth/signup', component: SignupComponent },
   { path: 'auth/login', component: LoginComponent },
-  { path: 'components/product', component: ProductComponent },
-  //{ path: 'components/buyer', component: BuyerComponent },
-  { path: 'components/profileview', component: ProfileviewComponent },
+  { path: 'components/product', component: ProductComponent, canActivate: [AuthGuard] },
+  { path: 'components/profileview', component: ProfileviewComponent, canActivate: [AuthGuard] },
 
-  // ✅ Use lazy loading for standalone component
   {
     path: 'products',
     loadComponent: () =>
       import('./components/productinventory/productinventory.component').then(
         m => m.ProductinventoryComponent
-      )
+      ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'products/:productid',
@@ -37,7 +36,8 @@ const routes = [
       import('./components/productinventory/productinventory.component').then(
         m => m.ProductinventoryComponent
       ),
-    renderMode: 'blocking' // ⚠️ TS will complain
+    canActivate: [AuthGuard],
+    renderMode: 'blocking'
   },
 
   {
@@ -45,7 +45,8 @@ const routes = [
     loadComponent: () =>
       import('./components/buyer/buyer.component').then(
         (m) => m.BuyerComponent
-      )
+      ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'buyer/:buyerid',
@@ -53,7 +54,8 @@ const routes = [
       import('./components/buyer/buyer.component').then(
         (m) => m.BuyerComponent
       ),
-    renderMode: 'blocking' // ⚠️ TS will complain
+    canActivate: [AuthGuard],
+    renderMode: 'blocking'
   },
   {
     path: 'notifications',
@@ -61,7 +63,8 @@ const routes = [
       import('./components/notification/notification.component').then(
         (m) => m.NotificationComponent
       ),
-    renderMode: 'blocking' // ⚠️ TS will complain
+    canActivate: [AuthGuard],
+    renderMode: 'blocking'
   },
   {
     path: 'orders',
@@ -69,7 +72,8 @@ const routes = [
       import('./components/orders/orders.component').then(
         (m) => m.OrdersComponent
       ),
-    renderMode: 'blocking' // ⚠️ TS will complain
+    canActivate: [AuthGuard],
+    renderMode: 'blocking'
   },
   {
     path: 'payments',
@@ -77,7 +81,8 @@ const routes = [
       import('./components/payments/payments.component').then(
         (m) => m.PaymentsComponent
       ),
-    renderMode: 'blocking' // ⚠️ TS will complain
+    canActivate: [AuthGuard],
+    renderMode: 'blocking'
   },
   {
     path: 'messages',
@@ -85,7 +90,8 @@ const routes = [
       import('./components/message/message.component').then(
         (m) => m.MessageComponent
       ),
-    renderMode: 'blocking' // ⚠️ TS will complain
+    canActivate: [AuthGuard],
+    renderMode: 'blocking'
   },
   {
     path: 'help-center',
@@ -93,43 +99,48 @@ const routes = [
       import('./components/help-center/help-center.component').then(
         (m) => m.HelpCenterComponent
       ),
-    renderMode: 'blocking' // disables prerendering
+    canActivate: [AuthGuard],
+    renderMode: 'blocking'
   } as any,
 
   {
-  path: 'dashboard',
-  loadComponent: () =>
-    import('./components/dashboard/dashboard.component').then(
-      (m) => m.DashboardComponent
-    ),
-  renderMode: 'blocking' // disables prerendering
-} as any,
-{
-  path: 'farmers',
-  loadComponent: () =>
-    import('./components/farmers/farmers.component').then(
-      (m) => m.FarmersComponent
-    ),
-  renderMode: 'blocking' // disables prerendering
-} as any,
-{
-  path: 'reports',
-  loadComponent: () =>
-    import('./components/reports/reports.component').then(
-      (m) => m.ReportsComponent
-    ),
-  renderMode: 'blocking' // disables prerendering
-} as any,
-{
-  path: 'settings',
-  loadComponent: () =>
-    import('./components/setting/setting.component').then(
-      (m) => m.SettingComponent
-    ),
-  renderMode: 'blocking' // disables prerendering
-} as any,
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./components/dashboard/dashboard.component').then(
+        (m) => m.DashboardComponent
+      ),
+    canActivate: [AuthGuard],
+    renderMode: 'blocking'
+  } as any,
+  {
+    path: 'farmers',
+    loadComponent: () =>
+      import('./components/farmers/farmers.component').then(
+        (m) => m.FarmersComponent
+      ),
+    canActivate: [AuthGuard],
+    renderMode: 'blocking'
+  } as any,
+  {
+    path: 'reports',
+    loadComponent: () =>
+      import('./components/reports/reports.component').then(
+        (m) => m.ReportsComponent
+      ),
+    canActivate: [AuthGuard],
+    renderMode: 'blocking'
+  } as any,
+  {
+    path: 'settings',
+    loadComponent: () =>
+      import('./components/setting/setting.component').then(
+        (m) => m.SettingComponent
+      ),
+    canActivate: [AuthGuard],
+    renderMode: 'blocking'
+  } as any,
 
-  // Catch-all for undefined routes
+  // Catch-all
   { path: '**', redirectTo: '' },
 ];
 

@@ -1,111 +1,204 @@
-<div class="container-fluid px-4 py-5" *ngIf="loginData?.isLoggedIn; else notLoggedIn">
+<!-- #region Header Section -->
 
-  <!-- Full-Width Advanced Profile Card -->
-  <div
-    class="w-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 p-8">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+<div class="container mx-auto p-4">
+  <h2 class="text-2xl font-bold text-green-700 mb-6 flex items-center gap-2">
+    <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M5.121 17.804A9 9 0 1117.803 5.122 9 9 0 015.121 17.804z" />
+    </svg>
+    My AgriMandi Profile
+  </h2>
 
-      <!-- Profile Image with Upload Overlay -->
-      <div class="relative mx-auto md:mx-0 w-48 h-48 group">
-        <img [src]="profileImageUrl || defaultProfileImage" alt="Profile Image"
-          class="w-full h-full object-cover rounded-full border-4 border-white shadow-lg transition duration-300 group-hover:brightness-75" />
-        <!-- Upload Overlay -->
-        <div
-          class="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <label class="text-white cursor-pointer flex flex-col items-center">
-            <i class="bi bi-camera-fill text-3xl mb-1"></i>
-            <input type="file" (change)="onFileSelect($event)" hidden />
-          </label>
-        </div>
-      </div>
+  <!-- Tabs -->
+  <div class="flex flex-wrap gap-2 border-b border-gray-200 mb-4">
+    <button class="px-4 py-2 rounded-t-lg text-sm font-medium transition-all duration-300 ease-in-out" [ngClass]="{
+        'bg-green-600 text-white shadow-md': activeTab === 'personal',
+        'bg-gray-100 text-gray-600 hover:bg-gray-200': activeTab !== 'personal'
+      }" (click)="activeTab = 'personal'">👤 Personal Info</button>
 
-      <!-- User Info -->
-      <div class="md:col-span-2 text-center md:text-left space-y-4">
-        <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100">User Details</h2>
-        <div class="text-lg text-gray-700 dark:text-gray-300 space-y-2">
-          <p><span class="font-medium text-gray-900 dark:text-gray-100">Name:</span> {{ loginData.userName }}</p>
-          <p><span class="font-medium text-gray-900 dark:text-gray-100">Role:</span> {{ loginData.userRole }}</p>
-          <p><span class="font-medium text-gray-900 dark:text-gray-100">Email:</span> {{ loginData.userEmail }}</p>
-        </div>
-      </div>
+    <button class="px-4 py-2 rounded-t-lg text-sm font-medium transition-all duration-300 ease-in-out" [ngClass]="{
+        'bg-green-600 text-white shadow-md': activeTab === 'address',
+        'bg-gray-100 text-gray-600 hover:bg-gray-200': activeTab !== 'address'
+      }" (click)="activeTab = 'address'">🏠 Manage Address</button>
 
-    </div>
+  <ng-container *ngIf="loginData.userRole === 'FARMER'">
+    <button class="px-4 py-2 rounded-t-lg text-sm font-medium transition-all duration-300 ease-in-out" [ngClass]="{
+        'bg-green-600 text-white shadow-md': activeTab === 'farm',
+        'bg-gray-100 text-gray-600 hover:bg-gray-200': activeTab !== 'farm'
+      }" (click)="activeTab = 'farm'">🚜 Farm Details</button>
+
+    <button class="px-4 py-2 rounded-t-lg text-sm font-medium transition-all duration-300 ease-in-out" [ngClass]="{
+    'bg-green-600 text-white shadow-md': activeTab === 'products',
+    'bg-gray-100 text-gray-600 hover:bg-gray-200': activeTab !== 'products'
+  }" (click)="activeTab = 'products'">📦 My Product Detail </button>
+
+</ng-container>
+
+    <button class="px-4 py-2 rounded-t-lg text-sm font-medium transition-all duration-300 ease-in-out" [ngClass]="{
+        'bg-green-600 text-white shadow-md': activeTab === 'orders',
+        'bg-gray-100 text-gray-600 hover:bg-gray-200': activeTab !== 'orders'
+      }" (click)="activeTab = 'orders'">📦 Orders</button>
   </div>
 
+  <!-- #endregion -->
 
-  <hr class="my-5" />
+  <!--#region  -->
+  <!-- User Info -->
+<div *ngIf="activeTab === 'personal'">
+  <div class="container-fluid px-4 py-5" *ngIf="loginData?.isLoggedIn; else notLoggedIn">
+    <div class="row">
+
+    <!-- Full-Width Advanced Profile Card -->
+    <div
+      class="w-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 p-8 mt-5">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+        
+        <!-- Profile Image with Upload Overlay -->
+        <div class="relative mx-auto md:mx-0 w-48 h-48 group">
+          <img [src]="profileImageUrl || defaultProfileImage" alt="Profile Image"
+               class="w-full h-full object-cover rounded-full border-4 border-white shadow-lg transition duration-300 group-hover:brightness-75" />
+          <!-- Upload Overlay -->
+          <div
+            class="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <label class="text-white cursor-pointer flex flex-col items-center">
+              <i class="bi bi-camera-fill text-3xl mb-1"></i>
+              <input type="file" (change)="onFileSelect($event)" hidden />
+            </label>
+          </div>
+        </div>
+
+        <!-- User Details -->
+        <div class="md:col-span-2 text-center md:text-left space-y-4">
+          <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100">User Details</h2>
+          <div class="text-lg text-gray-700 dark:text-gray-300 space-y-2">
+            <p>
+              <span class="font-medium text-gray-900 dark:text-gray-100">Name:</span>
+              {{ loginData.userName }}
+            </p>
+            <p>
+              <span class="font-medium text-gray-900 dark:text-gray-100">Role:</span>
+              {{ loginData.userRole }}
+            </p>
+            <p>
+              <span class="font-medium text-gray-900 dark:text-gray-100">Email:</span>
+              {{ loginData.userEmail }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-5" />
+    </div>
+  </div>
+</div>
+</div>
+<!-- End User Info -->
+
+<ng-template #notLoggedIn>
+  <div class="alert alert-warning text-center p-4 shadow-sm rounded">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    You are not logged in.
+  </div>
+</ng-template>
+
+  <!-- #endregion -->
 
   <!-- Farmer View -->
+
   <ng-container *ngIf="loginData.userRole === 'FARMER'">
-    <h3 class="text-3xl font-semibold mb-6 text-gray-800 dark:text-white">Your Products</h3>
+    <div *ngIf="activeTab === 'products' ">
+      <h3 class="text-3xl font-semibold mb-6 text-gray-800 dark:text-white">Your Products</h3>
 
-    <ng-container *ngIf="products1.length > 0; else noProducts">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div *ngFor="let product1 of products1"
-          class="bg-white dark:bg-gray-800 shadow-lg rounded-3xl p-6 transition duration-300 hover:shadow-xl border border-gray-200 dark:border-gray-700">
+      <ng-container *ngIf="products1.length > 0; else noProducts">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div *ngFor="let product1 of products1"
+            class="bg-white dark:bg-gray-800 shadow-lg rounded-3xl p-6 transition duration-300 hover:shadow-xl border border-gray-200 dark:border-gray-700">
 
-          <!-- Product Name -->
-          <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-2">{{ product1.name }}</h4>
+            <!-- Product Name -->
+            <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-2">{{ product1.name }}</h4>
 
-          <!-- Product Details -->
-          <div class="text-gray-700 dark:text-gray-300 space-y-1 text-sm md:text-base">
-            <p><span class="font-medium">Category:</span> {{ product1.category }}</p>
-            <p><span class="font-medium">Grade:</span> {{ product1.grade }}</p>
-            <p><span class="font-medium">Quantity:</span> {{ product1.quantity }} {{ product1.unit }}</p>
-            <p><span class="font-medium">Price/Unit:</span> ₹{{ product1.pricePerUnit }}</p>
-            <p><span class="font-medium">Total Price:</span> ₹{{ product1.totalPrice }}</p>
-            <p>
-              <span class="font-medium">Status:</span>
-              <span class="inline-block rounded-full px-3 py-1 text-xs font-semibold" [ngClass]="{
+            <!-- Product Details -->
+            <div class="text-gray-700 dark:text-gray-300 space-y-1 text-sm md:text-base">
+              <p><span class="font-medium">Category:</span> {{ product1.category }}</p>
+              <p><span class="font-medium">Grade:</span> {{ product1.grade }}</p>
+              <p><span class="font-medium">Quantity:</span> {{ product1.quantity }} {{ product1.unit }}</p>
+              <p><span class="font-medium">Price/Unit:</span> ₹{{ product1.pricePerUnit }}</p>
+              <p><span class="font-medium">Total Price:</span> ₹{{ product1.totalPrice }}</p>
+              <p>
+                <span class="font-medium">Status:</span>
+                <span class="inline-block rounded-full px-3 py-1 text-xs font-semibold" [ngClass]="{
                   'bg-green-100 text-green-700': product1.status === 'Approved',
                   'bg-yellow-100 text-yellow-700': product1.status === 'Pending',
                   'bg-red-100 text-red-700': product1.status === 'Rejected'
                 }">
-                {{ product1.status }}
-              </span>
-            </p>
+                  {{ product1.status }}
+                </span>
+              </p>
 
-            <!-- Availability Badge -->
-            <p>
-              <span class="font-medium">Availability:</span>
-              <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full" [ngClass]="{
+              <!-- Availability Badge -->
+              <p>
+                <span class="font-medium">Availability:</span>
+                <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full" [ngClass]="{
                   'bg-green-200 text-green-800': product1.availability,
                   'bg-red-200 text-red-800': !product1.availability
                 }">
-                {{ product1.availability ? 'Available' : 'Not Available' }}
-              </span>
-            </p>
+                  {{ product1.availability ? 'Available' : 'Not Available' }}
+                </span>
+              </p>
+            </div>
+
+            <!-- Future Action Buttons -->
+            <div class="mt-4 flex flex-wrap gap-3">
+              <button
+                class="px-4 py-2 bg-blue-600 text-white text-sm rounded-xl hover:bg-blue-700 transition">Edit</button>
+              <button
+                class="px-4 py-2 bg-red-500 text-white text-sm rounded-xl hover:bg-red-600 transition">Delete</button>
+              <button class="px-4 py-2 bg-green-600 text-white text-sm rounded-xl hover:bg-green-700 transition">Mark
+                as
+                Sold</button>
+            </div>
+
+
+
+          </div>
+        </div>
+        <ng-template #noProducts>
+          <div class="text-center text-gray-500 dark:text-gray-400 py-10">
+            <p class="text-lg">No products found. Add your first product to get started!</p>
           </div>
 
-          <!-- Future Action Buttons -->
-          <div class="mt-4 flex flex-wrap gap-3">
-            <button
-              class="px-4 py-2 bg-blue-600 text-white text-sm rounded-xl hover:bg-blue-700 transition">Edit</button>
-            <button
-              class="px-4 py-2 bg-red-500 text-white text-sm rounded-xl hover:bg-red-600 transition">Delete</button>
-            <button class="px-4 py-2 bg-green-600 text-white text-sm rounded-xl hover:bg-green-700 transition">Mark as
-              Sold</button>
-          </div>
+        </ng-template>
 
-        </div>
-      </div>
-      <ng-template #noProducts>
-        <div class="text-center text-gray-500 dark:text-gray-400 py-10">
-          <p class="text-lg">No products found. Add your first product to get started!</p>
-        </div>
-      </ng-template>
+      </ng-container>
 
-    </ng-container>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!-- Farmer Profile -->
-    <div *ngIf="farmerData" class="mt-10">
-      <div class="flex items-center justify-between mb-6">
-        <h3 class="text-3xl font-semibold text-gray-800 dark:text-white">Your Farmer Profile</h3>
-        <button
-          class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-md transition duration-300"
-          (click)="onEditProfile()">
-          <i class="bi bi-pencil-square mr-2"></i> Edit Profile
-        </button>
+    <div *ngIf="activeTab === 'personal'">
+      <div *ngIf="farmerData" class="mt-10">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-3xl font-semibold text-gray-800 dark:text-white">Your Farmer Profile</h3>
+          <button
+            class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-md transition duration-300"
+            (click)="onEditProfile()">
+            <i class="bi bi-pencil-square mr-2"></i> Edit Profile
+          </button>
+        </div>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -121,20 +214,20 @@
     ]">
           <div
             class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm p-4 transition duration-300 hover:shadow-md">
-            <p class="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">{{ field.label }}
+            <p class="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">{{ field.label
+              }}
             </p>
             <p class="mt-1 text-lg font-semibold text-gray-800 dark:text-white">{{ field.value || 'N/A' }}</p>
           </div>
         </ng-container>
       </div>
-    </div>
 
-    <!-- Update Farmer Form -->
-    <div class="card shadow border-0 rounded-4 p-4 my-5">
-      <h3 class="mb-4 text-center fw-bold text-success">Update Farmer Profile</h3>
-      <form (ngSubmit)="submitFarmerForm()" #farmerFormRef="ngForm" class="row g-3 needs-validation" novalidate>
+      <!-- Update Farmer Form -->
+      <div class="card shadow border-0 rounded-4 p-4 my-5">
+        <h3 class="mb-4 text-center fw-bold text-success">Update Farmer Profile</h3>
+        <form (ngSubmit)="submitFarmerForm()" #farmerFormRef="ngForm" class="row g-3 needs-validation" novalidate>
 
-        <ng-container *ngFor="let input of [
+          <ng-container *ngFor="let input of [
           {label: 'Phone Number', name:'phoneNumber', type: 'tel'},
           {label: 'Address', name:'address'},
           {label: 'State', name:'state'},
@@ -144,25 +237,29 @@
           {label: 'Land Area (in acres)', name:'landArea', type:'number'},
           {label: 'Farming Type', name:'farmingType'}
         ]">
-          <div class="col-md-4">
-            <label class="form-label fw-semibold">{{input.label}}</label>
-            <input [(ngModel)]="farmerForm[input.name]" name="{{input.name}}" [type]="input.type || 'text'"
-              class="form-control rounded-3" required>
-          </div>
-        </ng-container>
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">{{input.label}}</label>
+              <input [(ngModel)]="farmerForm[input.name]" name="{{input.name}}" [type]="input.type || 'text'"
+                class="form-control rounded-3" required>
+            </div>
+          </ng-container>
 
-        <div class="col-12 text-center mt-3">
-          <button type="submit" class="btn px-5 py-2 fs-5 rounded-pill shadow-sm text-white border-0" [ngStyle]="{
+          <div class="col-12 text-center mt-3">
+            <button type="submit" class="btn px-5 py-2 fs-5 rounded-pill shadow-sm text-white border-0" [ngStyle]="{
     'background': selectedColor
   }">
-            <i class="bi bi-check-circle me-2"></i>
-            Save Profile
-          </button>
+              <i class="bi bi-check-circle me-2"></i>
+              Save Profile
+            </button>
 
-        </div>
-      </form>
+          </div>
+        </form>
+      </div>
     </div>
   </ng-container>
+
+
+  <!-- #region  update buyer details -->
 
   <!-- Buyer View -->
   <ng-container *ngIf="loginData.userRole === 'BUYER' || showBuyerForm">
@@ -279,6 +376,7 @@
     </form>
   </ng-container>
 
+     <!-- #endregion -->
 
   <!-- No Products Template -->
   <ng-template #noProducts>
@@ -289,12 +387,11 @@
       </button>
     </div>
   </ng-template>
-</div>
 
-<!-- Not Logged In Template -->
-<ng-template #notLoggedIn>
-  <div class="text-center mt-5">
-    <h4 class="text-danger">You are not logged in.</h4>
-    <p>Please log in to view your dashboard.</p>
-  </div>
-</ng-template>
+  <!-- Not Logged In Template -->
+  <ng-template #notLoggedIn>
+    <div class="text-center mt-5">
+      <h4 class="text-danger">You are not logged in.</h4>
+      <p>Please log in to view your dashboard.</p>
+    </div>
+  </ng-template>
