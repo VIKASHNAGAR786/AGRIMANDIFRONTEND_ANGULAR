@@ -1,125 +1,216 @@
-<script src="https://cdn.tailwindcss.com"></script>
+<div class="w-full bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 py-12 px-4 sm:px-10 lg:px-20 transition-colors duration-300">
 
-<div class="max-w-4xl mx-auto p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-md transition-colors duration-300">
-  <h1 class="text-3xl font-extrabold text-green-600 dark:text-green-400 mb-8 text-center">
-    Add New Product
-  </h1>
+  <!-- Header -->
+  <div class="max-w-7xl mx-auto text-center mb-12">
+    <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-green-700 dark:text-green-400 mb-4">
+      Add Your Fresh Product
+    </h1>
+    <p class="text-lg text-gray-600 dark:text-gray-300">
+      Please fill out the steps below to list your crop or item for sale.
+    </p>
+  </div>
 
+  <!-- Step Indicator with Icons & Highlights -->
+  <div class="flex justify-between items-center mb-10">
+    <div class="flex-1 flex flex-col items-center" [class.text-green-600]="currentStep === 1">
+      <div class="w-10 h-10 flex items-center justify-center rounded-full border-2"
+           [ngClass]="{
+             'bg-green-600 text-white border-green-600': currentStep === 1,
+             'border-gray-300 text-gray-500': currentStep !== 1
+           }">
+        1
+      </div>
+      <span class="mt-2 text-sm font-medium text-center">Basic Info</span>
+    </div>
+
+    <div class="flex-1 border-t-2"
+         [ngClass]="{
+           'border-green-500': currentStep >= 2,
+           'border-gray-300': currentStep < 2
+         }">
+    </div>
+
+    <div class="flex-1 flex flex-col items-center" [class.text-green-600]="currentStep === 2">
+      <div class="w-10 h-10 flex items-center justify-center rounded-full border-2"
+           [ngClass]="{
+             'bg-green-600 text-white border-green-600': currentStep === 2,
+             'border-gray-300 text-gray-500': currentStep !== 2
+           }">
+        2
+      </div>
+      <span class="mt-2 text-sm font-medium text-center">Product Details</span>
+    </div>
+
+    <div class="flex-1 border-t-2"
+         [ngClass]="{
+           'border-green-500': currentStep >= 3,
+           'border-gray-300': currentStep < 3
+         }">
+    </div>
+
+    <div class="flex-1 flex flex-col items-center" [class.text-green-600]="currentStep === 3">
+      <div class="w-10 h-10 flex items-center justify-center rounded-full border-2"
+           [ngClass]="{
+             'bg-green-600 text-white border-green-600': currentStep === 3,
+             'border-gray-300 text-gray-500': currentStep !== 3
+           }">
+        3
+      </div>
+      <span class="mt-2 text-sm font-medium text-center">Ready to Sell</span>
+    </div>
+  </div>
+
+  <!-- Form Starts -->
   <form [formGroup]="productForm" (ngSubmit)="submitProduct()" class="space-y-6">
 
-    <!-- Product Name -->
-    <div>
-      <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">
-        Product Name <span class="text-red-500">*</span>
-      </label>
-      <input
-        type="text"
-        formControlName="name"
-        placeholder="E.g., Golden Apples"
-        class="w-full rounded-lg border px-4 py-2 focus:ring-green-400 focus:border-green-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-      />
-    </div>
+    <!-- STEP 1: Basic Product Info -->
+    <div *ngIf="currentStep === 1" class="space-y-6">
+      <h2 class="text-2xl font-bold text-green-600 dark:text-green-400 mb-4">Basic Product Info</h2>
 
-    <!-- Description -->
-    <div>
-      <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">
-        Description <span class="text-red-500">*</span>
-      </label>
-      <textarea
-        formControlName="description"
-        rows="3"
-        placeholder="Briefly describe the product"
-        class="w-full rounded-lg border px-4 py-2 resize-y focus:ring-green-400 focus:border-green-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-      ></textarea>
-    </div>
-
-    <!-- Category, Type, Variety -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Product Name -->
       <div>
-        <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Category <span class="text-red-500">*</span></label>
-        <select formControlName="category" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-          <option value="" disabled>Select a category</option>
-          <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
-        </select>
+        <label class="block font-semibold mb-1">Product Name <span class="text-red-500">*</span></label>
+        <input type="text" formControlName="name" placeholder="E.g., Golden Apples"
+          class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
       </div>
 
+      <!-- Description -->
       <div>
-        <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Type <span class="text-red-500">*</span></label>
-        <input type="text" formControlName="type" placeholder="E.g., Fuji" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+        <label class="block font-semibold mb-1">Description <span class="text-red-500">*</span></label>
+        <textarea formControlName="description" rows="3" placeholder="Briefly describe the product"
+          class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"></textarea>
       </div>
 
-      <div>
-        <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Variety <span class="text-red-500">*</span></label>
-        <input type="text" formControlName="variety" placeholder="E.g., Organic" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+      <!-- Category, Type, Variety -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <label class="block font-semibold mb-1">Category <span class="text-red-500">*</span></label>
+          <select formControlName="category"
+            class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+            <option value="" disabled>Select a category</option>
+            <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1">Type <span class="text-red-500">*</span></label>
+          <input type="text" formControlName="type" placeholder="E.g., Fuji"
+            class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1">Variety <span class="text-red-500">*</span></label>
+          <input type="text" formControlName="variety" placeholder="E.g., Organic"
+            class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+        </div>
       </div>
     </div>
 
-    <!-- Grade, Quantity, Unit -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-      <div>
-        <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Grade <span class="text-red-500">*</span></label>
-        <select formControlName="grade" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-          <option *ngFor="let g of grades" [value]="g">{{ g }}</option>
-        </select>
+    <!-- STEP 2: Detailed Info -->
+    <div *ngIf="currentStep === 2" class="space-y-6">
+      <h2 class="text-2xl font-bold text-green-600 dark:text-green-400 mb-4">Product Details</h2>
+
+      <!-- Grade, Quantity, Unit -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <label class="block font-semibold mb-1">Grade <span class="text-red-500">*</span></label>
+          <select formControlName="grade"
+            class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+            <option *ngFor="let g of grades" [value]="g">{{ g }}</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1">Quantity <span class="text-red-500">*</span></label>
+          <input type="number" formControlName="quantity" min="0"
+            class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1">Unit <span class="text-red-500">*</span></label>
+          <select formControlName="unit"
+            class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+            <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+          </select>
+        </div>
       </div>
 
+      <!-- Price and Availability -->
       <div>
-        <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Quantity <span class="text-red-500">*</span></label>
-        <input type="number" formControlName="quantity" min="0" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+        <label class="block font-semibold mb-1">Price Per Unit (₹) <span class="text-red-500">*</span></label>
+        <input type="number" formControlName="pricePerUnit" min="0" step="0.01"
+          class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
       </div>
 
-      <div>
-        <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Unit <span class="text-red-500">*</span></label>
-        <select formControlName="unit" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-          <option *ngFor="let u of units" [value]="u">{{ u }}</option>
-        </select>
+      <div class="flex items-center gap-3">
+        <input type="checkbox" formControlName="availability"
+          class="h-5 w-5 text-green-600 rounded focus:ring-green-500 border-gray-300 dark:border-gray-600" />
+        <label class="font-semibold">Available for Sale</label>
+      </div>
+
+      <!-- State and District -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block font-semibold mb-1">State <span class="text-red-500">*</span></label>
+          <select formControlName="state"
+            class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+            <option value="" disabled>Select a state</option>
+            <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1">District <span class="text-red-500">*</span></label>
+          <select formControlName="district"
+            class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+            <option value="" disabled>Select a district</option>
+            <option *ngFor="let district of districts" [value]="district">{{ district }}</option>
+          </select>
+        </div>
       </div>
     </div>
 
-    <!-- Price -->
-    <div>
-      <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Price Per Unit (₹) <span class="text-red-500">*</span></label>
-      <input type="number" formControlName="pricePerUnit" min="0" step="0.01" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
-    </div>
+    <!-- STEP 3: Dates and Upload -->
+    <div *ngIf="currentStep === 3" class="space-y-6">
+      <h2 class="text-2xl font-bold text-green-600 dark:text-green-400 mb-4">Availability & Upload</h2>
 
-    <!-- Availability -->
-    <div class="flex items-center gap-3">
-      <input type="checkbox" formControlName="availability" class="h-5 w-5 text-green-600 rounded focus:ring-green-500 border-gray-300 dark:border-gray-600" />
-      <label class="text-gray-700 dark:text-gray-300 font-semibold">Available for Sale</label>
-    </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block font-semibold mb-1">Harvest Date <span class="text-red-500">*</span></label>
+          <input type="date" formControlName="harvestDate" max="{{ today }}"
+            class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+        </div>
 
-    <!-- Location -->
-    <div>
-      <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Location <span class="text-red-500">*</span></label>
-      <input type="text" formControlName="location" placeholder="E.g., Jaipur, Rajasthan" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
-    </div>
-
-    <!-- Dates -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Harvest Date <span class="text-red-500">*</span></label>
-        <input type="date" formControlName="harvestDate" max="{{ today }}" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+        <div>
+          <label class="block font-semibold mb-1">Expiry Date <span class="text-red-500">*</span></label>
+          <input type="date" formControlName="expiryDate" [min]="productForm.value.harvestDate"
+            class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+        </div>
       </div>
 
+      <!-- File Upload -->
       <div>
-        <label class="block font-semibold text-gray-700 dark:text-gray-300 mb-1">Expiry Date <span class="text-red-500">*</span></label>
-        <input type="date" formControlName="expiryDate" [min]="productForm.value.harvestDate" class="w-full rounded-lg border px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+        <label class="block font-semibold mb-1">Upload Images</label>
+        <input type="file" (change)="onFileChange($event)" multiple
+          class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-green-100 file:text-green-700 hover:file:bg-green-200" />
       </div>
-      
-       <!-- File Upload -->
-    <div class="mb-4">
-      <label class="block font-semibold mb-1">Upload Images</label>
-      <input type="file" (change)="onFileChange($event)" multiple class="w-full" />
     </div>
 
+    <!-- Navigation Buttons -->
+    <div class="flex justify-between mt-10">
+      <button *ngIf="currentStep > 1" type="button" (click)="goBack()"
+        class="px-6 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-100 font-semibold rounded-xl shadow">
+        ← Back
+      </button>
 
-    </div>
+      <button *ngIf="currentStep < 3" type="button" (click)="goNext()"
+        class="ml-auto px-6 py-2 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl shadow">
+        Next →
+      </button>
 
-
-    <!-- Submit Button -->
-    <div class="text-center">
-      <button type="submit" [disabled]="productForm.invalid" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-2xl shadow">
-        Submit Product
+      <button *ngIf="currentStep === 3" type="submit" [disabled]="productForm.invalid"
+        class="ml-auto px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl shadow">
+        ✅ Submit Product
       </button>
     </div>
   </form>
