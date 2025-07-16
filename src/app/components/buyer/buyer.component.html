@@ -46,28 +46,27 @@
               </div>
             </div>
 
-            
+
             <div class="col">
-  <div class="info-item d-flex align-items-center gap-3 p-3 bg-gradient border-0 rounded-3 shadow-sm h-100"
-       style="background: linear-gradient(135deg, #f0f4ff, #ffffff); transition: transform 0.3s ease;">
-    
-    <div class="icon-box d-flex align-items-center justify-content-center bg-primary text-white rounded-circle"
-         style="width: 40px; height: 40px;">
-      🏢
-    </div>
+              <div class="info-item d-flex align-items-center gap-3 p-3 bg-gradient border-0 rounded-3 shadow-sm h-100"
+                style="background: linear-gradient(135deg, #f0f4ff, #ffffff); transition: transform 0.3s ease;">
 
-    <div>
-      <div class="label text-uppercase text-secondary small fw-semibold letter-spacing">
-        Company Type
-      </div>
-      <div class="value fs-6 fw-bold text-dark">
-        {{ selectedbuyer.companyType || 'N/A' }}
-      </div>
-    </div>
-  </div>
-</div>
+                <div
+                  class="icon-box d-flex align-items-center justify-content-center bg-primary text-white rounded-circle"
+                  style="width: 40px; height: 40px;">
+                  🏢
+                </div>
 
-
+                <div>
+                  <div class="label text-uppercase text-secondary small fw-semibold letter-spacing">
+                    Company Type
+                  </div>
+                  <div class="value fs-6 fw-bold text-dark">
+                    {{ selectedbuyer.companyType || 'N/A' }}
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div class="col">
               <div class="info-item">
@@ -187,45 +186,46 @@
   </div>
 
   <!-- Buyer Cards -->
-  <div *ngIf="!loading">
-    <div *ngIf="(buyers?.length || 0) > 0; else noBuyer">
-      <div class="row mb-4" *ngFor="let buyer of buyers">
-        <div class="col-12">
-          <div class="card buyer-card p-3 shadow-sm" data-aos="fade-up" data-aos-duration="1000">
-            <div class="card-body d-flex align-items-center">
-              <img [src]="buyer.profileImageUrl || 'assets/default-profile.png'"
-                class="rounded-circle me-4 buyer-profile" alt="Buyer Profile">
-              <div class="flex-grow-1">
-                <h5 class="card-title mb-2">
-                  {{ buyer.companyName || 'Unknown Company' }}
-                  <span class="badge">Rating: {{ buyer.buyerRating || 'No Rating' }}</span>
-                </h5>
-                <p class="card-text mb-1">📞 <strong>Contact:</strong> {{ buyer.contactNumber || 'N/A' }}</p>
-                <p class="card-text mb-1">📍 <strong>Location:</strong> {{ buyer.city || 'N/A' }}, {{ buyer.state ||
-                  'N/A' }}, {{ buyer.country || 'N/A' }}</p>
-                <p class="card-text mb-0">📦 <strong>Total Orders:</strong> {{ buyer.totalOrders || 0 }}</p>
-                <button class="btn btn-custom mt-3" (click)="contactBuyer(buyer)">Contact Buyer</button>
-                <button class="btn btn-custom mt-3" (click)="viewDetails(buyer)">See Profile</button>
+  <div *ngIf="!loading && !selectedbuyer">
+    <div>
+      <div *ngIf="(buyers?.length || 0) !== 0; else noBuyer">
+        <div class="row mb-4" *ngFor="let buyer of buyers">
+          <div class="col-12">
+            <div class="card buyer-card p-3 shadow-sm" data-aos="fade-up" data-aos-duration="1000">
+              <div class="card-body d-flex align-items-center">
+                <img [src]="buyer.profileImageUrl || 'assets/default-profile.png'"
+                  class="rounded-circle me-4 buyer-profile" alt="Buyer Profile">
+                <div class="flex-grow-1">
+                  <h5 class="card-title mb-2">
+                    {{ buyer.companyName || 'Unknown Company' }}
+                    <span class="badge">Rating: {{ buyer.buyerRating || 'No Rating' }}</span>
+                  </h5>
+                  <p class="card-text mb-1">📞 <strong>Contact:</strong> {{ buyer.contactNumber || 'N/A' }}</p>
+                  <p class="card-text mb-1">📍 <strong>Location:</strong> {{ buyer.city || 'N/A' }}, {{ buyer.state ||
+                    'N/A' }}, {{ buyer.country || 'N/A' }}</p>
+                  <p class="card-text mb-0">📦 <strong>Total Orders:</strong> {{ buyer.totalOrders || 0 }}</p>
+                  <button class="btn btn-custom mt-3" (click)="contactBuyer(buyer)">Contact Buyer</button>
+                  <button class="btn btn-custom mt-3" (click)="viewDetails(buyer)">See Profile</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- No Buyer Template -->
-    <ng-template #noBuyer>
-      <div class="tw">
-        <div
-          class="flex flex-col items-center justify-center py-10 px-4 bg-gradient-to-r from-indigo-900 via-purple-800 to-indigo-900 rounded-xl shadow-2xl animate-fade-in">
-          <p class="text-xl font-semibold text-white tracking-wide">
-            🔒 Kindly <span class="text-yellow-300">log in</span> to unveil the marketplace magic!
-          </p>
-          <p class="text-sm text-purple-200 mt-2 italic">
-            Only the worthy may pass beyond this gate...
-          </p>
+       <!-- No Buyer Template -->
+      <ng-template #noBuyer>
+        <div class="tw">
+          <div
+            class="flex flex-col items-center justify-center py-10 px-4 bg-gradient-to-r from-indigo-900 via-purple-800 to-indigo-900 rounded-xl shadow-2xl animate-fade-in">
+            <p class="text-xl font-semibold text-white tracking-wide">
+              🔒 Kindly <span class="text-yellow-300">log in</span> to unveil the marketplace magic!
+            </p>
+            <p class="text-sm text-purple-200 mt-2 italic">
+              Only the worthy may pass beyond this gate...
+            </p>
+          </div>
         </div>
-      </div>
-    </ng-template>
+      </ng-template>
+    </div>   
   </div>
 </main>
