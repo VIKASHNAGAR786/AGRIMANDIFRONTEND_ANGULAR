@@ -83,9 +83,10 @@ export class NavbarComponent {
     this.isLoggedIn = false;
     this.router.navigate(['/auth/login']);
   }
-
+mobileMenuOpen = false;
   toggleUserMenu() {
     this.showUserMenu = !this.showUserMenu;
+     console.log('Menu toggled:', this.showUserMenu); // ✅ Debug log
   }
   @HostListener('document:click', ['$event.target'])
 onClickOutside(targetElement: HTMLElement) {

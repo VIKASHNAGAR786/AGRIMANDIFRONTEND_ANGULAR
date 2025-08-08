@@ -194,3 +194,14 @@ export interface MessageToFarmerModel
    MessageText: string 
    RelatedProductId: number;
  }
+
+
+ export interface GetAllSenderAndBuyer {
+  userName?: string;
+  senderId: number;
+  receiverId: number;
+  messageId: number;
+  senderRole?: string;
+  receiverRole?: string;
+  profileImageUrl?: string;
+}

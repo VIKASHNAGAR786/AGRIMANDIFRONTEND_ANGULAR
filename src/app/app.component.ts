@@ -79,6 +79,7 @@ import { LayoutService } from './services/layout.service';
     <div class="text-sm text-gray-100 mt-6 md:mt-0 text-center md:text-right">
       <p>&copy; {{ currentYear }} AgriMandi. All rights reserved.</p>
       <p>Developed with 💚 by <strong class="text-[#00ffee]">Vikash Nagar</strong></p>
+       <p class="text-gray-400 text-xs">Version 1.0.0</p>
     </div>
   </div>
 </footer>
