@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { GetAllMessageUserBy_DTO, GetAllSenderAndBuyer } from '../../models/User';
+import { GetAllMessageUserBy_DTO, GetAllSenderAndBuyer, SendMessageToTheUser } from '../../models/User';
 import { MessageService } from '../../services/message.service';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
@@ -20,6 +20,7 @@ export class MessageComponent implements OnInit, AfterViewInit {
   senderReceiverList: GetAllSenderAndBuyer[] = [];
   selectedUser: GetAllSenderAndBuyer | null = null;
   messages: GetAllMessageUserBy_DTO[] = [];
+  newMessage = '';
   searchQuery = '';
   public BASE_URL = environment.BASE_URL;
 
@@ -98,5 +99,25 @@ export class MessageComponent implements OnInit, AfterViewInit {
     const atBottom =
       element.scrollHeight - element.scrollTop - element.clientHeight < 50;
     this.autoScroll = atBottom;
+  }
+
+  onSendMessage() {
+    if (!this.newMessage.trim() || !this.selectedUser) {
+      return; // Don't send empty or without a selected user
+    }
+
+    const messageData: Omit<SendMessageToTheUser, 'userid'> = {
+      mainuserid: this.selectedUser.useridformessage, // This is the receiver's ID
+      messageText: this.newMessage
+    };
+
+    this.messageService.sendMessage(messageData).subscribe(res => {
+      if (res) {
+        console.log(res.message); // "Message sent successfully."
+        // Add message to chat UI instantly (optimistic update)
+        this.messages.push({ sendmessage: this.newMessage });
+        this.newMessage = ''; // Clear input
+      }
+    });
   }
 }

@@ -213,3 +213,10 @@ export interface GetAllMessageUserBy_DTO {
     receivemessage?: string;
     timestamp?: string;
 }
+
+
+export interface SendMessageToTheUser {
+  mainuserid: number;
+  userid: number;
+  messageText: string;
+}

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, shareReplay } from 'rxjs/operators';
-import { GetAllMessageUserBy_DTO, GetAllSenderAndBuyer, MessageToFarmerModel } from '../models/User';
+import { GetAllMessageUserBy_DTO, GetAllSenderAndBuyer, MessageToFarmerModel, SendMessageToTheUser } from '../models/User';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -14,6 +14,7 @@ export class MessageService {
   private contactFarmerUrl = environment.APIUrl + 'Message/ContactFarmer';
   private getAllSenderAndReceiverUrl = environment.APIUrl + 'Message/GetAllSenderAndBuyer';
   private getAllMessageUserByUrl = environment.APIUrl + 'Message/GetAllMessageUserBy';
+  private sendMessageUrl = environment.APIUrl + 'Message/SendMessage';
 
   private headersCache: HttpHeaders | null = null;
 
@@ -75,5 +76,23 @@ export class MessageService {
           })
         )
       : of([]);
+  }
+  /** Send a message */
+    sendMessage(data: Omit<SendMessageToTheUser, 'userid'>): Observable<{ message: string } | null> {
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      console.error('User not authenticated. Cannot send message.');
+      return of(null);
+    }
+
+    return this.http
+      .post<{ message: string }>(this.sendMessageUrl, data, { headers })
+      .pipe(
+        shareReplay(1), // cache the response for subscribers
+        catchError(err => {
+          console.error('SendMessage error:', err);
+          return of(null);
+        })
+      );
   }
 }
