@@ -1,77 +1,117 @@
 <!-- Banner -->
 <div class="bg-yellow-100 text-yellow-800 text-center py-2 px-4 font-medium shadow">
-  🚧 We are working on this feature and will implement it very soon.
+  🚧 This feature is under development. Real-time chat coming soon.
 </div>
 
-<div class="flex flex-col md:flex-row bg-gray-100 h-full min-h-[600px]">
+<!-- Main Container -->
+<div class="flex flex-col md:flex-row h-[calc(80vh-48px)] bg-gray-100">
   <!-- Sidebar -->
-   <!-- Sidebar -->
-<div class="w-full md:w-1/4 bg-green-700 text-white p-4">
-  <h2 class="text-2xl font-bold mb-4">Messages</h2>
+  <aside class="w-full md:w-1/4 bg-green-700 text-white p-5 flex flex-col">
+    <h2 class="text-2xl font-bold mb-4">Messages</h2>
 
-  <ul *ngIf="senderReceiverList.length > 0; else noMessages">
-    <li
-      *ngFor="let item of senderReceiverList"
-      class="mb-2 p-2 hover:bg-green-800 rounded cursor-pointer flex items-center space-x-3"
-    >
-      <img
-        *ngIf="item.profileImageUrl"
-        [src]="`${this.BASE_URL}/${item.profileImageUrl}`"
-        alt="Profile"
-        class="w-10 h-10 rounded-full object-cover border-2 border-white"
-      />
-      <div>
-        <div class="font-semibold">{{ item.userName }}</div>
-        <div class="text-sm text-gray-300">{{ item.senderRole }} ↔ {{ item.receiverRole }}</div>
-      </div>
-    </li>
-  </ul>
+    <!-- Search Bar -->
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      placeholder="Search by name or role..."
+      class="w-full p-2 rounded bg-green-600 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 mb-4"
+    />
 
-  <ng-template #noMessages>
-    <div class="text-sm text-gray-300">No messages found.</div>
-  </ng-template>
-</div>
+    <!-- Sender/Receiver List -->
+    <ul *ngIf="senderReceiverList.length > 0; else noMessages" class="flex-1 overflow-hidden">
+      <li
+        *ngFor="let item of filteredSenderReceiverList"
+        (click)="selectUser(item)"
+        [class.bg-green-800]="selectedUser?.messageId === item.messageId"
+        class="flex items-center gap-3 p-2 mb-2 rounded cursor-pointer hover:bg-green-800 transition"
+      >
+        <img
+          *ngIf="item.profileImageUrl"
+          [src]="`${BASE_URL}/${item.profileImageUrl}`"
+          alt="Profile"
+          class="w-10 h-10 rounded-full object-cover border-2 border-white"
+        />
+        <div>
+          <div class="font-semibold text-white">{{ item.userName }}</div>
+          <div class="text-xs text-gray-200">{{ item.senderRole }} ↔ {{ item.receiverRole }}</div>
+        </div>
+      </li>
+    </ul>
 
+    <ng-template #noMessages>
+      <div class="text-sm text-gray-300 mt-4">No messages found.</div>
+    </ng-template>
+  </aside>
 
   <!-- Chat Section -->
-  <div class="flex-1 flex flex-col">
+  <main class="flex-1 flex flex-col">
     <!-- Header -->
-    <div class="bg-white p-4 shadow flex items-center justify-between">
-      <h2 class="text-xl font-semibold text-gray-700">Chat with Buyer Sunita</h2>
-      <span class="text-green-500 text-sm">Online</span>
-    </div>
+<header class="bg-white p-4 shadow flex items-center justify-between border-b">
+  <div *ngIf="selectedUser; else noChatSelected" class="flex items-center space-x-4">
+    <!-- User Image -->
+    <img 
+      [src]="`${BASE_URL}/${selectedUser.profileImageUrl}`"
+      alt="User" 
+      class="w-10 h-10 rounded-full object-cover border" 
+    />
 
-    <!-- Chat Messages -->
-    <div class="flex-1 overflow-y-auto p-4 space-y-4 bg-white" style="max-height: 400px;">
-      <div class="flex justify-start">
-        <div class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg max-w-xs">
-          Hello! Interested in buying tomatoes?
-        </div>
-      </div>
-      <div class="flex justify-end">
+    <!-- User Info -->
+    <div>
+      <h2 class="text-xl font-semibold text-gray-700">
+        {{ selectedUser.userName }}
+      </h2>
+      <span class="text-green-500 text-sm">● Online</span>
+    </div>
+  </div>
+
+  <ng-template #noChatSelected>
+    <h2 class="text-xl font-semibold text-gray-400">Select a conversation</h2>
+  </ng-template>
+</header>
+
+  <!-- Messages -->
+<section
+  #messagesContainer
+  class="flex-1 bg-white p-6 space-y-4 overflow-y-auto"
+  (scroll)="onScroll()"
+>
+  <ng-container *ngIf="selectedUser; else emptyChat">
+    <div *ngFor="let msg of messages">
+      <div *ngIf="msg.sendmessage" class="flex justify-end">
         <div class="bg-green-600 text-white px-4 py-2 rounded-lg max-w-xs">
-          Yes! What’s the price per kg?
+          {{ msg.sendmessage }}
         </div>
       </div>
-      <div class="flex justify-start">
+
+      <div *ngIf="msg.receivemessage" class="flex justify-start">
         <div class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg max-w-xs">
-          ₹20/kg. Freshly harvested today.
+          {{ msg.receivemessage }}
         </div>
       </div>
     </div>
+  </ng-container>
 
-    <!-- Message Input -->
-    <div class="p-4 bg-gray-100 border-t flex items-center">
+  <ng-template #emptyChat>
+    <div class="text-center text-gray-400 text-sm mt-10">
+      No conversation selected
+    </div>
+  </ng-template>
+</section>
+
+
+
+    <!-- Input -->
+    <footer class="p-4 bg-gray-50 border-t flex items-center gap-4" *ngIf="selectedUser">
       <input
         type="text"
         placeholder="Type your message..."
-        class="flex-1 p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+        class="flex-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
       />
       <button
-        class="ml-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
+        class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
       >
         Send
       </button>
-    </div>
-  </div>
+    </footer>
+  </main>
 </div>

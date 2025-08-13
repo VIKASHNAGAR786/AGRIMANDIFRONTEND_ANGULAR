@@ -204,4 +204,12 @@ export interface MessageToFarmerModel
   senderRole?: string;
   receiverRole?: string;
   profileImageUrl?: string;
+  useridformessage: number;
+}
+
+export interface GetAllMessageUserBy_DTO {
+    messageid?: number;
+    sendmessage?: string;
+    receivemessage?: string;
+    timestamp?: string;
 }
