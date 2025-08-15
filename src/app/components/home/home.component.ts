@@ -4,6 +4,7 @@ import { RouterModule, Router } from '@angular/router';
 import { ColorserviceService } from '../../services/colorservice.service';
 import * as AOS from 'aos';
 import { LoginService } from '../../services/login.service';
+import { UserinfowithloginService } from '../../services/userinfowithlogin.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,9 @@ import { LoginService } from '../../services/login.service';
 export class HomeComponent {
   constructor(private router: Router, 
     private colorService: ColorserviceService,
-  private loginService: LoginService,) {}
+  private loginService: LoginService,
+  private userInfo: UserinfowithloginService
+) {}
 selectedColor: string = ''; 
   ngOnInit() {
 
@@ -23,7 +26,7 @@ selectedColor: string = '';
     // User not logged in, redirect to login page
     this.router.navigate(['auth/login']);
   } else {
-    console.log('User is logged in:', localStorage.getItem('user_name'));
+    console.log('User is logged in:', this.userInfo.getUserName());
   }
 
 

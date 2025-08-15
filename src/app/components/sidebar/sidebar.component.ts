@@ -10,6 +10,7 @@ import { filter } from 'rxjs/operators';
 import { ColorserviceService } from '../../services/colorservice.service';
 import { LayoutService } from '../../services/layout.service';
 import path from 'path';
+import { UserinfowithloginService } from '../../services/userinfowithlogin.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -56,7 +57,8 @@ export class SidebarComponent implements OnInit {
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object,
     private colorService: ColorserviceService,
-    private layoutService: LayoutService
+    private layoutService: LayoutService,
+    private userInfo: UserinfowithloginService
   ) {}
 sidebarBackground: string = '#14532d'; // fallback
   ngOnInit(): void {
@@ -75,7 +77,7 @@ sidebarBackground: string = '#14532d'; // fallback
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
         if (isPlatformBrowser(this.platformId)) {
-          this.isLoggedIn = !!localStorage.getItem('token');
+          this.isLoggedIn = !!this.userInfo.getToken();
         }
       });
   }

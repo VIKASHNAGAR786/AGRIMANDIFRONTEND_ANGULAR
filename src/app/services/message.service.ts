@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, shareReplay } from 'rxjs/operators';
 import { GetAllMessageUserBy_DTO, GetAllSenderAndBuyer, MessageToFarmerModel, SendMessageToTheUser } from '../models/User';
 import { environment } from '../../environments/environment';
+import { UserinfowithloginService } from './userinfowithlogin.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +21,14 @@ export class MessageService {
 
   constructor(
     private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private userInfo: UserinfowithloginService
   ) {}
 
   /** Cache and reuse auth headers for faster repeated calls */
   private getAuthHeaders(): HttpHeaders | null {
     if (!this.headersCache && isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('auth_token');
+      const token = this.userInfo.getToken();
       if (token) {
         this.headersCache = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
       }

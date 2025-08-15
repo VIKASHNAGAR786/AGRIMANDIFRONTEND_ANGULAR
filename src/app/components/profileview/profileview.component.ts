@@ -10,6 +10,7 @@ import { BuyerById, BuyerByIdForProfile, Farmer, FarmerDTO, UpdateBuyer } from '
 import { AlertService } from '../../services/alert.service';
 import { ColorserviceService } from '../../services/colorservice.service';
 import { error } from 'console';
+import { UserinfowithloginService } from '../../services/userinfowithlogin.service';
 
 @Component({
   selector: 'app-profileview',
@@ -64,7 +65,8 @@ export class ProfileviewComponent implements OnInit {
     private userService: UserService,
     private alertService: AlertService,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private colorService: ColorserviceService
+    private colorService: ColorserviceService,
+    private userInfo: UserinfowithloginService
   ) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -191,8 +193,8 @@ status:'',
         } else if (this.loginData.userRole === 'BUYER') {
           this.fetchbuyer_id();
         }
-  
-        const userId = Number(localStorage.getItem('nameid'));
+
+        const userId = Number(this.userInfo.getUserId());
         if (userId) {
           this.getProfileImage(userId);
         }
@@ -236,14 +238,14 @@ status:'',
 
   Collectlogindata() {
     if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('auth_token');
+      const token = this.userInfo.getToken();
 
       this.loginData = {
         isLoggedIn: !!token,
-        userName: localStorage.getItem('user_name') || '',
-        userRole: localStorage.getItem('user_role') || '',
-        userEmail: localStorage.getItem('user_email') || '',
-        userid: parseInt(localStorage.getItem('nameid') || '0')
+        userName: this.userInfo.getUserName() || '',
+        userRole: this.userInfo.getUserRole() || '',
+        userEmail: this.userInfo.getUserEmail() || '',
+        userid: this.userInfo.getUserId() || 0
       };
 
       const userId = this.loginData.userid;
@@ -293,12 +295,12 @@ status:'',
   
   saveProfileImage(file: File) {
     if (isPlatformBrowser(this.platformId)) {
-    const UserId = parseInt(localStorage.getItem('nameid') || '0'); // Get userId from localStorage
-    if (UserId !== 0 && file) {
-      this.userService.uploadProfileImage(file, UserId).subscribe({
-        next: (res) => {
-          if (res.success) {
-            this.alertService.showAlert('Profile image saved successfully.', 'success');
+      const UserId = Number(this.userInfo.getUserId()); // Get userId from userInfo service
+      if (UserId !== 0 && file) {
+        this.userService.uploadProfileImage(file, UserId).subscribe({
+          next: (res) => {
+            if (res.success) {
+              this.alertService.showAlert('Profile image saved successfully.', 'success');
             this.getProfileImage(UserId);  // Reload profile image after saving
           } else {
             this.alertService.showAlert('Failed to save profile image.','error');

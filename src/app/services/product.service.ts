@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Product, ProductByID, ProductFilter, UserByproduct } from '../models/product';
 import { isPlatformBrowser } from '@angular/common';
+import { UserinfowithloginService } from './userinfowithlogin.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +17,14 @@ export class ProductService {
   private GetProductReportPdfUrl = environment.APIUrl + 'Product/GetProductPdf';
   private GetProductByFarmerIdUrl = environment.APIUrl + 'Farmer/Getproductbyfarmerid';
 
-  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(private http: HttpClient,
+     @Inject(PLATFORM_ID) private platformId: Object,
+     private userInfo: UserinfowithloginService
+    ) {}
 
   private getAuthHeaders(): HttpHeaders | null {
     if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('auth_token');
+      const token = this.userInfo.getToken();
       return new HttpHeaders({
         'Authorization': `Bearer ${token}`
       });

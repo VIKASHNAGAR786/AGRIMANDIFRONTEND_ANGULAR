@@ -10,6 +10,7 @@ import {
 import { ProductService } from '../../services/product.service';
 import { AlertService } from '../../services/alert.service';
 import { CommonModule } from '@angular/common';
+import { UserinfowithloginService } from '../../services/userinfowithlogin.service';
 
 @Component({
   selector: 'app-product',
@@ -31,7 +32,8 @@ export class ProductComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private userInfo: UserinfowithloginService
   ) { }
 
   RAJASTHAN_DISTRICTS: string[] = ['Ajmer', 'Alwar', 'Banswara', 'Baran', 'Barmer', 'Bharatpur', 'Bhilwara', 'Bikaner', 'Bundi', 'Chittorgarh', 'Churu', 'Dausa',
@@ -114,8 +116,8 @@ ngOnInit(): void {
   }
 
   submitProduct(): void {
-    const email = localStorage.getItem('user_email');
-    const name = localStorage.getItem('user_name');
+    const email = this.userInfo.getUserEmail();
+    const name = this.userInfo.getUserName();
 
     if (!email || !name) {
       this.alertService.showAlert('User information missing in token!', 'error');

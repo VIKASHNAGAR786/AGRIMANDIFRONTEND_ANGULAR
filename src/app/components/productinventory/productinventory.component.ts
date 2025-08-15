@@ -10,6 +10,7 @@ import { AlertComponent } from '../../components/alert/alert.component';
 import { MessageToFarmerModel, UserRoleDto } from '../../models/User';
 import { MessageService } from '../../services/message.service';
 import { NotificationService } from '../../services/notification.service';
+import { UserinfowithloginService } from '../../services/userinfowithlogin.service';
 
 @Component({
   selector: 'app-productinventory',
@@ -33,7 +34,8 @@ export class ProductinventoryComponent implements OnInit {
   private BASE_URL = environment.BASE_URL;
   loading: boolean = true;
   showContactForm = false;
-  
+  farmermail_for_contact: string | null = null;
+
 message: MessageToFarmerModel = {
     farmerid: 0,
     BuyerId: 0,
@@ -47,7 +49,8 @@ message: MessageToFarmerModel = {
     @Inject(PLATFORM_ID) private platformId: Object,
     private alertService: AlertService,
     private messageService: MessageService,
-    private notificationservice: NotificationService
+    private notificationservice: NotificationService,
+    private userInfo: UserinfowithloginService
   ) { }
 
   ngOnInit() {
@@ -89,6 +92,7 @@ message: MessageToFarmerModel = {
 
         this.selectedproduct = data || null;
         this.products = [];
+        this.farmermail_for_contact = data.farmerEmail || null;
 
         console.log('📦 Product details loaded:', this.selectedproduct);
       },
@@ -154,8 +158,6 @@ public async sendMessage() {
     next: async (response) => {
       const userRole = response.data as UserRoleDto;
       let buyerid = 0;
-      console.log('User Role:', userRole);
-
       if (userRole.role === 'BUYER') {
         buyerid = userRole.roleid;
       }else if (userRole.role === 'FARMER') {
@@ -164,7 +166,7 @@ public async sendMessage() {
         return; // Exit if the user is a farmer
       }
 
-      const id = Number(localStorage.getItem('nameid'));
+      const id = Number(this.userInfo.getUserId());
       this.message.BuyerId = id;
       this.message.farmerid = this.selectedproduct?.userId || 0;
       this.message.RelatedProductId = this.selectedproduct?.productid || 0;

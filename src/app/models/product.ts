@@ -50,6 +50,7 @@ export interface Product {
     updatedDate: Date;
     status?: string;  
     userId?: number;         // User ID associated with the product
+    farmerEmail?: string;         // User ID associated with the product
   }
 
   export interface UserByproduct {

@@ -7,6 +7,7 @@ import { ColorserviceService } from '../../services/colorservice.service';
 import { LayoutService } from '../../services/layout.service';
 import { UserService } from '../../services/user.service';
 import { SignalrService } from '../../services/signalr.service';
+import { UserinfowithloginService } from '../../services/userinfowithlogin.service';
 
 @Component({
   selector: 'app-navbar',
@@ -33,7 +34,8 @@ export class NavbarComponent {
     private colorService: ColorserviceService,
     private layoutService: LayoutService,
      private userService: UserService,
-    private signalrService: SignalrService
+    private signalrService: SignalrService,
+     private userInfo: UserinfowithloginService
   ) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -55,20 +57,21 @@ export class NavbarComponent {
         this.isDesktop = window.innerWidth >= 768;
       });
     }
-     const userId = Number(localStorage.getItem('nameid'));
+     const userId = Number(this.userInfo.getUserId());
  if (userId) {
    this.getProfileImage(userId);
  }
   }
 
-  checkLoginStatus() {
-    if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('auth_token');
-      this.isLoggedIn = !!token;
-      this.userRole = localStorage.getItem('user_role');
-      this.username = localStorage.getItem('user_name') || 'User';
-    }
+checkLoginStatus() {
+  if (isPlatformBrowser(this.platformId)) {
+    this.userInfo.refresh(); // ✅ Always load latest from localStorage
+
+    this.isLoggedIn = !!this.userInfo.getToken();
+    this.userRole = this.userInfo.getUserRole();
+    this.username = this.userInfo.getUserName() || 'User';
   }
+}
 
   goToAddProduct(event: Event) {
     event.preventDefault();
@@ -76,13 +79,17 @@ export class NavbarComponent {
     this.router.navigate(['components/product']);
   }
 
-  logout() {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.clear();
-    }
-    this.isLoggedIn = false;
-    this.router.navigate(['/auth/login']);
+logout() {
+  if (isPlatformBrowser(this.platformId)) {
+    localStorage.clear();
   }
+
+  // Clear the in-memory cached data
+  this.userInfo.clear();
+
+  this.isLoggedIn = false;
+  this.router.navigate(['/auth/login']);
+}
 mobileMenuOpen = false;
   toggleUserMenu() {
     this.showUserMenu = !this.showUserMenu;

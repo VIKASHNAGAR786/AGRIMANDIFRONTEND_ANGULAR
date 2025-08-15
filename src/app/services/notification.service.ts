@@ -5,19 +5,24 @@ import { MessageDTO } from '../models/User';
 import { Observable, filter, map, of } from 'rxjs';
 import { Product } from '../models/product';
 import { environment } from '../../environments/environment';
+import { UserinfowithloginService } from './userinfowithlogin.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
 
-  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(
+    private http: HttpClient,
+     @Inject(PLATFORM_ID) private platformId: Object,
+     private userInfo: UserinfowithloginService
+    ) { }
 
   private getallmessage = environment.APIUrl + 'Message/GetAllMessage';
   private getuserrole = environment.APIUrl + 'Message/GetUserRole';
   private getAuthHeaders(): HttpHeaders | null {
     if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('auth_token')
+      const token = this.userInfo.getToken();
       return new HttpHeaders({
         'Authorization': `Bearer ${token}`
       });

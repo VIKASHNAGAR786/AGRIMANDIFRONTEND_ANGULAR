@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AllBuyer, Farmer, FarmerDTO, UpdateBuyer,BuyerById, BuyerByIdForProfile } from '../models/User';
 import { map, Observable, of } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
+import { UserinfowithloginService } from './userinfowithlogin.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +23,14 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private userInfo: UserinfowithloginService
   ) {}
 
   // 🔐 Reusable method to get auth headers
   private getAuthHeaders(): HttpHeaders | null {
     if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('auth_token');
+      const token = this.userInfo.getToken();
       return new HttpHeaders({
         'Authorization': `Bearer ${token}`
       });
