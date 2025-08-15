@@ -164,8 +164,9 @@ public async sendMessage() {
         return; // Exit if the user is a farmer
       }
 
-      this.message.BuyerId = buyerid;
-      this.message.farmerid = this.selectedproduct?.farmerId || 0;
+      const id = Number(localStorage.getItem('nameid'));
+      this.message.BuyerId = id;
+      this.message.farmerid = this.selectedproduct?.userId || 0;
       this.message.RelatedProductId = this.selectedproduct?.productid || 0;
 
       // Move message sending inside the success block after setting values

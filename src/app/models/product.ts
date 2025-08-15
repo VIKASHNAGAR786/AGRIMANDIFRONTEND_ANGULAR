@@ -48,7 +48,8 @@ export interface Product {
     farmerId: number;          // Used internally
     addedDate: Date;
     updatedDate: Date;
-    status?: string;           // Available, Sold, etc.
+    status?: string;  
+    userId?: number;         // User ID associated with the product
   }
 
   export interface UserByproduct {
