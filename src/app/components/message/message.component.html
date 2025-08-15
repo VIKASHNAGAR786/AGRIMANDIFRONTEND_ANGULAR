@@ -14,18 +14,12 @@
 
     <!-- Sender/Receiver List -->
     <ul *ngIf="senderReceiverList.length > 0; else noMessages" class="flex-1 overflow-hidden">
-      <li
-        *ngFor="let item of filteredSenderReceiverList"
-        (click)="selectUser(item)"
+      <li *ngFor="let item of filteredSenderReceiverList" (click)="selectUser(item)"
         [class.bg-green-800]="selectedUser?.messageId === item.messageId"
-        class="flex items-center gap-3 p-2 mb-2 rounded cursor-pointer hover:bg-green-800 transition"
-      >
-        <img
-          *ngIf="item.profileImageUrl"
-          [src]="`${BASE_URL}/${item.profileImageUrl}`"
-          alt="Profile"
-          class="w-10 h-10 rounded-full object-cover border-2 border-white"
-        />
+        class="flex items-center gap-3 p-2 mb-2 rounded cursor-pointer hover:bg-green-800 transition">
+        <img [src]="item.profileImageUrl ? `${BASE_URL}/${item.profileImageUrl}` : 'images/profile.jpeg'" alt="Profile"
+          class="w-10 h-10 rounded-full object-cover border-2 border-white" (error)="onImageError($event)" />
+    
         <div>
           <div class="font-semibold text-white">{{ item.userName }}</div>
           <div class="text-xs text-gray-200">{{ item.senderRole }} ↔ {{ item.receiverRole }}</div>
@@ -44,11 +38,12 @@
 <header class="bg-white p-4 shadow flex items-center justify-between border-b">
   <div *ngIf="selectedUser; else noChatSelected" class="flex items-center space-x-4">
     <!-- User Image -->
-    <img 
-      [src]="`${BASE_URL}/${selectedUser.profileImageUrl}`"
-      alt="User" 
-      class="w-10 h-10 rounded-full object-cover border" 
-    />
+   <img
+  [src]="selectedUser.profileImageUrl ? `${BASE_URL}/${selectedUser.profileImageUrl}` : 'assets/profile.jpeg'"
+  alt="Profile"
+  class="w-10 h-10 rounded-full object-cover border-2 border-white"
+  (error)="onImageError($event)"
+/>
 
     <!-- User Info -->
     <div>
@@ -71,29 +66,33 @@
   (scroll)="onScroll()"
 >
   <ng-container *ngIf="selectedUser; else emptyChat">
-    <div *ngFor="let msg of messages">
-      <div *ngIf="msg.sendmessage" class="flex justify-end">
-        <div class="bg-green-600 text-white px-4 py-2 rounded-lg max-w-xs">
-          {{ msg.sendmessage }}
+    <div *ngIf="loadingMessages" class="d-flex justify-content-center align-items-center my-20">
+  <div class="spinner-border text-success" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+    <div *ngIf="!loadingMessages && messages.length === 0" class="text-gray-500">
+      No messages
+    </div>
+    <div *ngIf="!loadingMessages && messages.length > 0">
+      <div *ngFor="let msg of messages">
+        <div *ngIf="msg.sendmessage" class="flex justify-end">
+          <div class="bg-green-600 text-white px-4 py-2 rounded-lg max-w-xs">
+            {{ msg.sendmessage }}
+          </div>
         </div>
-      </div>
-
-      <div *ngIf="msg.receivemessage" class="flex justify-start">
-        <div class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg max-w-xs">
-          {{ msg.receivemessage }}
+        <div *ngIf="msg.receivemessage" class="flex justify-start">
+          <div class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg max-w-xs">
+            {{ msg.receivemessage }}
+          </div>
         </div>
       </div>
     </div>
   </ng-container>
-
   <ng-template #emptyChat>
-    <div class="text-center text-gray-400 text-sm mt-10">
-      No conversation selected
-    </div>
+    <div class="text-gray-400">Select a user to start chatting</div>
   </ng-template>
 </section>
-
-
 
     <!-- Input -->
     <footer class="p-4 bg-gray-50 border-t flex items-center gap-4" *ngIf="selectedUser">

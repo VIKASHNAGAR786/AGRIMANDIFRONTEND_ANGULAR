@@ -22,7 +22,9 @@ export class MessageComponent implements OnInit, AfterViewInit {
   messages: GetAllMessageUserBy_DTO[] = [];
   newMessage = '';
   searchQuery = '';
+  sidebarOpen = true;
   public BASE_URL = environment.BASE_URL;
+  loadingMessages = false;
 
   constructor(private messageService: MessageService) {}
 
@@ -50,17 +52,20 @@ export class MessageComponent implements OnInit, AfterViewInit {
     if (this.selectedUser?.useridformessage === user.useridformessage) {
       return; // prevent duplicate fetch
     }
-
     this.selectedUser = user;
-
+    this.loadingMessages = true;
+    this.messages = [];
     try {
       this.messages = await firstValueFrom(
-        this.messageService.GetAllMessageUserBy(user.useridformessage)
+        await this.messageService.GetAllMessageUserBy(user.useridformessage)
       );
-      this.onMessagesUpdated();
+      await this.onMessagesUpdated();
     } catch (err) {
       console.error('Error loading messages for user', err);
-    }
+    }finally {
+    this.loadingMessages = false; // ✅ Stop loading state
+    await this.onMessagesUpdated();
+  }
   }
 
   /** Filter sender/receiver list based on search query */
@@ -113,11 +118,15 @@ export class MessageComponent implements OnInit, AfterViewInit {
 
     this.messageService.sendMessage(messageData).subscribe(res => {
       if (res) {
-        console.log(res.message); // "Message sent successfully."
-        // Add message to chat UI instantly (optimistic update)
         this.messages.push({ sendmessage: this.newMessage });
         this.newMessage = ''; // Clear input
       }
     });
   }
+
+ //for the image error when image not found
+  onImageError(event: Event) {
+  const target = event.target as HTMLImageElement;
+  target.src = 'images/profile.jpeg';
+}
 }

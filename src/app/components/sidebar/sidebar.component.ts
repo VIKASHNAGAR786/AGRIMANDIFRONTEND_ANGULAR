@@ -25,8 +25,8 @@ import { UserinfowithloginService } from '../../services/userinfowithlogin.servi
 export class SidebarComponent implements OnInit {
   isLoggedIn = false;
   sidebarVisible = true;
-  isCollapsed = false;
   selectedColor = '';
+  toggleHandler: any;
 
   // Core navigation links
   coreLinks = [
@@ -62,6 +62,17 @@ export class SidebarComponent implements OnInit {
   ) {}
 sidebarBackground: string = '#14532d'; // fallback
   ngOnInit(): void {
+
+    //this.toggleSidebar();
+    this.layoutService.sidebarVisible$.subscribe((visible) => {
+    this.sidebarVisible = visible;
+    this.isopenandclose = visible;
+  });
+
+  // Event listener from other component
+  this.toggleHandler = () => this.layoutService.toggleSidebar();
+  window.addEventListener('toggle-sidebar', this.toggleHandler);
+
     this.colorService.selectedColor$.subscribe((color) => {
       this.selectedColor = color;
 
@@ -71,7 +82,6 @@ sidebarBackground: string = '#14532d'; // fallback
       this.sidebarBackground = color;
     }
   });
-
     // Detect login status
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -82,16 +92,28 @@ sidebarBackground: string = '#14532d'; // fallback
       });
   }
 
-  toggleSidebar(): void {
-    this.sidebarVisible = !this.sidebarVisible;
-    this.layoutService.toggleSidebar();
-  }
+  isopenandclose = false;
+toggleSidebar(): void {
+  this.layoutService.toggleSidebar(); // Service decides new value
+}
 
+private setSidebarState(isOpen: boolean): void {
+  // Always set both flags together
+  this.isopenandclose = isOpen;
+  this.sidebarVisible = isOpen;
+
+  // Notify layout service with the actual state
+  this.layoutService.toggleSidebar();
+}
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.clear();
     }
     this.isLoggedIn = false;
     this.router.navigate(['/auth/login']);
+  }
+
+   ngOnDestroy() {
+    window.removeEventListener('toggle-sidebar', this.toggleHandler);
   }
 }

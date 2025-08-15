@@ -148,5 +148,14 @@ getProfileImage(userId: number) {
 ];
 
   
+// toggleSidebar(): void {
+//     this.sidebarVisible = !this.sidebarVisible;
+//     this.layoutService.toggleSidebar();
+//   }
+
+toggleSidebar() {
+    window.dispatchEvent(new Event('toggle-sidebar'));
+  }
+
 }
 
