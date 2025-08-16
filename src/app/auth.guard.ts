@@ -1,19 +1,70 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { 
+  CanActivate, 
+  CanActivateChild, 
+  CanLoad, 
+  Route, 
+  UrlSegment, 
+  Router, 
+  ActivatedRouteSnapshot, 
+  RouterStateSnapshot, 
+  UrlTree 
+} from '@angular/router';
+import { Observable } from 'rxjs';
 import { LoginService } from './services/login.service';
+import { UserinfowithloginService } from './services/userinfowithlogin.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
-  constructor(private loginService: LoginService, private router: Router) {}
+export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
+  constructor(private loginService: LoginService,
+    private userInfoService: UserinfowithloginService,
+     private router: Router) {}
 
-  canActivate(): boolean {
-    if (this.loginService.isLoggedIn()) {
-      return true;
-    } else {
-      this.router.navigate(['auth/login']);
-      return false;
+  private checkLogin(requiredRoles?: string[]): boolean | UrlTree {
+    const token = this.loginService.getToken();
+    
+    // Not logged in
+    if (!token || !this.loginService.isLoggedIn()) {
+      return this.router.parseUrl('/auth/login');
     }
+
+    // Token expired
+    if (this.userInfoService.isTokenExpired(token)) {
+      this.loginService.logout();
+      return this.router.parseUrl('/auth/login');
+    }
+
+    // Role-based check
+    if (requiredRoles && requiredRoles.length > 0) {
+      const userRole = this.userInfoService.getUserRole();
+      if (!userRole || !requiredRoles.includes(userRole)) {
+        return this.router.parseUrl('/unauthorized');
+      }
+    }
+
+    return true;
+  }
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean | UrlTree | Observable<boolean | UrlTree> {
+    const requiredRoles = route.data['roles'] as string[] | undefined;
+    return this.checkLogin(requiredRoles);
+  }
+
+  canActivateChild(
+    childRoute: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean | UrlTree | Observable<boolean | UrlTree> {
+    const requiredRoles = childRoute.data['roles'] as string[] | undefined;
+    return this.checkLogin(requiredRoles);
+  }
+
+  canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree {
+    const requiredRoles = (route.data as any)?.['roles'] as string[] | undefined;
+    return this.checkLogin(requiredRoles);
   }
 }

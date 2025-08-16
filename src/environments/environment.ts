@@ -11,4 +11,3 @@ export const environment = {
   AccountApiUrl: 'https://agrimandi20250515070340.azurewebsites.net/Account/',
    BASE_URL: 'https://agrimandi20250515070340.azurewebsites.net'
 };
-// 

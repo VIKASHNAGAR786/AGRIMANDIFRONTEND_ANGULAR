@@ -1,5 +1,6 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class UserinfowithloginService {
     id: number | null;
   } | null = null;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private router: Router) {
     this.loadFromLocalStorage();
   }
 
@@ -34,6 +35,10 @@ export class UserinfowithloginService {
   private parseId(value: string | null): number | null {
     return value ? Number(value) : null;
   }
+
+  /** ================================
+   *    GETTERS
+   *  ================================ */
 
   /** Get token */
   getToken(): string | null {
@@ -60,9 +65,62 @@ export class UserinfowithloginService {
     return this.cachedData?.id ?? null;
   }
 
+  /** ================================
+   *    TOKEN HELPERS
+   *  ================================ */
+
+  /** Decode JWT token payload */
+  private decodeToken(token: string): any {
+    try {
+      const payload = atob(token.split('.')[1]);
+      return JSON.parse(payload);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /** Check if user is logged in */
+  isLoggedIn(): boolean {
+    const token = this.getToken();
+    return !!token && !this.isTokenExpired(token);
+  }
+
+  /** Check if token is expired */
+  isTokenExpired(token: string): boolean {
+    const payload = this.decodeToken(token);
+    if (!payload || !payload.exp) {
+      return true; // invalid token
+    }
+    const expiryDate = payload.exp * 1000; // exp is in seconds
+    return Date.now() >= expiryDate;
+  }
+
+  /** Get token expiration date */
+  getTokenExpirationDate(token: string): Date | null {
+    const payload = this.decodeToken(token);
+    return payload?.exp ? new Date(payload.exp * 1000) : null;
+  }
+
+  /** ================================
+   *    SESSION MANAGEMENT
+   *  ================================ */
+
   /** Refresh data from localStorage (if user logs in or logs out) */
   refresh(): void {
     this.loadFromLocalStorage();
+  }
+
+  /** Logout user */
+  logout(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('user_name');
+      localStorage.removeItem('user_role');
+      localStorage.removeItem('user_email');
+      localStorage.removeItem('nameid');
+    }
+    this.clear();
+    this.router.navigate(['/auth/login']);
   }
 
   /** Clear cache (optional, used in logout) */
