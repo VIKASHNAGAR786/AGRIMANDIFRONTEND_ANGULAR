@@ -1,7 +1,7 @@
 <!-- #region Header Section -->
 
 <div class="container mx-auto p-4">
-  <h2 class="text-3xl font-extrabold text-green-800 mb-6 flex items-center gap-3">
+  <h2 class="text-3xl font-extrabold text-green-800 mb-6 -ml-16 flex items-center gap-3">
     <i class="bi bi-person-badge-fill text-green-600 text-2xl"></i>
     <span class="tracking-wide">My <span class="text-lime-600">AgriMandi</span> Profile</span>
   </h2>
@@ -296,107 +296,107 @@
 
   <!-- Buyer View -->
   <ng-container *ngIf="loginData.userRole === 'BUYER' || showBuyerForm">
-    <h3 class="mb-4">Update Buyer Details</h3>
+    <h3 class="text-3xl mb-4 fw-semibold">Update Buyer Details</h3>
     <form (ngSubmit)="submitBuyerForm()" class="row g-3">
 
       <!-- Basic Contact Details -->
       <div class="col-md-4">
-        <label class="form-label">Contact Number</label>
-        <input [(ngModel)]="buyerForm.contactNumber" name="contactNumber" class="form-control" required />
+        <label class="form-label fw-semibold">Contact Number</label>
+        <input [(ngModel)]="buyerForm.contactNumber" name="contactNumber" class="form-control rounded-3" required />
       </div>
       <div class="col-md-4">
-        <label class="form-label">Alternate Contact</label>
+        <label class="form-label fw-semibold">Alternate Contact</label>
         <input [(ngModel)]="buyerForm.alternateContact" name="alternateContact" class="form-control" />
       </div>
 
       <!-- Address Details -->
       <div class="col-md-4">
-        <label class="form-label">Address</label>
+        <label class="form-label fw-semibold">Address</label>
         <input [(ngModel)]="buyerForm.address" name="address" class="form-control" required />
       </div>
       <div class="col-md-4">
-        <label class="form-label">City</label>
+        <label class="form-label fw-semibold">City</label>
         <input [(ngModel)]="buyerForm.city" name="city" class="form-control" />
       </div>
       <div class="col-md-4">
-        <label class="form-label">State</label>
+        <label class="form-label fw-semibold">State</label>
         <input [(ngModel)]="buyerForm.state" name="state" class="form-control" />
       </div>
       <div class="col-md-4">
-        <label class="form-label">Pincode</label>
+        <label class="form-label fw-semibold">Pincode</label>
         <input [(ngModel)]="buyerForm.pincode" name="pincode" class="form-control" />
       </div>
       <div class="col-md-4">
-        <label class="form-label">Country</label>
+        <label class="form-label fw-semibold">Country</label>
         <input [(ngModel)]="buyerForm.country" name="country" class="form-control" />
       </div>
 
       <!-- Company Info -->
       <div class="col-md-4">
-        <label class="form-label">Company Name</label>
+        <label class="form-label fw-semibold">Company Name</label>
         <input [(ngModel)]="buyerForm.companyName" name="companyName" class="form-control" />
       </div>
       <div class="col-md-4">
-        <label class="form-label">Company Type</label>
+        <label class="form-label fw-semibold">Company Type</label>
         <input [(ngModel)]="buyerForm.companyType" name="companyType" class="form-control" />
       </div>
       <div class="col-md-4">
-        <label class="form-label">GST Number</label>
+        <label class="form-label fw-semibold">GST Number</label>
         <input [(ngModel)]="buyerForm.gstNumber" name="gstNumber" class="form-control" />
       </div>
       <div class="col-md-4">
-        <label class="form-label">PAN Number</label>
+        <label class="form-label fw-semibold">PAN Number</label>
         <input [(ngModel)]="buyerForm.panNumber" name="panNumber" class="form-control" />
       </div>
 
       <!-- Preferences -->
       <div class="col-md-4">
-        <label class="form-label">Preferred Crops</label>
+        <label class="form-label fw-semibold">Preferred Crops</label>
         <input [(ngModel)]="buyerForm.preferredCrops" name="preferredCrops" class="form-control" />
       </div>
       <div class="col-md-4">
-        <label class="form-label">Budget Range</label>
+        <label class="form-label fw-semibold">Budget Range</label>
         <input [(ngModel)]="buyerForm.budgetRange" name="budgetRange" class="form-control" />
       </div>
       <div class="col-md-4">
-        <label class="form-label">Purchase Frequency</label>
+        <label class="form-label fw-semibold">Purchase Frequency</label>
         <input [(ngModel)]="buyerForm.purchaseFrequency" name="purchaseFrequency" class="form-control" />
       </div>
       <div class="col-md-4">
-        <label class="form-label">Preferred Payment Method</label>
+        <label class="form-label fw-semibold">Preferred Payment Method</label>
         <input [(ngModel)]="buyerForm.preferredPaymentMethod" name="preferredPaymentMethod" class="form-control" />
       </div>
 
       <!-- Geo Location -->
       <div class="col-md-4">
-        <label class="form-label">Geo Latitude</label>
+        <label class="form-label fw-semibold">Geo Latitude</label>
         <input type="number" [(ngModel)]="buyerForm.geoLat" name="geoLat" class="form-control" />
       </div>
       <div class="col-md-4">
-        <label class="form-label">Geo Longitude</label>
+        <label class="form-label fw-semibold">Geo Longitude</label>
         <input type="number" [(ngModel)]="buyerForm.geoLong" name="geoLong" class="form-control" />
       </div>
 
       <!-- Additional Info -->
       <div class="col-md-4">
-        <label class="form-label">Total Orders</label>
+        <label class="form-label fw-semibold">Total Orders</label>
         <input type="number" [(ngModel)]="buyerForm.totalOrders" name="totalOrders" class="form-control" />
       </div>
       <div class="col-md-4">
-        <label class="form-label">Total Spent</label>
+        <label class="form-label fw-semibold">Total Spent</label>
         <input type="number" [(ngModel)]="buyerForm.totalSpent" name="totalSpent" class="form-control" />
       </div>
       <div class="col-md-4">
-        <label class="form-label">Loyalty Points</label>
+        <label class="form-label fw-semibold">Loyalty Points</label>
         <input type="number" [(ngModel)]="buyerForm.loyaltyPoints" name="loyaltyPoints" class="form-control" />
       </div>
       <div class="col-md-4">
-        <label class="form-label">Buyer Rating</label>
+        <label class="form-label fw-semibold">Buyer Rating</label>
         <input type="number" [(ngModel)]="buyerForm.buyerRating" name="buyerRating" class="form-control" step="0.1" />
       </div>
 
       <div class="col-md-4">
-        <label class="form-label">Last Purchase Date</label>
+        <label class="form-label fw-semibold">Last Purchase Date</label>
         <input type="date" [(ngModel)]="buyerForm.lastPurchaseDate" name="lastPurchaseDate" class="form-control" />
       </div>
 

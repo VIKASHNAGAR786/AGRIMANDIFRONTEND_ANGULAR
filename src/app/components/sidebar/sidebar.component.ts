@@ -31,9 +31,9 @@ export class SidebarComponent implements OnInit {
   // Core navigation links
   coreLinks = [
   { label: 'Home', path: '/', icon: 'bi bi-house-door-fill' },
-  { label: 'Dashboard', path: '/dashboard', icon: 'bi bi-house-door-fill' },
+  { label: 'Mandi Rates', path: '/mandi-rates', icon: 'bi bi-graph-up' },
   { label: 'Products', path: '/products', icon: 'bi bi-box-seam' },
-  { label: 'Farmers', path: '/farmers', icon: 'bi bi-people-fill' },
+  { label: 'Govt Schemes', path: '/govt-schemes', icon: 'bi bi-bank' },
   { label: 'Buyers', path: '/buyer', icon: 'bi bi-person-badge-fill' },
   { label: 'Orders', path: '/orders', icon: 'bi bi-bag-check-fill' },
   { label: 'Payments', path: '/payments', icon: 'bi bi-cash-stack' },
