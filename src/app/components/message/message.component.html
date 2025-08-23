@@ -75,19 +75,23 @@
       No messages
     </div>
     <div *ngIf="!loadingMessages && messages.length > 0">
-      <div *ngFor="let msg of messages">
-        <div *ngIf="msg.sendmessage" class="flex justify-end">
-          <div class="bg-green-600 text-white px-4 py-2 rounded-lg max-w-xs">
-            {{ msg.sendmessage }}
-          </div>
-        </div>
-        <div *ngIf="msg.receivemessage" class="flex justify-start">
-          <div class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg max-w-xs">
-            {{ msg.receivemessage }}
-          </div>
-        </div>
+  <div *ngFor="let msg of messages">
+    <!-- Sent by current user -->
+    <div *ngIf="msg.isSentByCurrentUser" class="flex justify-end">
+      <div class="bg-green-600 text-white px-4 py-2 rounded-lg max-w-xs">
+        {{ msg.message }}
       </div>
     </div>
+
+    <!-- Received from other user -->
+    <div *ngIf="!msg.isSentByCurrentUser" class="flex justify-start">
+      <div class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg max-w-xs">
+        {{ msg.message }}
+      </div>
+    </div>
+  </div>
+</div>
+
   </ng-container>
   <ng-template #emptyChat>
     <div class="text-gray-400">Select a user to start chatting</div>

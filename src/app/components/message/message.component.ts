@@ -118,7 +118,11 @@ export class MessageComponent implements OnInit, AfterViewInit {
 
     this.messageService.sendMessage(messageData).subscribe(res => {
       if (res) {
-        this.messages.push({ sendmessage: this.newMessage });
+        this.messages.push({
+          message: this.newMessage,
+          messageid: 0,
+          isSentByCurrentUser: true
+        });
         this.newMessage = ''; // Clear input
       }
     });

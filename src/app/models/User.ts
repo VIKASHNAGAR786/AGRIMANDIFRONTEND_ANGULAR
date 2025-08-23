@@ -208,11 +208,13 @@ export interface MessageToFarmerModel
 }
 
 export interface GetAllMessageUserBy_DTO {
-    messageid?: number;
-    sendmessage?: string;
-    receivemessage?: string;
-    timestamp?: string;
+  messageid: number;
+  message?: string;            // nullable in C# => optional in TS
+  isSentByCurrentUser: boolean;
+  timestamp?: string;          // nullable => optional
+  senderid?: number;           // nullable => optional
 }
+
 
 
 export interface SendMessageToTheUser {
