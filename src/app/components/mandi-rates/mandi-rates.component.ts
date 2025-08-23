@@ -32,19 +32,23 @@ export class MandiRatesComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
+
   ngOnInit(): void {
     // ✅ build filter form
     this.filterForm = new FormGroup({
-  state: new FormControl('Rajasthan'),
-  district: new FormControl('Baran'),
+  state: new FormControl(''),
+  district: new FormControl(''),
   commodity: new FormControl('Wheat'),
-  fromDate: new FormControl('2025-08-01'),
-  toDate: new FormControl('2025-08-23'),
+  fromDate: new FormControl(formatDate(new Date())), // today
+  toDate: new FormControl(formatDate(new Date())),   // today
   limit: new FormControl(10),
   offset: new FormControl(0),
   sortMarket: new FormControl('asc')
 });
 
+  function formatDate(date: Date): string {
+  return date.toISOString().split('T')[0]; // yyyy-MM-dd
+}
     // when state changes → update districts
     this.filterForm.get('state')?.valueChanges.subscribe((state: string) => {
       this.districts = STATE_DISTRICT_MAP[state] || [];
