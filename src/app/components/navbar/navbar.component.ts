@@ -84,12 +84,16 @@ logout() {
     localStorage.clear();
   }
 
-  // Clear the in-memory cached data
+  // Clear in-memory cached data
   this.userInfo.clear();
 
   this.isLoggedIn = false;
-  this.router.navigate(['/auth/login']);
+
+  this.router.navigate(['/auth/login']).then(() => {
+    window.location.reload(); // refresh the entire page
+  });
 }
+
 mobileMenuOpen = false;
   toggleUserMenu() {
     this.showUserMenu = !this.showUserMenu;
