@@ -117,10 +117,10 @@ export const routes: Routes = [
   },
 
   {
-    path: 'dashboard',
+    path: 'mandi-rates',
     loadComponent: () =>
-      import('./components/dashboard/dashboard.component').then(
-        (m) => m.DashboardComponent
+      import('./components/mandi-rates/mandi-rates.component').then(
+        (m) => m.MandiRatesComponent
       ),
     canActivate: [AuthGuard],
    data: { roles: ['FARMER', 'BUYER', 'ADMIN'] } 

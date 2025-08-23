@@ -1,0 +1,77 @@
+<div class="p-4">
+  <h2 class="text-2xl font-bold text-green-700">Mandi Rates</h2>
+
+  <!-- Filter Form -->
+  <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+
+   <!-- State dropdown -->
+  <select formControlName="state" class="border p-2 rounded w-full">
+    <option value="">Select State</option>
+    <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+  </select>
+
+  <!-- District dropdown -->
+  <select formControlName="district" class="border p-2 rounded w-full">
+    <option value="">Select District</option>
+    <option *ngFor="let district of districts" [value]="district">{{ district }}</option>
+  </select>
+
+    <input formControlName="commodity" type="text" placeholder="Commodity" class="border p-2 rounded w-full" />
+
+    <input formControlName="fromDate" type="date" class="border p-2 rounded w-full" />
+    <input formControlName="toDate" type="date" class="border p-2 rounded w-full" />
+
+    <select formControlName="sortMarket" class="border p-2 rounded w-full">
+      <option value="asc">Market ↑</option>
+      <option value="desc">Market ↓</option>
+    </select>
+
+    <input formControlName="limit" type="number" placeholder="Limit" class="border p-2 rounded w-full" />
+    <input formControlName="offset" type="number" placeholder="Offset" class="border p-2 rounded w-full" />
+
+    <button type="submit" class="col-span-2 md:col-span-3 bg-green-600 text-white px-4 py-2 rounded">
+      Apply Filters
+    </button>
+  </form>
+
+  <!-- Loading & Error -->
+  <div *ngIf="loading" class="text-blue-500 font-medium mt-2">Loading mandi rates...</div>
+  <div *ngIf="error" class="text-red-500 mt-2">{{ error }}</div>
+
+  <!-- Table -->
+  <div class="overflow-x-auto mt-4" *ngIf="!loading && records.length > 0">
+    <table class="table-auto border-collapse border border-gray-400 w-full">
+      <thead class="bg-green-600 text-white">
+        <tr>
+          <th class="border px-3 py-2">State</th>
+          <th class="border px-3 py-2">District</th>
+          <th class="border px-3 py-2">Market</th>
+          <th class="border px-3 py-2">Commodity</th>
+          <th class="border px-3 py-2">Variety</th>
+          <th class="border px-3 py-2">Arrival Date</th>
+          <th class="border px-3 py-2">Min Price</th>
+          <th class="border px-3 py-2">Max Price</th>
+          <th class="border px-3 py-2">Modal Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rec of records" class="hover:bg-gray-100 transition">
+          <td class="border px-2 py-1">{{ rec.state }}</td>
+          <td class="border px-2 py-1">{{ rec.district }}</td>
+          <td class="border px-2 py-1">{{ rec.market }}</td>
+          <td class="border px-2 py-1">{{ rec.commodity }}</td>
+          <td class="border px-2 py-1">{{ rec.variety }}</td>
+          <td class="border px-2 py-1">{{ rec.arrival_Date }}</td>
+          <td class="border px-2 py-1">{{ rec.min_Price }}</td>
+          <td class="border px-2 py-1">{{ rec.max_Price }}</td>
+          <td class="border px-2 py-1">{{ rec.modal_Price }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Empty -->
+  <div *ngIf="!loading && records.length === 0 && !error" class="text-gray-500 mt-4">
+    No mandi rates found.
+  </div>
+</div>

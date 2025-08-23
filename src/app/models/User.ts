@@ -222,3 +222,15 @@ export interface SendMessageToTheUser {
   userid: number;
   messageText: string;
 }
+
+
+export interface PriceRequestDto {
+  offset: number;         // default = 0
+  limit: number;          // default = 50
+  state: string;          // e.g. "Rajasthan"
+  district: string;       // e.g. "Baran"
+  commodity: string;      // e.g. "Wheat"
+  fromDate: string;       // yyyy-MM-dd
+  toDate: string;         // yyyy-MM-dd
+  sortMarket: string;     // "asc" or "desc"
+}

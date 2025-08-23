@@ -84,3 +84,80 @@ export interface Product {
           MaxPrice?: number | null;
           Availability?: boolean | null;
   }
+
+  export interface PriceApiResponseDto {
+  index_Name: string;
+  title: string;
+  desc: string;
+  org_Type: string;
+  org: string[];
+  sector: string[];
+  source: string;
+  catalog_Uuid: string;
+  visualizable: string;
+  active: string;
+  created: number;
+  updated: number;
+  created_Date: string;
+  updated_Date: string;
+  external_Ws: number;
+  external_Ws_Url: string;
+  target_Bucket: TargetBucketDto;
+  field: FieldDto[];
+  field_Dependent: { [key: string]: FieldDependencyDto };
+  order: OrderDto[];
+  field_Exposed: FieldExposedDto[];
+  message: string;
+  version: string;
+  status: string;
+  total: number;
+  count: number;
+  limit: string;
+  offset: string;
+  records: PriceRecordDto[];
+}
+
+export interface TargetBucketDto {
+  index: string;
+  type: string;
+  field: string;
+}
+
+export interface FieldDto {
+  name: string;
+  id: string;
+  type: string;
+}
+
+export interface FieldDependencyDto {
+  parent: string;
+  child: string;
+}
+
+export interface OrderDto {
+  name: string;
+  id: string;
+}
+
+export interface FieldExposedDto {
+  name: string;
+  id: string;
+  type: string;
+  mandatory: boolean;
+  format?: string; // optional, only present in Arrival_Date
+}
+
+export interface PriceRecordDto {
+  state: string;
+  district: string;
+  market: string;
+  commodity: string;
+  variety: string;
+  grade: string;
+  arrival_Date: string;   // keep as string (API returns dd/MM/yyyy)
+  min_Price: string;
+  max_Price: string;
+  modal_Price: string;
+  commodity_Code: string;
+}
+
