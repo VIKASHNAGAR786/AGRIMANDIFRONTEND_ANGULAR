@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MandiRatesService } from '../../services/mandi-rates.service';
 import { PriceApiResponseDto, PriceRecordDto } from '../../models/product';
 import { PriceRequestDto } from '../../models/User';
 import { STATE_DISTRICT_MAP } from '../../data/state-districts';
+import { STATE_DISTRICT_COMMODITIES } from '../../data/commodity_names';
 
 @Component({
   selector: 'app-mandi-rates',
@@ -18,44 +19,49 @@ export class MandiRatesComponent implements OnInit {
   loading = false;
   error: string | null = null;
   filterForm!: FormGroup;
-  totalRowCount = 0; // total rows from API
+  totalRowCount = 0;
+  commodities: string[] = []; // <-- will hold commodities for selected state & district
 
-  // ✅ states & districts dictionary
   states = Object.keys(STATE_DISTRICT_MAP);
   districts: string[] = [];
-
-  // ✅ pagination
   currentPage = 1;
 
-  constructor(
-    private mandiRatesService: MandiRatesService,
-    private fb: FormBuilder
-  ) {}
-
+  constructor(private mandiRatesService: MandiRatesService) {}
 
   ngOnInit(): void {
-    // ✅ build filter form
     this.filterForm = new FormGroup({
-  state: new FormControl(''),
-  district: new FormControl(''),
-  commodity: new FormControl('Wheat'),
-  fromDate: new FormControl(formatDate(new Date())), // today
-  toDate: new FormControl(formatDate(new Date())),   // today
-  limit: new FormControl(10),
-  offset: new FormControl(0),
-  sortMarket: new FormControl('asc')
-});
+      state: new FormControl(''),
+      district: new FormControl(''),
+      commodity: new FormControl(''),
+      fromDate: new FormControl(this.formatDate(new Date())),
+      toDate: new FormControl(this.formatDate(new Date())),
+      limit: new FormControl(10),
+      offset: new FormControl(0),
+      sortMarket: new FormControl('asc')
+    });
 
-  function formatDate(date: Date): string {
-  return date.toISOString().split('T')[0]; // yyyy-MM-dd
-}
-    // when state changes → update districts
+    // ✅ When state changes → update districts & reset commodities
     this.filterForm.get('state')?.valueChanges.subscribe((state: string) => {
       this.districts = STATE_DISTRICT_MAP[state] || [];
       this.filterForm.patchValue({ district: '' });
+      this.commodities = [];
+    });
+
+    // ✅ When district changes → update commodities
+    this.filterForm.get('district')?.valueChanges.subscribe((district: string) => {
+      const state = this.filterForm.get('state')?.value;
+      if (state && district) {
+        this.commodities = STATE_DISTRICT_COMMODITIES[state]?.[district] || [];
+      } else {
+        this.commodities = [];
+      }
     });
 
     this.fetchRates(); // initial load
+  }
+
+  private formatDate(date: Date): string {
+    return date.toISOString().split('T')[0]; // yyyy-MM-dd
   }
 
   fetchRates(): void {
@@ -69,7 +75,6 @@ export class MandiRatesComponent implements OnInit {
         if (res) {
           this.records = res.records;
           this.totalRowCount = res.total;
-          console.log('API response:', res);
         } else {
           this.error = 'No data returned from API';
         }
@@ -84,12 +89,11 @@ export class MandiRatesComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.currentPage = 1; // reset to page 1 on new filter
+    this.currentPage = 1;
     this.filterForm.patchValue({ offset: 0 });
     this.fetchRates();
   }
 
-  // ✅ pagination handlers
   nextPage(): void {
     this.currentPage++;
     const newOffset = (this.currentPage - 1) * this.filterForm.value.limit;
@@ -106,10 +110,10 @@ export class MandiRatesComponent implements OnInit {
     }
   }
 
-changePageSize(event: Event): void {
-  const limit = +(event.target as HTMLSelectElement).value; // cast & convert to number
-  this.filterForm.patchValue({ limit, offset: 0 });
-  this.currentPage = 1;
-  this.fetchRates();
-}
+  changePageSize(event: Event): void {
+    const limit = +(event.target as HTMLSelectElement).value;
+    this.filterForm.patchValue({ limit, offset: 0 });
+    this.currentPage = 1;
+    this.fetchRates();
+  }
 }

@@ -53,5 +53,4 @@ GetMandiPriceData(priceRequestDto: PriceRequestDto): Observable<PriceApiResponse
       })
     );
   }
-
 }

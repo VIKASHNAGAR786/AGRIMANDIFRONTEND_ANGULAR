@@ -30,10 +30,15 @@
 
     <!-- Commodity -->
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Commodity</label>
-      <input formControlName="commodity" type="text" placeholder="e.g. Wheat" 
-        class="border border-gray-300 p-2 rounded-lg w-full focus:ring-2 focus:ring-green-500" />
-    </div>
+  <label class="block text-sm font-medium text-gray-700 mb-1">Commodity</label>
+  <select
+    formControlName="commodity"
+    class="border border-gray-300 p-2 rounded-lg w-full focus:ring-2 focus:ring-green-500"
+  >
+    <option value="" disabled selected>-- Select a commodity --</option>
+    <option *ngFor="let c of commodities" [value]="c">{{ c }}</option>
+  </select>
+</div>
 
     <!-- From Date -->
     <div>

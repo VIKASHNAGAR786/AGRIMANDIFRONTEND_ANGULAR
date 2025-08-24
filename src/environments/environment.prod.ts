@@ -5,7 +5,7 @@
   // };
   
   export const environment = {
-  production: false,
+  production: true,
   APIUrl: 'https://agrimandi20250515070340.azurewebsites.net/api/',
   AccountApiUrl: 'https://agrimandi20250515070340.azurewebsites.net/Account/',
   BASE_URL: 'https://agrimandi20250515070340.azurewebsites.net',
