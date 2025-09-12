@@ -11,11 +11,12 @@ import { AlertService } from '../../services/alert.service';
 import { ColorserviceService } from '../../services/colorservice.service';
 import { error } from 'console';
 import { UserinfowithloginService } from '../../services/userinfowithlogin.service';
+import { SelfProductviewComponent } from "./self-productview/self-productview.component";
 
 @Component({
   selector: 'app-profileview',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SelfProductviewComponent],
   templateUrl: './profileview.component.html',
   styleUrls: ['./profileview.component.css']
 })
@@ -254,7 +255,6 @@ status:'',
 
       if (userId && email) {
         if (role === 'FARMER') {
-          this.getProducts(userId, email);
           this.fetchFarmerData();  // Add this line
         }
         this.buyerForm.user_id = userId; // set default
@@ -276,18 +276,6 @@ status:'',
       error: (err) => {
         this.alertService.showAlert('Error registering buyer:', err);
         this.alertService.showAlert('Error registering buyer','error');
-      }
-    });
-  }
-
-  getProducts(id: number, email: string) {
-    this.productService.getProductByFarmerId(id, email).subscribe({
-      next: (data) => {
-        this.products1 = data;
-        console.log('Products fetched:', this.products1);
-      },
-      error: (error) => {
-        this.alertService.showAlert('Error fetching products:', error);
       }
     });
   }
