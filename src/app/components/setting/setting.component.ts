@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { SettingService } from '../../services/setting.service';
-import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-setting',
   standalone: true,
   imports: [
     CommonModule,
-    TranslateModule
+    TranslateModule // ✅ add here so | translate works
   ],       
   templateUrl: './setting.component.html',
   styleUrls: ['./setting.component.css']

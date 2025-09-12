@@ -41,7 +41,7 @@
             <button class="btn btn-outline-primary btn-sm" (click)="toggleContactForm()">
               <i class="bi bi-envelope"></i> Contact Farmer
             </button>
-            <button class="btn btn-success btn-sm" (click)="buyProduct(selectedproduct)">
+            <button class="btn btn-success btn-sm" (click)="buyProduct()">
               <i class="bi bi-cart-check"></i> Buy
             </button>
             <button class="btn btn-danger btn-sm" (click)="goBackToList()">
@@ -254,9 +254,9 @@
           </ul>
 
           <div class="mt-auto d-grid gap-2">
-            <button class="btn btn-outline-primary btn-sm" (click)="buyProduct(product)">Contact Farmer</button>
+            <button class="btn btn-outline-primary btn-sm" (click)="buyProduct()">Contact Farmer</button>
             <button class="btn btn-outline-secondary btn-sm" (click)="viewDetails(product)">Detail View</button>
-            <button class="btn btn-success btn-sm" (click)="buyProduct(product)">Buy</button>
+            <button class="btn btn-success btn-sm" (click)="buyProduct()">Buy</button>
           </div>
         </div>
       </div>

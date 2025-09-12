@@ -157,6 +157,16 @@ export const routes: Routes = [
     
   },
 
+  {
+    path: 'product-buy',
+    loadComponent: () =>
+      import('./components/product-buy/product-buy.component').then(
+        (m) => m.ProductBuyComponent
+      ),
+    canActivate: [AuthGuard],
+    data: { roles: ['ADMIN', 'BUYER', 'FARMER'] },
+    
+  },
   // // 🚨 Unauthorized Page (optional)
   // {
   //   path: 'unauthorized',

@@ -1,0 +1,22 @@
+{
+  "APP": {
+    "TITLE": "My Awesome App",
+    "DESCRIPTION": "A simple demo of internationalization"
+  },
+  "MENU": {
+    "HOME": "Home",
+    "SETTINGS": "Settings",
+    "LOGOUT": "Logout"
+  },
+  "BUTTON": {
+    "SAVE": "Save",
+    "CANCEL": "Cancel"
+  },
+  "ERROR": {
+    "NETWORK": "Network error, please try again later",
+    "NOT_FOUND": "Page not found"
+  },
+  "DEMO": {
+    "CAR": "Car"
+  }
+}

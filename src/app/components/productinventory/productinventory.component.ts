@@ -189,8 +189,8 @@ public async sendMessage() {
 }
 
 
-  buyProduct(product: Product | ProductByID): void {
-    console.log('🛒 Buying product:', product);
+  buyProduct(): void {
+    this.router.navigate(['/product-buy']);
   }
   viewProductPdf(productId: number): void {
     this.productService.getProductPdf(productId).subscribe({
