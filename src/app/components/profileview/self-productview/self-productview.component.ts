@@ -84,5 +84,8 @@ export class SelfProductviewComponent {
     }
   });
 }
+openAddProductPage(): void{
+  this.router.navigate(['/components/product'])
+}
 
 }

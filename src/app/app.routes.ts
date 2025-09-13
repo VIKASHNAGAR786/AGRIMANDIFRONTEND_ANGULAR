@@ -38,8 +38,8 @@ export const routes: Routes = [
   {
     path: 'products/:productid',
     loadComponent: () =>
-      import('./components/productinventory/productinventory.component').then(
-        m => m.ProductinventoryComponent
+      import('./components/productinventory/single-product-view/single-product-view.component').then(
+        m => m.SingleProductViewComponent
       ),
     canActivate: [AuthGuard],
     data: { roles: ['FARMER', 'BUYER', 'ADMIN'] } 
@@ -57,8 +57,8 @@ export const routes: Routes = [
   {
     path: 'buyer/:buyerid',
     loadComponent: () =>
-      import('./components/buyer/buyer.component').then(
-        (m) => m.BuyerComponent
+      import('./components/buyer/singelbuyerview/singelbuyerview.component').then(
+        (m) => m.SingelbuyerviewComponent
       ),
     canActivate: [AuthGuard],
     data: { roles: ['FARMER', 'BUYER', 'ADMIN'] } 

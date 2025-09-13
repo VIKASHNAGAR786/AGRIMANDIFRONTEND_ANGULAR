@@ -33,14 +33,14 @@ export class SidebarComponent implements OnInit {
   { label: 'Home', path: '/', icon: 'bi bi-house-door-fill' },
   { label: 'Mandi Rates', path: '/mandi-rates', icon: 'bi bi-graph-up' },
   { label: 'Products', path: '/products', icon: 'bi bi-box-seam' },
+  { label: 'Chat with Farmer/Buyer', path : '/messages', icon: 'bi bi-chat-dots-fill' },
   //{ label: 'Govt Schemes', path: '/govt-schemes', icon: 'bi bi-bank' },
   { label: 'Buyers', path: '/buyer', icon: 'bi bi-person-badge-fill' },
+  { label: 'Settings', path: '/settings', icon: 'bi bi-gear-fill' },
   { label: 'Orders', path: '/orders', icon: 'bi bi-bag-check-fill' },
   { label: 'Payments', path: '/payments', icon: 'bi bi-cash-stack' },
   { label: 'Reports', path: '/reports', icon: 'bi bi-clipboard-data-fill' },
   { label: 'Help Center', path: '/help-center', icon: 'bi bi-info-circle-fill' },
-  { label: 'Chat with Farmer/Buyer', path : '/messages', icon: 'bi bi-chat-dots-fill' },
-  { label: 'Settings', path: '/settings', icon: 'bi bi-gear-fill' }
 ];
 
 

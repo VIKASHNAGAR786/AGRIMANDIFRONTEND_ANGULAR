@@ -28,43 +28,7 @@ export class BuyerComponent {
   }
   checkAndLoadData() {
     this.route.params.subscribe(params => {
-      const buyerid = params['buyerid'];
-      if (buyerid) {
-        // First load all buyers first
-        this.loadallbuyers(() => {
-          this.loadbuyerdetails(+buyerid);
-        });
-      } else {
-        this.loadallbuyers();
-      }
-    });
-  }
-  
-
-  loadbuyerdetails(buyerid: number): void {
-    this.loading = true;
-    this.userserivice.GetBuyerById(buyerid).subscribe({
-      next: (data: BuyerById) => {
-        this.loading = false;
-  
-        if (data) {
-          const matchingBuyer = this.buyers.find(buyer => buyer.buyerId === buyerid);
-  
-          if (matchingBuyer && matchingBuyer.profileImageUrl) {
-            data.profileImageUrl = matchingBuyer.profileImageUrl;
-            console.log('✅ Profile image assigned from buyers array:', matchingBuyer.profileImageUrl);
-          }
-        }
-  
-        this.selectedbuyer = data || null;
-        this.buyers = []; // now clear after using
-        console.log('Selected Buyer:', this.selectedbuyer);
-      },
-      error: (error) => {
-        this.loading = false;
-        this.selectedbuyer = null;
-        console.error('❌ Error loading product details:', error);
-      }
+        this.loadallbuyers(() => {});
     });
   }
   
@@ -89,10 +53,11 @@ export class BuyerComponent {
         }
       });
   }
-  
 
   viewDetails(buyers: AllBuyer): void {
-    this.router.navigate(['/buyer', buyers.buyerId]);
+    this.router.navigate(['/buyer', buyers.buyerId], { 
+    queryParams: { Image: buyers.profileImageUrl}
+  });
   }
   goBackToList(): void {
     this.router.navigate(['/buyer']);
