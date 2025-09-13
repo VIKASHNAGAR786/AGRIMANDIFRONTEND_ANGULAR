@@ -34,7 +34,7 @@ export class SingleProductViewComponent {
   loading: boolean = true;
   showContactForm = false;
   farmermail_for_contact: string | null = null;
-
+  activeTab: string = 'overview';
   message: MessageToFarmerModel = {
     farmerid: 0,
     BuyerId: 0,
@@ -142,5 +142,17 @@ export class SingleProductViewComponent {
   }
   buyProduct(): void {
     this.router.navigate(['/product-buy']);
+  }
+
+
+  // tab definitions (easy to add/remove later)
+  tabs = [
+    { id: 'overview', label: 'Overview', icon: 'bi-box-seam' },
+    { id: 'farming', label: 'Farming', icon: 'bi-seedling' },
+    { id: 'farmer', label: 'Farmer', icon: 'bi-person-badge' }
+  ];
+
+  setActiveTab(tabId: string) {
+    this.activeTab = tabId;
   }
 }

@@ -27,6 +27,16 @@ export interface Product {
   
   export interface ProductByID {
     productid : number;
+    farmerName: string;
+    state?: string;
+    district?: string;
+    market?: string;
+    farmer?: string;
+    farmerPhone?: string;
+    farmerAddress?: string;
+    postalCode?: string;
+    farmingType?: string; // Organic, Conventional, etc.
+    landArea?: string; // Acres, Hectares, etc.
     name?: string;
     description?: string;
     category?: string;         // Grains, Fruits, etc.

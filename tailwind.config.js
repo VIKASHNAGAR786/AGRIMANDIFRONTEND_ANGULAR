@@ -2,6 +2,7 @@
 // tailwind.config.js
 module.exports = {
   
+  darkMode: 'media', 
   important: true,
   content: [
     "./src/**/*.{html,ts}"

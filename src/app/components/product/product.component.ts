@@ -36,16 +36,6 @@ export class ProductComponent implements OnInit {
     private userInfo: UserinfowithloginService
   ) { }
 
-  RAJASTHAN_DISTRICTS: string[] = ['Ajmer', 'Alwar', 'Banswara', 'Baran', 'Barmer', 'Bharatpur', 'Bhilwara', 'Bikaner', 'Bundi', 'Chittorgarh', 'Churu', 'Dausa',
-    'Dholpur', 'Dungarpur', 'Hanumangarh', 'Jaipur', 'Jaisalmer', 'Jalore', 'Jhalawar',
-    'Jhunjhunu', 'Jodhpur', 'Karauli', 'Kota', 'Nagaur', 'Pali', 'Pratapgarh', 'Rajsamand',
-    'Sawai Madhopur', 'Sikar', 'Sirohi', 'Sri Ganganagar', 'Tonk', 'Udaipur', 'Balotra', 'Beawar',
-    'Deeg', 'Didwana-Kuchaman', 'Dudu', 'Gangapur City', 'Jaipur North', 'Jaipur South', 'Jodhpur East',
-    'Jodhpur West',
-    'Khairthal-Tijara', 'Kotputli-Behror', 'Neem Ka Thana', 'Phalodi', 'Salumbar', 'Shahpura', 'Sanchore'
-  ];
-
-
   categories = ['Grains', 'Fruits', 'Vegetables', 'Dairy', 'Flowers', 'Spices', 'Pulses', 'Oilseeds', 'Herbs', 'Others'];
   grades = ['Standard', 'A', 'B', 'C', 'Organic', 'Premium'];
   units = ['Kg', 'Quintal', 'Ton', 'Liters', 'Packets', 'Bunch', 'Dozen'];
@@ -93,10 +83,6 @@ ngOnInit(): void {
     this.productForm.patchValue({ district: '' });
   });
 }
-
-
-
-
   expiryDateAfterHarvestDate(harvestKey: string, expiryKey: string) {
     return (group: AbstractControl): ValidationErrors | null => {
       const harvestDate = group.get(harvestKey)?.value;
@@ -132,10 +118,7 @@ ngOnInit(): void {
 
     this.productService.getFarmerId(email, name).subscribe({
       next: (farmerId: number) => {
-        // const productData = {
-        // ...this.productForm.value,
-        // farmerId,
-        // status: 'Pending',
+        
         const productData = new FormData();
         productData.append('name', this.productForm.value.name);
         productData.append('description', this.productForm.value.description);
@@ -147,7 +130,7 @@ ngOnInit(): void {
         productData.append('unit', this.productForm.value.unit);
         productData.append('pricePerUnit', this.productForm.value.pricePerUnit);
         productData.append('availability', this.productForm.value.availability);
-      productData.append('location',`${this.productForm.value.district}, ${this.productForm.value.state}`);
+        productData.append('location',`${this.productForm.value.district}, ${this.productForm.value.state}`);
         productData.append('harvestDate', this.productForm.value.harvestDate);
         productData.append('expiryDate', this.productForm.value.expiryDate);
         productData.append('storageCondition', this.productForm.value.storageCondition);
