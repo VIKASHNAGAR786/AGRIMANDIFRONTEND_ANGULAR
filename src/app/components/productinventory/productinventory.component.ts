@@ -111,9 +111,6 @@ export class ProductinventoryComponent implements OnInit {
     this.router.navigate(['products', product.productid]);
   }
 
-
-
-
   buyProduct(): void {
     this.router.navigate(['/product-buy']);
   }

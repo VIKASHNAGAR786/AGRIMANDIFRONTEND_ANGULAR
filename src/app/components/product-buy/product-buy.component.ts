@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-buy',
@@ -19,7 +19,9 @@ export class ProductBuyComponent {
     imageUrl: 'https://via.placeholder.com/400x300?text=Product+Image'
   };
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute,
+      private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -32,5 +34,8 @@ export class ProductBuyComponent {
   proceedToCheckout() {
     console.log('✅ Proceeding to checkout with:', this.product);
     // TODO: redirect to /checkout page
+  }
+  goBackToList(): void {
+    this.router.navigate(['/products']);
   }
 }
