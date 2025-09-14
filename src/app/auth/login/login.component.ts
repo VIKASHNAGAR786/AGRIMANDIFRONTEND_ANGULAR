@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
 import { LoginService, LoginRequest } from '../../services/login.service';
 import { PLATFORM_ID } from '@angular/core';
+import { UserinfowithloginService } from '../../services/userinfowithlogin.service';
 
 @Component({
   selector: 'app-login',
@@ -24,14 +25,20 @@ export class LoginComponent {
     private loginService: LoginService,
     private alertService: AlertService,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private userInfo: UserinfowithloginService,
   ) {}
 
   login() {
     this.loginService.login(this.loginData).subscribe({
       next: () => {
         this.alertService.showAlert('Login successful!', 'success');
-        this.router.navigate(['components/product']);
+        const userRole = this.userInfo.getUserRole();
+        if (userRole === 'FARMER') {
+          this.router.navigate(['components/product']);
+        } else {
+          this.router.navigate(['/buyer']);
+        }
       },
       error: () => {
         this.alertService.showAlert('Login failed! Please check your credentials.', 'error');

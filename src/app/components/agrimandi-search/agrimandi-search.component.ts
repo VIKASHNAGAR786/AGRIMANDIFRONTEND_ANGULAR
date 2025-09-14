@@ -14,9 +14,11 @@ type SearchItem = { label: string; path?: string; icon?: string };
   styleUrl: './agrimandi-search.component.css'
 })
 export class AgrimandiSearchComponent {
+  ngOnInit(): void {
+    
+  }
   constructor(private router: Router, private userInfo: UserinfowithloginService) {
-    this.allItems = [...this.otherItems, ...this.coreLinks];
-    const userRole = this.userInfo.getUserRole(); // replace with your actual role from login/session
+     const userRole = this.userInfo.getUserRole(); // replace with your actual role from login/session
   if (userRole === 'FARMER') {
     this.coreLinks.push({
       label: 'Add Product',
@@ -24,10 +26,7 @@ export class AgrimandiSearchComponent {
       icon: 'bi bi-plus-circle'
     });
   }
-  }
-
-  ngOnInit(): void {
-    
+    this.allItems = [...this.otherItems, ...this.coreLinks];
   }
 
   query: string = '';
@@ -45,7 +44,6 @@ export class AgrimandiSearchComponent {
     { label: 'Payments', path: '/payments', icon: 'bi bi-cash-stack' },
     { label: 'Reports', path: '/reports', icon: 'bi bi-clipboard-data-fill' },
     { label: 'Help Center', path: '/help-center', icon: 'bi bi-info-circle-fill' },
-    { label: 'Add Product', path: '/components/product', icon: 'bi-plus-circle' },
   ];
 
   otherItems: SearchItem[] = [

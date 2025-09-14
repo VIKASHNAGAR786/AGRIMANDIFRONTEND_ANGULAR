@@ -35,9 +35,6 @@ selectedColor: string = '';
     });
     AOS.init({ duration: 1000 });
   }
-  goToRegister() {
-    this.router.navigate(['auth/signup']);
-  }
 
   steps = [
     {
