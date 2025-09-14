@@ -18,5 +18,21 @@
   },
   "DEMO": {
     "CAR": "Car"
-  }
+  },
+  "COMMON": {
+    "WELCOME_TO": "Welcome to"
+  },
+  "SIDEBARMENU": {
+  "HOME": "Home",
+  "MANDI_RATES": "Mandi Rates",
+  "PRODUCTS": "Products",
+  "CHAT": "Chat with Farmer/Buyer",
+  "BUYERS": "Buyers",
+  "SETTINGS": "Settings",
+  "ORDERS": "Orders",
+  "PAYMENTS": "Payments",
+  "REPORTS": "Reports",
+  "HELP": "Help Center"
+}
+
 }

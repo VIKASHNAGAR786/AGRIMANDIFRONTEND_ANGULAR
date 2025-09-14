@@ -28,37 +28,46 @@ export class MandiRatesComponent implements OnInit {
 
   constructor(private mandiRatesService: MandiRatesService) {}
 
-  ngOnInit(): void {
-    this.filterForm = new FormGroup({
-      state: new FormControl(''),
-      district: new FormControl(''),
-      commodity: new FormControl(''),
-      fromDate: new FormControl(this.formatDate(new Date())),
-      toDate: new FormControl(this.formatDate(new Date())),
-      limit: new FormControl(10),
-      offset: new FormControl(0),
-      sortMarket: new FormControl('asc')
-    });
+ ngOnInit(): void {
+  this.filterForm = new FormGroup({
+    state: new FormControl('Rajasthan'),
+    district: new FormControl('Baran'),   // ✅ default district
+    commodity: new FormControl(''),
+    fromDate: new FormControl(this.formatDate(new Date())),
+    toDate: new FormControl(this.formatDate(new Date())),
+    limit: new FormControl(10),
+    offset: new FormControl(0),
+    sortMarket: new FormControl('asc')
+  });
 
-    // ✅ When state changes → update districts & reset commodities
-    this.filterForm.get('state')?.valueChanges.subscribe((state: string) => {
-      this.districts = STATE_DISTRICT_MAP[state] || [];
-      this.filterForm.patchValue({ district: '' });
+  // ✅ When state changes → update districts & reset commodities
+  this.filterForm.get('state')?.valueChanges.subscribe((state: string) => {
+    this.districts = STATE_DISTRICT_MAP[state] || [];
+    
+    // If Rajasthan is default, keep Baran
+    const defaultDistrict = state === 'Rajasthan' ? 'Baran' : '';
+    this.filterForm.patchValue({ district: defaultDistrict });
+    
+    this.commodities = [];
+  });
+
+  // ✅ When district changes → update commodities
+  this.filterForm.get('district')?.valueChanges.subscribe((district: string) => {
+    const state = this.filterForm.get('state')?.value;
+    if (state && district) {
+      this.commodities = STATE_DISTRICT_COMMODITIES[state]?.[district] || [];
+    } else {
       this.commodities = [];
-    });
+    }
+  });
 
-    // ✅ When district changes → update commodities
-    this.filterForm.get('district')?.valueChanges.subscribe((district: string) => {
-      const state = this.filterForm.get('state')?.value;
-      if (state && district) {
-        this.commodities = STATE_DISTRICT_COMMODITIES[state]?.[district] || [];
-      } else {
-        this.commodities = [];
-      }
-    });
+  // ✅ Initialize district list & commodities immediately
+  this.districts = STATE_DISTRICT_MAP['Rajasthan'] || [];
+  this.commodities = STATE_DISTRICT_COMMODITIES['Rajasthan']?.['Baran'] || [];
 
-    this.fetchRates(); // initial load
-  }
+  this.fetchRates(); // initial load
+}
+
 
   private formatDate(date: Date): string {
     return date.toISOString().split('T')[0]; // yyyy-MM-dd

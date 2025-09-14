@@ -5,11 +5,12 @@ import { ColorserviceService } from '../../services/colorservice.service';
 import * as AOS from 'aos';
 import { LoginService } from '../../services/login.service';
 import { UserinfowithloginService } from '../../services/userinfowithlogin.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
   standalone: true, // 👈 Add this line
-  imports: [CommonModule, RouterModule], // 👈 This makes ngFor and routing work
+  imports: [CommonModule, RouterModule, TranslateModule], // 👈 This makes ngFor and routing work
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

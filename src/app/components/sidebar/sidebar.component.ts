@@ -11,13 +11,15 @@ import { ColorserviceService } from '../../services/colorservice.service';
 import { LayoutService } from '../../services/layout.service';
 import path from 'path';
 import { UserinfowithloginService } from '../../services/userinfowithlogin.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true, // Set to true if you're using standalone components
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    TranslateModule
   ],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
@@ -30,17 +32,17 @@ export class SidebarComponent implements OnInit {
 
   // Core navigation links
   coreLinks = [
-  { label: 'Home', path: '/', icon: 'bi bi-house-door-fill' },
-  { label: 'Mandi Rates', path: '/mandi-rates', icon: 'bi bi-graph-up' },
-  { label: 'Products', path: '/products', icon: 'bi bi-box-seam' },
-  { label: 'Chat with Farmer/Buyer', path : '/messages', icon: 'bi bi-chat-dots-fill' },
-  //{ label: 'Govt Schemes', path: '/govt-schemes', icon: 'bi bi-bank' },
-  { label: 'Buyers', path: '/buyer', icon: 'bi bi-person-badge-fill' },
-  { label: 'Settings', path: '/settings', icon: 'bi bi-gear-fill' },
-  { label: 'Orders', path: '/orders', icon: 'bi bi-bag-check-fill' },
-  { label: 'Payments', path: '/payments', icon: 'bi bi-cash-stack' },
-  { label: 'Reports', path: '/reports', icon: 'bi bi-clipboard-data-fill' },
-  { label: 'Help Center', path: '/help-center', icon: 'bi bi-info-circle-fill' },
+  { label: 'SIDEBARMENU.HOME', path: '/', icon: 'bi bi-house-door-fill' },
+  { label: 'SIDEBARMENU.MANDI_RATES', path: '/mandi-rates', icon: 'bi bi-graph-up' },
+  { label: 'SIDEBARMENU.PRODUCTS', path: '/products', icon: 'bi bi-box-seam' },
+  { label: 'SIDEBARMENU.CHAT', path: '/messages', icon: 'bi bi-chat-dots-fill' },
+  // { label: 'SIDEBARMENU.GOVT_SCHEMES', path: '/govt-schemes', icon: 'bi bi-bank' },
+  { label: 'SIDEBARMENU.BUYERS', path: '/buyer', icon: 'bi bi-person-badge-fill' },
+  { label: 'SIDEBARMENU.SETTINGS', path: '/settings', icon: 'bi bi-gear-fill' },
+  { label: 'SIDEBARMENU.ORDERS', path: '/orders', icon: 'bi bi-bag-check-fill' },
+  { label: 'SIDEBARMENU.PAYMENTS', path: '/payments', icon: 'bi bi-cash-stack' },
+  { label: 'SIDEBARMENU.REPORTS', path: '/reports', icon: 'bi bi-clipboard-data-fill' },
+  { label: 'SIDEBARMENU.HELP', path: '/help-center', icon: 'bi bi-info-circle-fill' }
 ];
 
 
