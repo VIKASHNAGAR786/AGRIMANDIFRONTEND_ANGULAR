@@ -8,10 +8,14 @@ import { LayoutService } from '../../services/layout.service';
 import { UserService } from '../../services/user.service';
 import { SignalrService } from '../../services/signalr.service';
 import { UserinfowithloginService } from '../../services/userinfowithlogin.service';
+import { AgrimandiSearchService } from '../../services/agrimandi-search.service';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { AgrimandiSearchComponent } from "../agrimandi-search/agrimandi-search.component";
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, FormsModule, AgrimandiSearchComponent],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
   encapsulation: ViewEncapsulation.Emulated
@@ -35,7 +39,8 @@ export class NavbarComponent {
     private layoutService: LayoutService,
      private userService: UserService,
     private signalrService: SignalrService,
-     private userInfo: UserinfowithloginService
+     private userInfo: UserinfowithloginService,
+     private searchService: AgrimandiSearchService
   ) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -159,6 +164,34 @@ getProfileImage(userId: number) {
 
 toggleSidebar() {
     window.dispatchEvent(new Event('toggle-sidebar'));
+  }
+
+  query1: string = '';
+  results: string[] = [];
+
+  // Mock data (replace with API or service call)
+  allItems: string[] = [
+    'Wheat', 'Rice', 'Mango', 
+    'Farmer: Ramesh', 'Buyer: Vikash', 
+    'Product Dashboard', 'Orders Tab'
+  ];
+
+  onSearch() {
+    if (!this.query1.trim()) {
+      this.results = [];
+      return;
+    }
+    this.results = this.allItems.filter(item =>
+      item.toLowerCase().includes(this.query1.toLowerCase())
+    );
+  }
+
+  selectItem(item: string) {
+    this.query1 = item;
+    this.results = [];
+    console.log("Navigate or do action for:", item);
+    // 👉 You can route to the detail page here
+    // this.router.navigate(['/product', item]);
   }
 
 }
