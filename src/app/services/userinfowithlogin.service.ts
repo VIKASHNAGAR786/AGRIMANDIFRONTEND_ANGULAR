@@ -12,6 +12,7 @@ export class UserinfowithloginService {
     role: string | null;
     email: string | null;
     id: number | null;
+    lang: string | null;
   } | null = null;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private router: Router) {
@@ -26,7 +27,8 @@ export class UserinfowithloginService {
         name: localStorage.getItem('user_name'),
         role: localStorage.getItem('user_role'),
         email: localStorage.getItem('user_email'),
-        id: this.parseId(localStorage.getItem('nameid'))
+        id: this.parseId(localStorage.getItem('nameid')),
+        lang: localStorage.getItem('lang')
       };
     }
   }
@@ -63,6 +65,19 @@ export class UserinfowithloginService {
   /** Get ID */
   getUserId(): number | null {
     return this.cachedData?.id ?? null;
+  }
+
+  /** Get language */
+  getUserLang(): string | null {
+    return this.cachedData?.lang ?? null;
+  }
+
+   /** Change language */
+  changeUserLang(newLang: string): void {
+    if (this.cachedData) {
+      this.cachedData.lang = newLang;
+    }
+    localStorage.setItem('lang', newLang);
   }
 
   /** ================================
@@ -118,6 +133,7 @@ export class UserinfowithloginService {
       localStorage.removeItem('user_role');
       localStorage.removeItem('user_email');
       localStorage.removeItem('nameid');
+      localStorage.removeItem('lang');
     }
     this.clear();
     this.router.navigate(['/auth/login']);

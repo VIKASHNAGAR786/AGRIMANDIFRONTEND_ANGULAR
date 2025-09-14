@@ -143,13 +143,13 @@
           <p class="card-text text-muted small">{{ product.description | slice:0:60 }}...</p>
 
           <div class="mb-2">
-            <span class="badge bg-primary">{{ product.category }}</span>
-            <span class="badge bg-success">{{ product.grade }}</span>
+            <span class="badge bg-primary">{{ product.category! | translate}}</span>
+            <span class="badge bg-success">{{ product.grade! | translate }}</span>
           </div>
 
           <ul class="list-group list-group-flush mb-2 small">
-            <li class="list-group-item px-0 py-1"><strong>Qty:</strong> {{ product.quantity }} {{ product.unit }}</li>
-            <li class="list-group-item px-0 py-1"><strong>₹/Unit:</strong> ₹{{ product.pricePerUnit }}</li>
+            <li class="list-group-item px-0 py-1"><strong>Qty:</strong> {{ product.quantity }} {{ product.unit! | translate}}</li>
+            <li class="list-group-item px-0 py-1"><strong>₹/Unit:</strong> ₹{{ product.pricePerUnit  }}</li>
             <li class="list-group-item px-0 py-1"><strong>Location:</strong> {{ product.location }}</li>
             <li class="list-group-item px-0 py-1"><strong>Harvest:</strong> {{ product.harvestDate | date }}</li>
           </ul>

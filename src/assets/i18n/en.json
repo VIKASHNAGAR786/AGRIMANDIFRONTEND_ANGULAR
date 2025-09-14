@@ -59,31 +59,35 @@
     "MODAL_PRICE": "Modal Price"
   },
 
-    "GRAINS": "Grains",
-    "FRUITS": "Fruits",
-    "VEGETABLES": "Vegetables",
-    "DAIRY": "Dairy",
-    "FLOWERS": "Flowers",
-    "SPICES": "Spices",
-    "PULSES": "Pulses",
-    "OILSEEDS": "Oilseeds",
-    "HERBS": "Herbs",
-    "OTHERS": "Others",
+    "Grains": "Grains",
+    "Fruits": "Fruits",
+    "Vegetables": "Vegetables",
+    "Dairy": "Dairy",
+    "Flowers": "Flowers",
+    "Spices": "Spices",
+    "Pulses": "Pulses",
+    "Oilseeds": "Oilseeds",
+    "Herbs": "Herbs",
+    "Others": "Others",
 
-    "STANDARD": "Standard",
+    "Standard": "Standard",
     "A": "A",
     "B": "B",
     "C": "C",
-    "ORGANIC": "Organic",
-    "PREMIUM": "Premium",
+    "Organic": "Organic",
+    "Premium": "Premium",
 
-    "KG": "Kg",
-    "QUINTAL": "Quintal",
-    "TON": "Ton",
-    "LITERS": "Liters",
-    "PACKETS": "Packets",
-    "BUNCH": "Bunch",
-    "DOZEN": "Dozen"
+    "Kg": "Kg",
+    "Quintal": "Quintal",
+    "Ton": "Ton",
+    "Liters": "Liters",
+    "Packets": "Packets",
+    "Bunch": "Bunch",
+    "Dozen": "Dozen",
+
+    "Overview": "Overview",
+    "Farming": "Farming",
+    "Farmer": "Farmer"
   
 }
 

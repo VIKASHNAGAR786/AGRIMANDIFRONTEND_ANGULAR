@@ -10,10 +10,11 @@ import { NotificationService } from '../../../services/notification.service';
 import { ProductService } from '../../../services/product.service';
 import { UserinfowithloginService } from '../../../services/userinfowithlogin.service';
 import { environment } from '../../../../environments/environment';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-single-product-view',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './single-product-view.component.html',
   styleUrl: './single-product-view.component.css'
 })

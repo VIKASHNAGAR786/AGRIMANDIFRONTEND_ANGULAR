@@ -20,6 +20,7 @@ export interface LoginResponse {
   password: string;
   id: number;
   email: string;
+  lang: string;
 }
 
 @Injectable({
@@ -55,7 +56,8 @@ export class LoginService {
           'user_name': response.name,
           'user_role': response.role,
           'user_email': response.email,
-          'nameid': response.id.toString()
+          'nameid': response.id.toString(),
+          'lang' : 'en'
         };
 
         Object.entries(storageData).forEach(([key, value]) =>

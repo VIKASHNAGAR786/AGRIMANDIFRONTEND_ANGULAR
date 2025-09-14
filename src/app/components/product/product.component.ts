@@ -32,35 +32,35 @@ export class ProductComponent implements OnInit {
   ) { }
 
   categories = [
-  'GRAINS',
-  'FRUITS',
-  'VEGETABLES',
-  'DAIRY',
-  'FLOWERS',
-  'SPICES',
-  'PULSES',
-  'OILSEEDS',
-  'HERBS',
-  'OTHERS'
+  'Grains',
+  'Fruits',
+  'Vegetables',
+  'Dairy',
+  'Flowers',
+  'Spices',
+  'Pulses',
+  'Oilseeds',
+  'Herbs',
+  'Others'
 ];
 
 grades = [
-  'STANDARD',
+  'Standard',
   'A',
   'B',
   'C',
-  'ORGANIC',
-  'PREMIUM'
+  'Organic',
+  'Premium'
 ];
 
 units = [
-  'KG',
-  'QUINTAL',
-  'TON',
-  'LITERS',
-  'PACKETS',
-  'BUNCH',
-  'DOZEN'
+  'Kg',
+  'Quintal',
+  'Ton',
+  'Liters',
+  'Packets',
+  'Bunch',
+  'Dozen'
 ];
   loading: boolean = false;
 

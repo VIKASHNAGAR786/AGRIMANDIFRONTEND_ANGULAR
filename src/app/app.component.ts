@@ -11,6 +11,7 @@ import { SignalrService } from './services/signalr.service';
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { LayoutService } from './services/layout.service';
 import { TranslateService } from '@ngx-translate/core';
+import { UserinfowithloginService } from './services/userinfowithlogin.service';
 
 
 @Component({
@@ -96,12 +97,13 @@ export class AppComponent implements OnInit {
   constructor(private colorService: ColorserviceService,
     private signalRService: SignalrService,
   private layoutService: LayoutService ,
-
-  translate: TranslateService
+  private userInfo: UserinfowithloginService,
+  private translate: TranslateService
 ) {
     translate.addLangs(['en', 'hi']);
-    translate.setDefaultLang('en');
-    translate.use('en');
+    let lang: string = this.userInfo.getUserLang() ?? 'en';
+    translate.setDefaultLang(lang);
+    translate.use(lang);
   }
   ngOnInit() {
     this.signalRService.startConnection();

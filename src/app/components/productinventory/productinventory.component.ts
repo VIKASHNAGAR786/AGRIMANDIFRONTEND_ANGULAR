@@ -16,7 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-productinventory',
   standalone: true,
-  imports: [CommonModule, FormsModule,TranslateModule],
+  imports: [CommonModule, FormsModule,TranslateModule, TranslateModule],
   templateUrl: './productinventory.component.html',
   styleUrls: ['./productinventory.component.css']
 })
