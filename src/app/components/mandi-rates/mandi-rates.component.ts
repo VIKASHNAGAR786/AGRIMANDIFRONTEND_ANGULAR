@@ -33,7 +33,7 @@ export class MandiRatesComponent implements OnInit {
     state: new FormControl('Rajasthan'),
     district: new FormControl('Baran'),   // ✅ default district
     commodity: new FormControl(''),
-    fromDate: new FormControl(this.formatDate(new Date())),
+    fromDate: new FormControl(this.formatDate(this.subtractDays(new Date(), 2))),
     toDate: new FormControl(this.formatDate(new Date())),
     limit: new FormControl(10),
     offset: new FormControl(0),
@@ -125,4 +125,9 @@ export class MandiRatesComponent implements OnInit {
     this.currentPage = 1;
     this.fetchRates();
   }
+  private subtractDays(date: Date, days: number): Date {
+  const result = new Date(date);
+  result.setDate(result.getDate() - days);
+  return result;
+}
 }

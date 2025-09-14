@@ -22,12 +22,17 @@ module.exports = {
         floatLeaf: {
       '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
       '50%': { transform: 'translateY(-40px) rotate(180deg)' }
-    }
+    },
+    slideFade: {
+          '0%': { opacity: '0', transform: 'translateY(-20px) scale(0.95)' },
+          '100%': { opacity: '1', transform: 'translateY(0) scale(1)' }
+        }
       },
       animation: {
         pulse: 'pulse 4s ease-in-out infinite',
         'fade-in-slide': 'fadeInSlide 0.6s ease-out forwards',
-        'float-leaf': 'floatLeaf 10s ease-in-out infinite'
+        'float-leaf': 'floatLeaf 10s ease-in-out infinite',
+         slideFade: 'slideFade 0.5s ease-out forwards'
       },
     },
   },
