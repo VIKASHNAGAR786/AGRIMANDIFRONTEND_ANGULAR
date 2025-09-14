@@ -9,7 +9,7 @@ import { AlertService } from '../../services/alert.service';
   standalone: true,
   imports: [
     CommonModule,
-    TranslateModule // ✅ add here so | translate works
+    TranslateModule 
   ],       
   templateUrl: './setting.component.html',
   styleUrls: ['./setting.component.css']

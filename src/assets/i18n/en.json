@@ -12,10 +12,6 @@
     "SAVE": "Save",
     "CANCEL": "Cancel"
   },
-  "ERROR": {
-    "NETWORK": "Network error, please try again later",
-    "NOT_FOUND": "Page not found"
-  },
   "DEMO": {
     "CAR": "Car"
   },
@@ -33,6 +29,61 @@
   "PAYMENTS": "Payments",
   "REPORTS": "Reports",
   "HELP": "Help Center"
+},
+  "DASHBOARD": {
+    "TITLE": "📊 Live Mandi Price Dashboard",
+    "FILTER": "🔍 Filter Mandi Data",
+    "STATE": "State",
+    "DISTRICT": "District",
+    "COMMODITY": "Commodity",
+    "FROM_DATE": "From Date",
+    "TO_DATE": "To Date",
+    "SORT_MARKET": "Sort by Market",
+    "MARKET_ASC": "Market ↑ (A → Z)",
+    "MARKET_DESC": "Market ↓ (Z → A)",
+    "RESET": "Reset",
+    "APPLY_FILTERS": "Apply Filters",
+    "LOADING": "Loading mandi rates...",
+    "ERROR": "Error fetching data"
+  },
+  "TABLE": {
+    "SR_NO": "Sr.No",
+    "STATE": "State",
+    "DISTRICT": "District",
+    "MARKET": "Market",
+    "COMMODITY": "Commodity",
+    "VARIETY": "Variety",
+    "ARRIVAL_DATE": "Arrival Date",
+    "MIN_PRICE": "Min Price",
+    "MAX_PRICE": "Max Price",
+    "MODAL_PRICE": "Modal Price"
+  },
+
+    "GRAINS": "Grains",
+    "FRUITS": "Fruits",
+    "VEGETABLES": "Vegetables",
+    "DAIRY": "Dairy",
+    "FLOWERS": "Flowers",
+    "SPICES": "Spices",
+    "PULSES": "Pulses",
+    "OILSEEDS": "Oilseeds",
+    "HERBS": "Herbs",
+    "OTHERS": "Others",
+
+    "STANDARD": "Standard",
+    "A": "A",
+    "B": "B",
+    "C": "C",
+    "ORGANIC": "Organic",
+    "PREMIUM": "Premium",
+
+    "KG": "Kg",
+    "QUINTAL": "Quintal",
+    "TON": "Ton",
+    "LITERS": "Liters",
+    "PACKETS": "Packets",
+    "BUNCH": "Bunch",
+    "DOZEN": "Dozen"
+  
 }
 
-}

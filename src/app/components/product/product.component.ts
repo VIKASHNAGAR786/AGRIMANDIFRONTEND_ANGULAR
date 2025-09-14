@@ -5,6 +5,7 @@ import { AlertService } from '../../services/alert.service';
 import { CommonModule } from '@angular/common';
 import { UserinfowithloginService } from '../../services/userinfowithlogin.service';
 import { STATE_DISTRICT_MAP } from '../../data/state-districts';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product',
@@ -12,7 +13,7 @@ import { STATE_DISTRICT_MAP } from '../../data/state-districts';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css'],
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, TranslateModule],
 })
 export class ProductComponent implements OnInit {
   productForm!: FormGroup;
@@ -30,9 +31,37 @@ export class ProductComponent implements OnInit {
     private userInfo: UserinfowithloginService
   ) { }
 
-  categories = ['Grains', 'Fruits', 'Vegetables', 'Dairy', 'Flowers', 'Spices', 'Pulses', 'Oilseeds', 'Herbs', 'Others'];
-  grades = ['Standard', 'A', 'B', 'C', 'Organic', 'Premium'];
-  units = ['Kg', 'Quintal', 'Ton', 'Liters', 'Packets', 'Bunch', 'Dozen'];
+  categories = [
+  'GRAINS',
+  'FRUITS',
+  'VEGETABLES',
+  'DAIRY',
+  'FLOWERS',
+  'SPICES',
+  'PULSES',
+  'OILSEEDS',
+  'HERBS',
+  'OTHERS'
+];
+
+grades = [
+  'STANDARD',
+  'A',
+  'B',
+  'C',
+  'ORGANIC',
+  'PREMIUM'
+];
+
+units = [
+  'KG',
+  'QUINTAL',
+  'TON',
+  'LITERS',
+  'PACKETS',
+  'BUNCH',
+  'DOZEN'
+];
   loading: boolean = false;
 
 

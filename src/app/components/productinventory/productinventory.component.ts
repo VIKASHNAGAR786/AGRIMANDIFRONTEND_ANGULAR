@@ -11,11 +11,12 @@ import { MessageToFarmerModel, UserRoleDto } from '../../models/User';
 import { MessageService } from '../../services/message.service';
 import { NotificationService } from '../../services/notification.service';
 import { UserinfowithloginService } from '../../services/userinfowithlogin.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-productinventory',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,TranslateModule],
   templateUrl: './productinventory.component.html',
   styleUrls: ['./productinventory.component.css']
 })

@@ -6,11 +6,12 @@ import { PriceApiResponseDto, PriceRecordDto } from '../../models/product';
 import { PriceRequestDto } from '../../models/User';
 import { STATE_DISTRICT_MAP } from '../../data/state-districts';
 import { STATE_DISTRICT_COMMODITIES } from '../../data/commodity_names';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-mandi-rates',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,TranslateModule],
   templateUrl: './mandi-rates.component.html',
   styleUrls: ['./mandi-rates.component.css']
 })
