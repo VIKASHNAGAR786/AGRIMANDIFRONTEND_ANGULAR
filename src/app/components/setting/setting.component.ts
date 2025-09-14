@@ -3,7 +3,6 @@ import { SettingService } from '../../services/setting.service';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { AlertService } from '../../services/alert.service';
-import e from 'express';
 
 @Component({
   selector: 'app-setting',
@@ -34,9 +33,6 @@ export class SettingComponent implements OnInit {
       this.language = "हिन्दी";
     }
     this.alertService.showAlert(`Language changed to ${this.language}`, 'success');
-    this.alertService.showAlert(`Language changed to ${this.language}`, 'error');
-    this.alertService.showAlert(`Language changed to ${this.language}`, 'warning');
-    this.alertService.showAlert(`Language changed to ${this.language}`, 'info');
     this.settingService.setLanguage(lang);
   }
 }
