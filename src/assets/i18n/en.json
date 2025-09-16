@@ -87,7 +87,10 @@
 
     "Overview": "Overview",
     "Farming": "Farming",
-    "Farmer": "Farmer"
-  
+    "Farmer": "Farmer",
+
+    "WELCOME_MESSAGE": "Welcome to AgriMandi",
+    "ABOUT_PARAGRAPH": "🌱 <strong class='text-green-700'>AgriMandi</strong> is your <span class='text-green-600 font-semibold'>gateway</span> to a direct connection between <span class='underline decoration-green-300'>farmers</span> and <span class='underline decoration-green-300'>buyers</span> — bringing fresh produce to your doorstep with just a click. 🚜🤝"
+
 }
 
