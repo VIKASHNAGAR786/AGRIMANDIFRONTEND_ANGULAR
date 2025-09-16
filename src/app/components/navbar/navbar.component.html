@@ -47,7 +47,9 @@
       <!-- Desktop Menu -->
       <div class="hidden sm:flex sm:items-center gap-6 flex-1 justify-end">
         <!-- Search -->
-       <app-agrimandi-search></app-agrimandi-search>
+        <div *ngIf="isLoggedIn">
+          <app-agrimandi-search></app-agrimandi-search>
+        </div>
 
         <!-- Notifications -->
         <div *ngIf="isLoggedIn" class="relative">

@@ -44,6 +44,7 @@ export class AgrimandiSearchComponent {
     { label: 'Payments', path: '/payments', icon: 'bi bi-cash-stack' },
     { label: 'Reports', path: '/reports', icon: 'bi bi-clipboard-data-fill' },
     { label: 'Help Center', path: '/help-center', icon: 'bi bi-info-circle-fill' },
+    { label: 'Profile', path: '/components/profileview', icon: 'bi-person-circle' },
   ];
 
   otherItems: SearchItem[] = [
