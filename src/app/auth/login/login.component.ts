@@ -13,7 +13,7 @@ import { UserinfowithloginService } from '../../services/userinfowithlogin.servi
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [FormsModule, AlertComponent],
+  imports: [FormsModule],
 })
 export class LoginComponent {
   loginData: LoginRequest = {
