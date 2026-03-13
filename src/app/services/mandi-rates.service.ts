@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserinfowithloginService } from './userinfowithlogin.service';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 import { catchError, Observable, of, shareReplay } from 'rxjs';
 import { PriceApiResponseDto } from '../models/product';
 import { PriceRequestDto } from '../models/User';
