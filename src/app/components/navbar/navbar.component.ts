@@ -1,5 +1,4 @@
-import { Component, HostListener, Inject, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
-import { ProductComponent } from "../product/product.component";
+import { Component, HostListener, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { filter } from 'rxjs/operators';
@@ -9,29 +8,62 @@ import { UserService } from '../../services/user.service';
 import { SignalrService } from '../../services/signalr.service';
 import { UserinfowithloginService } from '../../services/userinfowithlogin.service';
 import { AgrimandiSearchService } from '../../services/agrimandi-search.service';
-import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AgrimandiSearchComponent } from "../agrimandi-search/agrimandi-search.component";
+import { Subject, Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
+
+interface SearchSuggestion {
+  type: 'Products' | 'Farmers' | 'Buyers' | 'Categories';
+  label: string;
+  icon: string;
+}
+
+interface ProfileMenuItem {
+  label: string;
+  icon: string;
+  routerLink?: string;
+  action?: () => void;
+  showIf: () => boolean;
+  class?: string;
+}
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterModule, CommonModule, FormsModule, AgrimandiSearchComponent],
+  imports: [RouterModule, CommonModule, FormsModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
   encapsulation: ViewEncapsulation.Emulated
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
   isNavbarCollapsed = true;
   sidebarVisible = true;
+  sidebarActive = false;
   isDesktop = true;
+  mobileMenuOpen = false;
   selectedColor: string = '';
   userRole: string | null = null;
   username: string | null = null;
   showUserMenu = false;
+  showNotificationMenu = false;
   profileImageUrl: string = '';
   defaultProfileImage: string = 'images/profile.jpeg';
   notificationCount = 0;
+  notifications: string[] = [];
+
+  searchQuery = '';
+  searchSuggestions: SearchSuggestion[] = [];
+  searchOpen = false;
+  highlightedSuggestionIndex = -1;
+
+  private readonly subscriptions = new Subscription();
+  private readonly searchInput$ = new Subject<string>();
+  private readonly searchDirectory: Record<SearchSuggestion['type'], string[]> = {
+    Products: ['Wheat', 'Rice', 'Tomatoes', 'Potato', 'Mustard Oil', 'Onion', 'Cotton'],
+    Farmers: ['Rajesh Sharma', 'Mahesh Kumar', 'Sohan Lal', 'Pooja Devi'],
+    Buyers: ['Green Valley Traders', 'FreshKart Retail', 'Mandi House Buyers'],
+    Categories: ['Grains', 'Vegetables', 'Fruits', 'Pulses', 'Oil Seeds']
+  };
+
   constructor(
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -39,165 +71,325 @@ export class NavbarComponent {
     private layoutService: LayoutService,
      private userService: UserService,
     private signalrService: SignalrService,
-     private userInfo: UserinfowithloginService,
-     private searchService: AgrimandiSearchService
+    private userInfo: UserinfowithloginService,
+    private searchService: AgrimandiSearchService
   ) {
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => this.checkLoginStatus());
+    this.subscriptions.add(
+      this.router.events
+        .pipe(filter(event => event instanceof NavigationEnd))
+        .subscribe(() => this.checkLoginStatus())
+    );
   }
 
-  notifications: string[] = [];
   ngOnInit() {
-    this.signalrService.receiveMessage().subscribe((msg) => {
-  this.notifications.push(msg);
-  this.notificationCount = this.notifications.length;
-});
+    this.subscriptions.add(
+      this.signalrService.receiveMessage().subscribe((msg) => {
+        this.notifications.unshift(msg);
+        this.notificationCount = this.notifications.length;
+      })
+    );
+
+    this.subscriptions.add(
+      this.searchInput$
+        .pipe(debounceTime(300), distinctUntilChanged())
+        .subscribe((query) => this.buildSuggestions(query))
+    );
+
     this.checkLoginStatus();
-    this.colorService.selectedColor$.subscribe(color => this.selectedColor = color);
-    this.layoutService.sidebarVisible$.subscribe(v => this.sidebarVisible = v);
+    this.subscriptions.add(this.colorService.selectedColor$.subscribe(color => this.selectedColor = color));
+    this.subscriptions.add(this.layoutService.sidebarVisible$.subscribe(v => this.sidebarVisible = v));
+
     if (typeof window !== 'undefined') {
       this.isDesktop = window.innerWidth >= 768;
       window.addEventListener('resize', () => {
         this.isDesktop = window.innerWidth >= 768;
       });
     }
-     const userId = Number(this.userInfo.getUserId());
- if (userId) {
-   this.getProfileImage(userId);
- }
+
+    const userId = Number(this.userInfo.getUserId());
+    if (userId) {
+      this.getProfileImage(userId);
+    }
+
+    this.buildSuggestions('');
   }
 
-checkLoginStatus() {
-  if (isPlatformBrowser(this.platformId)) {
-    this.userInfo.refresh(); // ✅ Always load latest from localStorage
-
-    this.isLoggedIn = !!this.userInfo.getToken();
-    this.userRole = this.userInfo.getUserRole();
-    this.username = this.userInfo.getUserName() || 'User';
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
-}
+
+  checkLoginStatus() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.userInfo.refresh();
+
+      this.isLoggedIn = !!this.userInfo.getToken();
+      this.userRole = this.userInfo.getUserRole();
+      this.username = this.userInfo.getUserName() || 'User';
+    }
+  }
 
   goToAddProduct(event: Event) {
     event.preventDefault();
     this.showUserMenu = false;
-    this.router.navigate(['components/product']);
+    this.router.navigate(['/components/product']);
   }
 
-logout() {
-  if (isPlatformBrowser(this.platformId)) {
-    localStorage.clear();
+  logout() {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.clear();
+    }
+
+    this.userInfo.clear();
+    this.isLoggedIn = false;
+    this.closeAllOverlays();
+
+    this.router.navigate(['/auth/login']).then(() => {
+      window.location.reload();
+    });
   }
 
-  // Clear in-memory cached data
-  this.userInfo.clear();
+  toggleSidebar() {
+    this.sidebarActive = !this.sidebarActive;
+    window.dispatchEvent(new Event('toggle-sidebar'));
+  }
 
-  this.isLoggedIn = false;
-
-  this.router.navigate(['/auth/login']).then(() => {
-    window.location.reload(); // refresh the entire page
-  });
-}
-
-mobileMenuOpen = false;
   toggleUserMenu() {
     this.showUserMenu = !this.showUserMenu;
-     console.log('Menu toggled:', this.showUserMenu); // ✅ Debug log
-  }
-  @HostListener('document:click', ['$event.target'])
-onClickOutside(targetElement: EventTarget | null) {
-  if (!(targetElement instanceof HTMLElement)) {
-    this.showUserMenu = false;
-    return;
-  }
-
-  const clickedInsideDropdown = targetElement.closest('.user-dropdown') !== null;
-  if (!clickedInsideDropdown) {
-    this.showUserMenu = false;
-  }
-}
-
-getProfileImage(userId: number) {
-  this.userService.getProfileImage(userId).subscribe({
-    next: (blob) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.profileImageUrl = reader.result as string;  // Set the profile image URL
-      };
-      reader.readAsDataURL(blob);  // Convert the image Blob to a Data URL
-    },
-    error: (err) => {
-      console.error('Error fetching profile image:', err);
-      this.profileImageUrl = this.defaultProfileImage;  // Set default image if error occurs
+    if (this.showUserMenu) {
+      this.showNotificationMenu = false;
     }
-  });
-}
+  }
+
+  toggleNotificationMenu() {
+    this.showNotificationMenu = !this.showNotificationMenu;
+    if (this.showNotificationMenu) {
+      this.showUserMenu = false;
+      this.notificationCount = 0;
+    }
+  }
+
+  closeAllOverlays() {
+    this.showUserMenu = false;
+    this.showNotificationMenu = false;
+    this.searchOpen = false;
+    this.highlightedSuggestionIndex = -1;
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    this.closeAllOverlays();
+  }
+
+  @HostListener('document:click', ['$event.target'])
+  onClickOutside(targetElement: EventTarget | null) {
+    if (!(targetElement instanceof HTMLElement)) {
+      this.closeAllOverlays();
+      return;
+    }
+
+    const clickedInsideUserDropdown = targetElement.closest('.user-dropdown') !== null;
+    const clickedInsideNotification = targetElement.closest('.notification-dropdown') !== null;
+    const clickedInsideSearch = targetElement.closest('.search-shell') !== null;
+
+    if (!clickedInsideUserDropdown) {
+      this.showUserMenu = false;
+    }
+    if (!clickedInsideNotification) {
+      this.showNotificationMenu = false;
+    }
+    if (!clickedInsideSearch) {
+      this.searchOpen = false;
+      this.highlightedSuggestionIndex = -1;
+    }
+  }
+
+  openSearchDropdown() {
+    this.searchOpen = true;
+    this.buildSuggestions(this.searchQuery);
+  }
+
+  onSearchInputChange(value: string) {
+    this.searchQuery = value;
+    this.searchInput$.next(value);
+    this.searchOpen = true;
+  }
+
+  onSearchKeydown(event: KeyboardEvent) {
+    if (!this.searchOpen || this.searchSuggestions.length === 0) {
+      if (event.key === 'Escape') {
+        this.searchOpen = false;
+      }
+      return;
+    }
+
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      this.highlightedSuggestionIndex =
+        (this.highlightedSuggestionIndex + 1) % this.searchSuggestions.length;
+    }
+
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      this.highlightedSuggestionIndex =
+        (this.highlightedSuggestionIndex - 1 + this.searchSuggestions.length) % this.searchSuggestions.length;
+    }
+
+    if (event.key === 'Enter' && this.highlightedSuggestionIndex >= 0) {
+      event.preventDefault();
+      this.selectSuggestion(this.searchSuggestions[this.highlightedSuggestionIndex]);
+    }
+  }
+
+  submitSearch() {
+    const query = this.searchQuery.trim();
+    if (!query) {
+      return;
+    }
+
+    this.searchService.setSearchQuery(query);
+    this.searchOpen = false;
+    this.highlightedSuggestionIndex = -1;
+  }
+
+  clearSearch() {
+    this.searchQuery = '';
+    this.searchSuggestions = this.getDefaultSuggestions();
+    this.searchOpen = true;
+    this.highlightedSuggestionIndex = -1;
+    this.searchService.setSearchQuery('');
+  }
+
+  selectSuggestion(item: SearchSuggestion) {
+    this.searchQuery = item.label;
+    this.searchService.setSearchQuery(item.label);
+    this.searchOpen = false;
+    this.highlightedSuggestionIndex = -1;
+  }
+
+  getSuggestionId(index: number): string {
+    return `search-suggestion-${index}`;
+  }
+
+  get visibleNotifications(): string[] {
+    return this.notifications.slice(0, 5);
+  }
+
+  onProfileMenuSelect(item: ProfileMenuItem, event: Event) {
+    event.preventDefault();
+    this.showUserMenu = false;
+    this.mobileMenuOpen = false;
+
+    if (item.action) {
+      item.action();
+      return;
+    }
+
+    if (item.routerLink) {
+      this.router.navigate([item.routerLink]);
+    }
+  }
+
+  private buildSuggestions(query: string) {
+    const normalized = query.trim().toLowerCase();
+    if (!normalized) {
+      this.searchSuggestions = this.getDefaultSuggestions();
+      this.highlightedSuggestionIndex = -1;
+      return;
+    }
+
+    const iconByType: Record<SearchSuggestion['type'], string> = {
+      Products: 'bi-box-seam',
+      Farmers: 'bi-person-badge',
+      Buyers: 'bi-briefcase',
+      Categories: 'bi-tags'
+    };
+
+    const suggestions: SearchSuggestion[] = [];
+    (Object.keys(this.searchDirectory) as SearchSuggestion['type'][]).forEach((type) => {
+      this.searchDirectory[type]
+        .filter((label) => label.toLowerCase().includes(normalized))
+        .forEach((label) => {
+          suggestions.push({ type, label, icon: iconByType[type] });
+        });
+    });
+
+    this.searchSuggestions = suggestions.slice(0, 8);
+    this.highlightedSuggestionIndex = -1;
+  }
+
+  private getDefaultSuggestions(): SearchSuggestion[] {
+    const iconByType: Record<SearchSuggestion['type'], string> = {
+      Products: 'bi-box-seam',
+      Farmers: 'bi-person-badge',
+      Buyers: 'bi-briefcase',
+      Categories: 'bi-tags'
+    };
+
+    return (Object.keys(this.searchDirectory) as SearchSuggestion['type'][]).map((type) => ({
+      type,
+      label: this.searchDirectory[type][0],
+      icon: iconByType[type]
+    }));
+  }
+
+  getProfileImage(userId: number) {
+    this.userService.getProfileImage(userId).subscribe({
+      next: (blob) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.profileImageUrl = reader.result as string;
+        };
+        reader.readAsDataURL(blob);
+      },
+      error: () => {
+        this.profileImageUrl = this.defaultProfileImage;
+      }
+    });
+  }
+
   toggleNavbar() {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }
 
-  dropdownLinks = [
-  {
-    label: 'Profile',
-    icon: 'bi-person-circle',
-    routerLink: 'components/profileview',
-    showIf: () => true,
-    isButton: false
-  },
-  {
-    label: 'Add Product',
-    icon: 'bi-plus-circle',
-    click: (event: Event) => this.goToAddProduct(event),
-    showIf: () => this.userRole === 'FARMER',
-    isButton: true
-  },
-  {
-    label: 'Logout',
-    icon: 'bi-box-arrow-right',
-    click: () => this.logout(),
-    showIf: () => true,
-    isButton: true,
-    class: 'text-red-600 hover:bg-red-100'
-  }
-];
-
-  
-// toggleSidebar(): void {
-//     this.sidebarVisible = !this.sidebarVisible;
-//     this.layoutService.toggleSidebar();
-//   }
-
-toggleSidebar() {
-    window.dispatchEvent(new Event('toggle-sidebar'));
-  }
-
-  query1: string = '';
-  results: string[] = [];
-
-  // Mock data (replace with API or service call)
-  allItems: string[] = [
-    'Wheat', 'Rice', 'Mango', 
-    'Farmer: Ramesh', 'Buyer: Vikash', 
-    'Product Dashboard', 'Orders Tab'
-  ];
-
-  onSearch() {
-    if (!this.query1.trim()) {
-      this.results = [];
-      return;
+  profileMenuItems: ProfileMenuItem[] = [
+    {
+      label: 'My Profile',
+      icon: 'bi-person-circle',
+      routerLink: '/components/profileview',
+      showIf: () => true
+    },
+    {
+      label: 'My Products',
+      icon: 'bi-box2',
+      routerLink: '/components/productinventory',
+      showIf: () => this.userRole === 'FARMER'
+    },
+    {
+      label: 'Orders',
+      icon: 'bi-receipt',
+      routerLink: '/components/orders',
+      showIf: () => true
+    },
+    {
+      label: 'Settings',
+      icon: 'bi-gear',
+      routerLink: '/components/setting',
+      showIf: () => true
+    },
+    {
+      label: 'Add Product',
+      icon: 'bi-plus-circle',
+      action: () => this.router.navigate(['/components/product']),
+      showIf: () => this.userRole === 'FARMER'
+    },
+    {
+      label: 'Logout',
+      icon: 'bi-box-arrow-right',
+      action: () => this.logout(),
+      showIf: () => true,
+      class: 'danger'
     }
-    this.results = this.allItems.filter(item =>
-      item.toLowerCase().includes(this.query1.toLowerCase())
-    );
-  }
-
-  selectItem(item: string) {
-    this.query1 = item;
-    this.results = [];
-    console.log("Navigate or do action for:", item);
-    // 👉 You can route to the detail page here
-    // this.router.navigate(['/product', item]);
-  }
+  ];
 
 }
 
