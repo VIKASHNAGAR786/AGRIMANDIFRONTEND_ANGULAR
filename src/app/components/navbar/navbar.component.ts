@@ -105,7 +105,12 @@ mobileMenuOpen = false;
      console.log('Menu toggled:', this.showUserMenu); // ✅ Debug log
   }
   @HostListener('document:click', ['$event.target'])
-onClickOutside(targetElement: HTMLElement) {
+onClickOutside(targetElement: EventTarget | null) {
+  if (!(targetElement instanceof HTMLElement)) {
+    this.showUserMenu = false;
+    return;
+  }
+
   const clickedInsideDropdown = targetElement.closest('.user-dropdown') !== null;
   if (!clickedInsideDropdown) {
     this.showUserMenu = false;
