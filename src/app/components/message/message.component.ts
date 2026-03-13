@@ -53,6 +53,7 @@ export class MessageComponent implements OnInit, AfterViewInit {
       return; // prevent duplicate fetch
     }
     this.selectedUser = user;
+    this.sidebarOpen = false;
     this.loadingMessages = true;
     this.messages = [];
     try {
@@ -121,11 +122,32 @@ export class MessageComponent implements OnInit, AfterViewInit {
         this.messages.push({
           message: this.newMessage,
           messageid: 0,
-          isSentByCurrentUser: true
+          isSentByCurrentUser: true,
+          timestamp: new Date().toISOString()
         });
         this.newMessage = ''; // Clear input
+        this.autoScroll = true;
+        this.onMessagesUpdated();
       }
     });
+  }
+
+  formatTimestamp(timestamp?: string): string {
+    if (!timestamp) {
+      return 'Just now';
+    }
+
+    const date = new Date(timestamp);
+    if (Number.isNaN(date.getTime())) {
+      return 'Just now';
+    }
+
+    return new Intl.DateTimeFormat('en-IN', {
+      day: '2-digit',
+      month: 'short',
+      hour: '2-digit',
+      minute: '2-digit'
+    }).format(date);
   }
 
  //for the image error when image not found
