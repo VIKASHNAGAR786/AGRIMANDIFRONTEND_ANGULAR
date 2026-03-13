@@ -25,6 +25,16 @@ export class MandiDashboardComponent {
   @Input() dashboard: MandiDashboardData | null = null;
   @Input() loading = false;
 
+  activeTab: 'overview' | 'trend' | 'markets' | 'demand' | 'crops' = 'overview';
+
+  readonly tabs: Array<{ id: 'overview' | 'trend' | 'markets' | 'demand' | 'crops'; label: string }> = [
+    { id: 'overview', label: 'Overview' },
+    { id: 'trend', label: 'Price Trend' },
+    { id: 'markets', label: 'Market Comparison' },
+    { id: 'demand', label: 'Supply vs Demand' },
+    { id: 'crops', label: 'Top Crops' }
+  ];
+
   get hasData(): boolean {
     if (!this.dashboard) {
       return false;
@@ -35,5 +45,9 @@ export class MandiDashboardComponent {
 
   get demandIndicator(): string {
     return this.dashboard?.kpis.find((item) => item.label === 'Market Demand Indicator')?.value || 'Balanced';
+  }
+
+  setActiveTab(tab: 'overview' | 'trend' | 'markets' | 'demand' | 'crops'): void {
+    this.activeTab = tab;
   }
 }

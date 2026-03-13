@@ -8,14 +8,34 @@
   <ng-container *ngIf="!loading && hasData && dashboard">
     <app-price-summary-cards [kpis]="dashboard.kpis" [windowAverages]="dashboard.windowAverages"></app-price-summary-cards>
 
-    <div class="chart-grid">
-      <app-crop-price-trend [points]="dashboard.priceTrend"></app-crop-price-trend>
-      <app-market-comparison [markets]="dashboard.marketComparison"></app-market-comparison>
+    <nav class="tab-row" aria-label="Dashboard Tabs">
+      <button
+        type="button"
+        *ngFor="let tab of tabs"
+        class="tab-btn"
+        [class.active]="activeTab === tab.id"
+        (click)="setActiveTab(tab.id)"
+      >
+        {{ tab.label }}
+      </button>
+    </nav>
+
+    <div class="chart-grid" *ngIf="activeTab === 'overview' || activeTab === 'trend' || activeTab === 'markets'">
+      <app-crop-price-trend *ngIf="activeTab === 'overview' || activeTab === 'trend'" [points]="dashboard.priceTrend"></app-crop-price-trend>
+      <app-market-comparison
+        *ngIf="activeTab === 'overview' || activeTab === 'markets'"
+        [markets]="dashboard.marketComparison"
+      ></app-market-comparison>
     </div>
 
-    <div class="chart-grid bottom">
-      <app-demand-supply-chart [items]="dashboard.demandSupply" [indicator]="demandIndicator"></app-demand-supply-chart>
+    <div class="chart-grid bottom" *ngIf="activeTab === 'overview' || activeTab === 'demand' || activeTab === 'crops'">
+      <app-demand-supply-chart
+        *ngIf="activeTab === 'overview' || activeTab === 'demand'"
+        [items]="dashboard.demandSupply"
+        [indicator]="demandIndicator"
+      ></app-demand-supply-chart>
       <app-top-crops
+        *ngIf="activeTab === 'overview' || activeTab === 'crops'"
         [topCrops]="dashboard.topCrops"
         [distribution]="dashboard.cropDistribution"
         [highest]="dashboard.highestPriceCrop"
