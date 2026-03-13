@@ -1,5 +1,5 @@
 .chart-card {
-  border: 1px solid #d4d4d8;
+  border: 1px solid #dbe4ef;
   border-radius: 14px;
   background: #ffffff;
   padding: 14px;
@@ -15,7 +15,7 @@ header {
 header h3 {
   margin: 0;
   font-size: 18px;
-  color: #1d4ed8;
+  color: #14532d;
 }
 
 header p {
@@ -84,12 +84,12 @@ header p {
 }
 
 .supply {
-  background: linear-gradient(90deg, #bfdbfe 0%, #93c5fd 100%);
-  color: #1e3a8a;
+  background: linear-gradient(90deg, #d1fae5 0%, #86efac 100%);
+  color: #14532d;
 }
 
 .demand {
-  background: linear-gradient(90deg, #bbf7d0 0%, #86efac 100%);
+  background: linear-gradient(90deg, #86efac 0%, #22c55e 100%);
   color: #14532d;
 }
 

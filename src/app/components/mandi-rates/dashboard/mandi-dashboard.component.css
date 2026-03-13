@@ -4,11 +4,35 @@
   gap: 14px;
 }
 
+.dashboard-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #dbe4ef;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.dashboard-top h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #14532d;
+}
+
+.dashboard-top p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
 .tab-shell {
-  background: linear-gradient(90deg, #16a34a 0%, #22c55e 100%);
+  background: #f0fdf4;
   border-radius: 12px;
-  border: 1px solid #16a34a;
-  padding: 8px;
+  border: 1px solid #bbf7d0;
+  padding: 6px;
 }
 
 .tab-row {
@@ -18,13 +42,13 @@
 }
 
 .tab-btn {
-  border: 1px solid #86efac;
+  border: 1px solid #d1d5db;
   background: #ffffff;
-  color: #3f3f46;
+  color: #374151;
   font-size: 13px;
   font-weight: 600;
   border-radius: 999px;
-  padding: 8px 12px;
+  padding: 7px 12px;
   transition: all 0.2s ease;
 }
 
@@ -35,9 +59,16 @@
 }
 
 .tab-btn.active {
-  border-color: #15803d;
+  border-color: #166534;
   background: #16a34a;
   color: #ffffff;
+}
+
+.view-panel {
+  border: 1px solid #dbe4ef;
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 12px;
 }
 
 .chart-grid {
@@ -69,6 +100,10 @@
 }
 
 @media (max-width: 1024px) {
+  .dashboard-top {
+    align-items: flex-start;
+  }
+
   .chart-grid,
   .chart-grid.bottom {
     grid-template-columns: 1fr;

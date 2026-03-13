@@ -1,20 +1,22 @@
-<section class="mandi-page p-1">
+<section class="mandi-page">
   <header class="mandi-header">
-    <h2 class="text-2xl font-bold text-green-800">Live Mandi Price Dashboard</h2>
-    <p class="mandi-subtitle">Check latest mandi prices quickly for your area and crop.</p>
+    <div>
+      <h2 class="text-2xl font-bold text-green-800">Live Mandi Price Dashboard</h2>
+      <p class="mandi-subtitle">Track mandi prices with clear filters, dashboard insights, and detailed records.</p>
+    </div>
   </header>
 
-  <div class="mandi-filter-card bg-white shadow rounded-2xl p-4 mt-4">
-    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+  <section class="mandi-filter-card bg-white shadow rounded-2xl p-4 mt-4">
+    <div class="filter-top-row">
       <h3 class="text-lg font-semibold text-green-700">{{ 'DASHBOARD.FILTER' | translate }}</h3>
-      <div class="flex flex-wrap gap-2">
+      <div class="quick-range-row" aria-label="Quick date presets">
         <button type="button" class="quick-btn" (click)="setDatePreset(1)">Today</button>
         <button type="button" class="quick-btn" (click)="setDatePreset(2)">Last 2 Days</button>
         <button type="button" class="quick-btn" (click)="setDatePreset(7)">Last 7 Days</button>
       </div>
     </div>
 
-    <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" class="form-grid">
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">{{ 'DASHBOARD.STATE' | translate }}</label>
         <select formControlName="state" class="field-control">
@@ -67,40 +69,42 @@
         </select>
       </div>
 
-      <div class="flex items-end gap-2 lg:justify-end">
+      <div class="action-row">
         <button type="button" (click)="resetFilters()" class="btn-reset">{{ 'DASHBOARD.RESET' | translate }}</button>
         <button type="submit" class="btn-apply">{{ 'DASHBOARD.APPLY_FILTERS' | translate }}</button>
       </div>
     </form>
-  </div>
+  </section>
 
   <app-mandi-dashboard [dashboard]="dashboardData" [loading]="loading"></app-mandi-dashboard>
 
   <div *ngIf="error" class="status-line status-error">{{ error }}</div>
 
-  <div *ngIf="!loading && !error && records.length > 0" class="table-title-row mt-4">
-    <h3>Detailed Mandi Listings</h3>
-    <p>Use this table for record-level verification and paging.</p>
-  </div>
+  <section *ngIf="!loading && !error && records.length > 0" class="table-section mt-4">
+    <div class="table-title-row">
+      <h3>Detailed Mandi Listings</h3>
+      <p>Record-level rates with pagination for quick verification.</p>
+    </div>
 
-  <div *ngIf="!loading && !error && records.length > 0" class="stats-row mt-2">
-    <article class="stat-box">
-      <h4>Showing</h4>
-      <p>{{ showingFrom }}-{{ showingTo }} of {{ totalRowCount }}</p>
-    </article>
-    <article class="stat-box">
-      <h4>Min Price</h4>
-      <p>Rs {{ formatInr(priceSummary.min) }}</p>
-    </article>
-    <article class="stat-box">
-      <h4>Max Price</h4>
-      <p>Rs {{ formatInr(priceSummary.max) }}</p>
-    </article>
-    <article class="stat-box">
-      <h4>Avg Modal Price</h4>
-      <p>Rs {{ formatInr(priceSummary.modalAvg) }}</p>
-    </article>
-  </div>
+    <div class="stats-row mt-2">
+      <article class="stat-box">
+        <h4>Showing</h4>
+        <p>{{ showingFrom }}-{{ showingTo }} of {{ totalRowCount }}</p>
+      </article>
+      <article class="stat-box">
+        <h4>Min Price</h4>
+        <p>Rs {{ formatInr(priceSummary.min) }}</p>
+      </article>
+      <article class="stat-box">
+        <h4>Max Price</h4>
+        <p>Rs {{ formatInr(priceSummary.max) }}</p>
+      </article>
+      <article class="stat-box">
+        <h4>Avg Modal Price</h4>
+        <p>Rs {{ formatInr(priceSummary.modalAvg) }}</p>
+      </article>
+    </div>
+  </section>
 
   <div *ngIf="!loading && !error && records.length > 0" class="mt-4">
     <div class="overflow-x-auto hidden md:block">
@@ -162,7 +166,7 @@
 
     <div class="pagination-row">
       <button class="page-btn" (click)="prevPage()" [disabled]="currentPage === 1 || loading">Previous</button>
-      <span class="font-medium">Page {{ currentPage }}</span>
+      <span class="font-medium">Page {{ currentPage }} of {{ totalPages }}</span>
       <button class="page-btn" (click)="nextPage()" [disabled]="!canGoNextPage || loading">Next</button>
     </div>
   </div>

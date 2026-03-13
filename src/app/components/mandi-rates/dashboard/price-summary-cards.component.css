@@ -6,8 +6,8 @@
 
 .kpi-card {
   border-radius: 14px;
-  border: 1px solid #d4d4d8;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #dbe4ef;
+  background: #ffffff;
   padding: 12px;
 }
 
@@ -21,7 +21,7 @@
   margin: 6px 0;
   font-size: 22px;
   line-height: 1.1;
-  color: #18181b;
+  color: #0f172a;
 }
 
 .kpi-hint {
@@ -32,22 +32,22 @@
 
 .kpi-card.success {
   border-color: #86efac;
-  background: linear-gradient(180deg, #f0fdf4 0%, #ecfdf5 100%);
+  background: #f0fdf4;
 }
 
 .kpi-card.warning {
   border-color: #fcd34d;
-  background: linear-gradient(180deg, #fffbeb 0%, #fefce8 100%);
+  background: #fffbeb;
 }
 
 .kpi-card.danger {
   border-color: #fda4af;
-  background: linear-gradient(180deg, #fff1f2 0%, #fff5f5 100%);
+  background: #fff1f2;
 }
 
 .window-avg {
   margin-top: 14px;
-  border: 1px solid #d4d4d8;
+  border: 1px solid #dbe4ef;
   border-radius: 14px;
   padding: 12px;
   background: #ffffff;

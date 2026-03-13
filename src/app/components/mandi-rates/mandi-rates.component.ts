@@ -199,6 +199,11 @@ ngOnDestroy(): void {
     return this.currentPage * limit < this.totalRowCount;
   }
 
+  get totalPages(): number {
+    const limit = Number(this.filterForm.value.limit || 10);
+    return Math.max(1, Math.ceil(this.totalRowCount / limit));
+  }
+
   get showingFrom(): number {
     return this.totalRowCount === 0 ? 0 : (this.currentPage - 1) * Number(this.filterForm.value.limit || 10) + 1;
   }
