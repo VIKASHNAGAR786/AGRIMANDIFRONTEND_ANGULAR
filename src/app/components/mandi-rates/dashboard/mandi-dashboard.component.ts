@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { CropPriceTrendComponent } from './crop-price-trend.component';
 import { DemandSupplyChartComponent } from './demand-supply-chart.component';
 import { MandiDashboardData } from './mandi-dashboard.models';
@@ -13,6 +14,7 @@ import { TopCropsComponent } from './top-crops.component';
   standalone: true,
   imports: [
     CommonModule,
+    TranslateModule,
     PriceSummaryCardsComponent,
     CropPriceTrendComponent,
     MarketComparisonComponent,
@@ -29,13 +31,13 @@ export class MandiDashboardComponent {
 
   activeTab: 'overview' | 'trend' | 'markets' | 'demand' | 'crops' | 'insights' = 'overview';
 
-  readonly tabs: Array<{ id: 'overview' | 'trend' | 'markets' | 'demand' | 'crops' | 'insights'; label: string }> = [
-    { id: 'overview', label: 'Overview' },
-    { id: 'trend', label: 'Price Trend' },
-    { id: 'markets', label: 'Market Comparison' },
-    { id: 'demand', label: 'Supply vs Demand' },
-    { id: 'crops', label: 'Top Crops' },
-    { id: 'insights', label: 'Additional Insights' }
+  readonly tabs: Array<{ id: 'overview' | 'trend' | 'markets' | 'demand' | 'crops' | 'insights'; labelKey: string }> = [
+    { id: 'overview', labelKey: 'MANDI_TABS.OVERVIEW' },
+    { id: 'trend', labelKey: 'MANDI_TABS.PRICE_TREND' },
+    { id: 'markets', labelKey: 'MANDI_TABS.MARKET_COMPARISON' },
+    { id: 'demand', labelKey: 'MANDI_TABS.SUPPLY_DEMAND' },
+    { id: 'crops', labelKey: 'MANDI_TABS.TOP_CROPS' },
+    { id: 'insights', labelKey: 'MANDI_TABS.ADDITIONAL_INSIGHTS' }
   ];
 
   get hasData(): boolean {

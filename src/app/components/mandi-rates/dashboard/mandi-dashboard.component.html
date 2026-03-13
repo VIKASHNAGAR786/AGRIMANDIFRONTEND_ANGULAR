@@ -1,8 +1,8 @@
 <section class="dashboard-shell">
-  <div *ngIf="loading" class="status loading">Preparing mandi insights...</div>
+  <div *ngIf="loading" class="status loading">{{ 'MANDI_DASHBOARD.PREPARING' | translate }}</div>
 
   <div *ngIf="!loading && !hasData" class="status empty">
-    Dashboard insights will appear after mandi records are loaded.
+    {{ 'MANDI_DASHBOARD.EMPTY' | translate }}
   </div>
 
   <ng-container *ngIf="!loading && hasData && dashboard">
@@ -15,7 +15,7 @@
           [class.active]="activeTab === tab.id"
           (click)="setActiveTab(tab.id)"
         >
-          {{ tab.label }}
+          {{ tab.labelKey | translate }}
         </button>
       </nav>
     </div>

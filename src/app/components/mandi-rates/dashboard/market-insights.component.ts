@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import {
   ArrivalPriceInsight,
   DailyPriceChangeItem,
@@ -12,7 +13,7 @@ import {
 @Component({
   selector: 'app-market-insights',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './market-insights.component.html',
   styleUrl: './market-insights.component.css'
 })
@@ -22,7 +23,7 @@ export class MarketInsightsComponent {
   @Input() districtHeatmap: DistrictHeatmapItem[] = [];
   @Input() priceStability: PriceStabilityItem[] = [];
   @Input() weeklyMovement: WeeklyMovementItem[] = [];
-  @Input() arrivalPriceInsight: ArrivalPriceInsight = { summary: '-', points: [] };
+  @Input() arrivalPriceInsight: ArrivalPriceInsight = { summaryKey: 'MANDI_INSIGHTS.ARRIVAL_PRICE.SUMMARY.NO_DATA', points: [] };
 
   weeklyMax(): number {
     return Math.max(...this.weeklyMovement.map((item) => item.price), 1);

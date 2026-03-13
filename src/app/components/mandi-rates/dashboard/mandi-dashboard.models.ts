@@ -82,7 +82,7 @@ export interface ArrivalPricePoint {
 }
 
 export interface ArrivalPriceInsight {
-  summary: string;
+  summaryKey: string;
   points: ArrivalPricePoint[];
 }
 

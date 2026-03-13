@@ -318,7 +318,7 @@ ngOnDestroy(): void {
       weeklyMovement: hasRecords ? this.weeklyMovement(normalized) : [],
       arrivalPriceInsight: hasRecords
         ? this.arrivalPriceInsight(normalized)
-        : { summary: 'No arrival vs price data available.', points: [] }
+        : { summaryKey: 'MANDI_INSIGHTS.ARRIVAL_PRICE.SUMMARY.NO_DATA', points: [] }
     };
   }
 
@@ -777,7 +777,7 @@ ngOnDestroy(): void {
         avgPrice: Math.round(item.sum / item.arrivals)
       }));
 
-    let summary = 'Arrivals and prices are moving in a balanced pattern.';
+    let summaryKey = 'MANDI_INSIGHTS.ARRIVAL_PRICE.SUMMARY.BALANCED';
     if (points.length > 1) {
       const first = points[0];
       const last = points[points.length - 1];
@@ -785,16 +785,16 @@ ngOnDestroy(): void {
       const priceUp = last.avgPrice > first.avgPrice;
 
       if (arrivalsUp && !priceUp) {
-        summary = 'More arrivals are linked with lower prices.';
+        summaryKey = 'MANDI_INSIGHTS.ARRIVAL_PRICE.SUMMARY.MORE_ARRIVAL_LOW_PRICE';
       } else if (!arrivalsUp && priceUp) {
-        summary = 'Lower arrivals are linked with rising prices.';
+        summaryKey = 'MANDI_INSIGHTS.ARRIVAL_PRICE.SUMMARY.LESS_ARRIVAL_HIGH_PRICE';
       } else if (arrivalsUp && priceUp) {
-        summary = 'Both arrivals and prices increased together this week.';
+        summaryKey = 'MANDI_INSIGHTS.ARRIVAL_PRICE.SUMMARY.BOTH_UP';
       } else {
-        summary = 'Both arrivals and prices softened this week.';
+        summaryKey = 'MANDI_INSIGHTS.ARRIVAL_PRICE.SUMMARY.BOTH_DOWN';
       }
     }
 
-    return { summary, points };
+    return { summaryKey, points };
   }
 }

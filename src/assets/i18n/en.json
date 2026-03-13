@@ -89,6 +89,66 @@
     "Farming": "Farming",
     "Farmer": "Farmer",
 
+    "MANDI_DASHBOARD": {
+      "PREPARING": "Preparing mandi insights...",
+      "EMPTY": "Dashboard insights will appear after mandi records are loaded."
+    },
+
+    "MANDI_TABS": {
+      "OVERVIEW": "Overview",
+      "PRICE_TREND": "Price Trend",
+      "MARKET_COMPARISON": "Market Comparison",
+      "SUPPLY_DEMAND": "Supply vs Demand",
+      "TOP_CROPS": "Top Crops",
+      "ADDITIONAL_INSIGHTS": "Additional Insights"
+    },
+
+    "MANDI_INSIGHTS": {
+      "DAILY_PRICE_CHANGE": {
+        "TITLE": "Daily Price Change",
+        "SUB": "Quick crop-wise price increase/decrease.",
+        "EMPTY": "No daily change data."
+      },
+      "BEST_MANDI": {
+        "TITLE": "Best Mandi to Sell Today",
+        "SUB": "Top mandi leaderboard by price.",
+        "EMPTY": "No mandi ranking data."
+      },
+      "HEATMAP": {
+        "TITLE": "District Price Heatmap",
+        "SUB": "Price variation across districts.",
+        "DISTRICT": "District",
+        "PRICE": "Price",
+        "LEVEL": "Level",
+        "EMPTY": "No district heatmap data."
+      },
+      "STABILITY": {
+        "TITLE": "Price Stability Indicator",
+        "SUB": "Find stable and volatile crops.",
+        "EMPTY": "No stability data."
+      },
+      "WEEKLY": {
+        "TITLE": "Weekly Price Movement",
+        "SUB": "Simple view of weekly mandi movement.",
+        "EMPTY": "No weekly movement data."
+      },
+      "ARRIVAL_PRICE": {
+        "TITLE": "Arrival Quantity vs Price",
+        "SUB": "How arrivals and prices move together.",
+        "ARRIVALS": "Arrivals",
+        "PRICE": "Price",
+        "EMPTY": "No arrival vs price data.",
+        "SUMMARY": {
+          "NO_DATA": "No arrival vs price data available.",
+          "BALANCED": "Arrivals and prices are moving in a balanced pattern.",
+          "MORE_ARRIVAL_LOW_PRICE": "More arrivals are linked with lower prices.",
+          "LESS_ARRIVAL_HIGH_PRICE": "Lower arrivals are linked with rising prices.",
+          "BOTH_UP": "Both arrivals and prices increased together this week.",
+          "BOTH_DOWN": "Both arrivals and prices softened this week."
+        }
+      }
+    },
+
     "WELCOME_MESSAGE": "Welcome to AgriMandi",
     "ABOUT_PARAGRAPH": "🌱 <strong class='text-green-700'>AgriMandi</strong> is your <span class='text-green-600 font-semibold'>gateway</span> to a direct connection between <span class='underline decoration-green-300'>farmers</span> and <span class='underline decoration-green-300'>buyers</span> — bringing fresh produce to your doorstep with just a click. 🚜🤝"
 
