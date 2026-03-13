@@ -49,19 +49,27 @@ export class HomeComponent implements OnInit, OnDestroy {
   indiaMarketFacts = [
     {
       title: 'Diverse Crop Ecosystem',
-      description: 'India has one of the world\'s most diverse agricultural landscapes, from cereals and pulses to horticulture and cash crops.'
+      description: 'India has one of the world\'s most diverse agricultural landscapes, from cereals and pulses to horticulture and cash crops.',
+      icon: 'bi-flower1',
+      accent: 'Production'
     },
     {
       title: 'Mandi-Driven Trade Backbone',
-      description: 'Traditional mandi networks remain central to price discovery, aggregation, and regional commodity movement.'
+      description: 'Traditional mandi networks remain central to price discovery, aggregation, and regional commodity movement.',
+      icon: 'bi-shop-window',
+      accent: 'Markets'
     },
     {
       title: 'Millions of Smallholders',
-      description: 'A large share of production comes from small and marginal farmers, making market accessibility and trust critical.'
+      description: 'A large share of production comes from small and marginal farmers, making market accessibility and trust critical.',
+      icon: 'bi-people',
+      accent: 'Community'
     },
     {
       title: 'Digital Transformation Opportunity',
-      description: 'Modern platforms can reduce information gaps, improve buyer reach, and create stronger farm-to-market efficiency.'
+      description: 'Modern platforms can reduce information gaps, improve buyer reach, and create stronger farm-to-market efficiency.',
+      icon: 'bi-cpu',
+      accent: 'Technology'
     }
   ];
 

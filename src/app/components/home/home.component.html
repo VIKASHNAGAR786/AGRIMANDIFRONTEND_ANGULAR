@@ -31,6 +31,7 @@
   </section>
 
   <section class="section about-market" data-aos="fade-up">
+    <div class="about-market__flag-line" aria-hidden="true"></div>
     <div class="section__head">
       <p class="section__eyebrow">About The Project</p>
       <h2>Built to represent India&apos;s agriculture market with clarity and trust</h2>
@@ -43,6 +44,12 @@
 
       <div class="about-market__facts">
         <article class="market-fact" *ngFor="let fact of indiaMarketFacts">
+          <div class="market-fact__top">
+            <span class="market-fact__icon">
+              <i class="bi" [ngClass]="fact.icon"></i>
+            </span>
+            <span class="market-fact__accent">{{ fact.accent }}</span>
+          </div>
           <h3>{{ fact.title }}</h3>
           <p>{{ fact.description }}</p>
         </article>

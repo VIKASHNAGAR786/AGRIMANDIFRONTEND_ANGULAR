@@ -204,7 +204,30 @@
 }
 
 .about-market {
-	background: linear-gradient(145deg, rgba(248, 255, 250, 0.48), rgba(233, 251, 239, 0.34));
+	position: relative;
+	overflow: hidden;
+	background: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.26), transparent 40%),
+		linear-gradient(145deg, rgba(248, 255, 250, 0.5), rgba(233, 251, 239, 0.34));
+}
+
+.about-market::before {
+	content: '';
+	position: absolute;
+	inset: -60% auto auto -15%;
+	width: 320px;
+	height: 320px;
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(34, 197, 94, 0.16), rgba(34, 197, 94, 0));
+	pointer-events: none;
+}
+
+.about-market__flag-line {
+	height: 4px;
+	border-radius: 999px;
+	margin: -8px auto 18px;
+	max-width: 220px;
+	background: linear-gradient(90deg, #ff9933 0%, #ffffff 50%, #138808 100%);
+	box-shadow: 0 4px 12px rgba(17, 67, 40, 0.18);
 }
 
 .about-market__layout {
@@ -216,15 +239,24 @@
 .about-market__story {
 	background: rgba(255, 255, 255, 0.44);
 	border-radius: 16px;
-	padding: 16px;
+	padding: 18px;
 	border: 1px solid rgba(18, 110, 56, 0.12);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 .about-market__story p {
 	margin: 0 0 10px;
 	color: #234736;
-	line-height: 1.72;
-	font-size: 14px;
+	line-height: 1.78;
+	font-size: 15px;
+}
+
+.about-market__story p:first-child::first-letter {
+	font-size: 30px;
+	font-weight: 700;
+	line-height: 1;
+	color: #0d6537;
+	padding-right: 2px;
 }
 
 .about-market__story p:last-child {
@@ -240,8 +272,45 @@
 .market-fact {
 	background: rgba(255, 255, 255, 0.46);
 	border-radius: 14px;
-	padding: 12px;
+	padding: 12px 13px;
 	border: 1px solid rgba(17, 106, 54, 0.12);
+	transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.market-fact:hover {
+	transform: translateY(-2px);
+	border-color: rgba(15, 106, 53, 0.24);
+	box-shadow: 0 10px 24px rgba(9, 66, 35, 0.12);
+}
+
+.market-fact__top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 8px;
+}
+
+.market-fact__icon {
+	width: 30px;
+	height: 30px;
+	border-radius: 8px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 14px;
+	color: #ffffff;
+	background: linear-gradient(135deg, #157f45, #22c55e);
+}
+
+.market-fact__accent {
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #0f5f34;
+	padding: 3px 7px;
+	border-radius: 999px;
+	background: rgba(16, 101, 51, 0.1);
 }
 
 .market-fact h3 {
