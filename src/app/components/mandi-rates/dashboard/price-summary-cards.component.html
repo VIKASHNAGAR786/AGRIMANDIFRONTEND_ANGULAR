@@ -1,0 +1,17 @@
+<section class="kpi-grid">
+  <article class="kpi-card" *ngFor="let card of kpis" [ngClass]="card.tone || 'neutral'">
+    <p class="kpi-label">{{ card.label }}</p>
+    <h3 class="kpi-value">{{ card.value }}</h3>
+    <p class="kpi-hint">{{ card.hint }}</p>
+  </article>
+</section>
+
+<section class="window-avg" *ngIf="windowAverages.length > 0">
+  <h4>Average Crop Price Windows</h4>
+  <div class="window-avg-list">
+    <article class="window-card" *ngFor="let item of windowAverages">
+      <p>{{ item.label }}</p>
+      <strong>Rs {{ item.value | number:'1.0-0' }}</strong>
+    </article>
+  </div>
+</section>

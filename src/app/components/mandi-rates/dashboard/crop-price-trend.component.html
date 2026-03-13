@@ -1,0 +1,33 @@
+<section class="chart-card">
+  <header>
+    <h3>Crop Price Trend</h3>
+    <p>Average modal price movement over selected date range.</p>
+  </header>
+
+  <div class="chart-wrap" *ngIf="points.length > 0; else noTrendData">
+    <svg [attr.viewBox]="'0 0 ' + width + ' ' + height" role="img" aria-label="Crop price trend">
+      <defs>
+        <linearGradient id="trendFill" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#16a34a" stop-opacity="0.35" />
+          <stop offset="100%" stop-color="#16a34a" stop-opacity="0.05" />
+        </linearGradient>
+      </defs>
+      <polygon [attr.points]="areaPoints" fill="url(#trendFill)"></polygon>
+      <polyline [attr.points]="polylinePoints" class="trend-line"></polyline>
+    </svg>
+
+    <div class="dot-layer">
+      <div class="dot" *ngFor="let point of points; let i = index" [style.left]="pointPosition(i).left" [style.top]="pointPosition(i).top">
+        <span>Rs {{ point.value | number:'1.0-0' }}</span>
+      </div>
+    </div>
+
+    <div class="x-labels">
+      <span *ngFor="let point of points">{{ point.label }}</span>
+    </div>
+  </div>
+
+  <ng-template #noTrendData>
+    <p class="empty">Price trend is not available for selected filters.</p>
+  </ng-template>
+</section>

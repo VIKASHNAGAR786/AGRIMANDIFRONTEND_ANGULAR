@@ -8,21 +8,32 @@ import { STATE_DISTRICT_MAP } from '../../data/state-districts';
 import { STATE_DISTRICT_COMMODITIES } from '../../data/commodity_names';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { MandiDashboardComponent } from './dashboard/mandi-dashboard.component';
+import {
+  CropDistributionItem,
+  CropPriceTag,
+  DemandSupplyItem,
+  MandiDashboardData,
+  MarketComparisonItem,
+  PriceTrendPoint,
+  TopCropItem
+} from './dashboard/mandi-dashboard.models';
 
 @Component({
   selector: 'app-mandi-rates',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,TranslateModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, MandiDashboardComponent],
   templateUrl: './mandi-rates.component.html',
   styleUrls: ['./mandi-rates.component.css']
 })
-export class MandiRatesComponent implements OnInit {
+export class MandiRatesComponent implements OnInit, OnDestroy {
   records: PriceRecordDto[] = [];
   loading = false;
   error: string | null = null;
   filterForm!: FormGroup;
   totalRowCount = 0;
   commodities: string[] = []; // <-- will hold commodities for selected state & district
+  dashboardData: MandiDashboardData | null = null;
 
   states = Object.keys(STATE_DISTRICT_MAP);
   districts: string[] = [];
@@ -62,6 +73,7 @@ export class MandiRatesComponent implements OnInit {
   );
 
   this.initializeStateDistrictCommodity();
+    this.dashboardData = this.buildDashboardData([]);
   this.fetchRates();
 }
 
@@ -93,10 +105,12 @@ ngOnDestroy(): void {
         if (res) {
           this.records = res.records;
           this.totalRowCount = res.total;
+          this.dashboardData = this.buildDashboardData(this.records);
         } else {
           this.records = [];
           this.totalRowCount = 0;
           this.error = 'No data returned from API';
+          this.dashboardData = this.buildDashboardData([]);
         }
         this.loading = false;
       },
@@ -105,6 +119,7 @@ ngOnDestroy(): void {
         this.error = 'Failed to fetch mandi rates';
         this.records = [];
         this.totalRowCount = 0;
+        this.dashboardData = this.buildDashboardData([]);
         this.loading = false;
       }
     });
@@ -218,5 +233,329 @@ ngOnDestroy(): void {
 
     this.districts = STATE_DISTRICT_MAP[state] || [];
     this.commodities = STATE_DISTRICT_COMMODITIES[state]?.[district] || [];
+  }
+
+  private buildDashboardData(records: PriceRecordDto[]): MandiDashboardData {
+    const normalized = records.map((record) => ({
+      ...record,
+      modal: this.toNumber(record.modal_Price),
+      min: this.toNumber(record.min_Price),
+      max: this.toNumber(record.max_Price),
+      parsedDate: this.parseArrivalDate(record.arrival_Date)
+    }));
+
+    const hasRecords = normalized.length > 0;
+    const uniqueCommodityCount = new Set(normalized.map((item) => item.commodity)).size;
+    const latestDate = this.latestDate(normalized.map((item) => item.parsedDate));
+
+    const todayAverage = this.averageByWindow(normalized, latestDate, 1);
+    const weeklyAverage = this.averageByWindow(normalized, latestDate, 7);
+    const monthlyAverage = this.averageByWindow(normalized, latestDate, 30);
+
+    const highestCrop = this.highestCrop(normalized);
+    const lowestCrop = this.lowestCrop(normalized);
+
+    const demandScore = this.demandScore(normalized, latestDate);
+    const demandLabel = demandScore >= 65 ? 'High' : demandScore <= 40 ? 'Low' : 'Balanced';
+
+    const kpis: MandiDashboardData['kpis'] = [
+      {
+        label: "Today's Average Mandi Rate",
+        value: `Rs ${this.formatInr(todayAverage)}`,
+        hint: 'Based on latest arrival date records',
+        tone: 'success' as const
+      },
+      {
+        label: 'Highest Priced Crop',
+        value: highestCrop ? highestCrop.commodity : '-',
+        hint: highestCrop ? `Rs ${this.formatInr(highestCrop.price)}` : 'No records',
+        tone: 'warning' as const
+      },
+      {
+        label: 'Lowest Priced Crop',
+        value: lowestCrop ? lowestCrop.commodity : '-',
+        hint: lowestCrop ? `Rs ${this.formatInr(lowestCrop.price)}` : 'No records',
+        tone: 'danger' as const
+      },
+      {
+        label: 'Total Crops Listed',
+        value: `${uniqueCommodityCount}`,
+        hint: `${normalized.length} total mandi listings`,
+        tone: 'neutral' as const
+      },
+      {
+        label: 'Market Demand Indicator',
+        value: demandLabel,
+        hint: `${demandScore}/100 derived demand score`,
+        tone: demandLabel === 'High' ? 'success' : demandLabel === 'Low' ? 'danger' : 'warning'
+      }
+    ];
+
+    return {
+      kpis,
+      windowAverages: [
+        { label: 'Today', value: todayAverage },
+        { label: 'This Week', value: weeklyAverage },
+        { label: 'This Month', value: monthlyAverage }
+      ],
+      priceTrend: hasRecords ? this.priceTrend(normalized) : [],
+      marketComparison: hasRecords ? this.marketComparison(normalized) : [],
+      demandSupply: hasRecords ? this.supplyDemand(normalized) : [],
+      topCrops: hasRecords ? this.topCrops(normalized) : [],
+      cropDistribution: hasRecords ? this.cropDistribution(normalized) : [],
+      highestPriceCrop: highestCrop,
+      lowestPriceCrop: lowestCrop
+    };
+  }
+
+  private toNumber(value: string | number): number {
+    return Number(value || 0);
+  }
+
+  private parseArrivalDate(value: string): Date {
+    if (!value) {
+      return new Date();
+    }
+
+    if (value.includes('/')) {
+      const [day, month, year] = value.split('/').map(Number);
+      return new Date(year, month - 1, day);
+    }
+
+    return new Date(value);
+  }
+
+  private sameDate(left: Date, right: Date): boolean {
+    return (
+      left.getFullYear() === right.getFullYear() &&
+      left.getMonth() === right.getMonth() &&
+      left.getDate() === right.getDate()
+    );
+  }
+
+  private latestDate(dates: Date[]): Date {
+    if (dates.length === 0) {
+      return new Date();
+    }
+
+    return new Date(Math.max(...dates.map((date) => date.getTime())));
+  }
+
+  private averageByWindow(
+    records: Array<{ modal: number; parsedDate: Date }>,
+    referenceDate: Date,
+    days: number
+  ): number {
+    const since = new Date(referenceDate);
+    since.setDate(referenceDate.getDate() - (days - 1));
+
+    const values = records
+      .filter((item) => item.parsedDate >= since && item.parsedDate <= referenceDate)
+      .map((item) => item.modal);
+
+    if (values.length === 0 && days === 1) {
+      const todayValues = records.filter((item) => this.sameDate(item.parsedDate, referenceDate)).map((item) => item.modal);
+      if (todayValues.length > 0) {
+        return Math.round(todayValues.reduce((sum, value) => sum + value, 0) / todayValues.length);
+      }
+    }
+
+    if (values.length === 0) {
+      return records.length > 0
+        ? Math.round(records.reduce((sum, item) => sum + item.modal, 0) / records.length)
+        : 0;
+    }
+
+    return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
+  }
+
+  private highestCrop(records: Array<{ commodity: string; max: number }>): CropPriceTag | null {
+    if (records.length === 0) {
+      return null;
+    }
+
+    const highest = records.reduce((best, current) => (current.max > best.max ? current : best));
+    return { commodity: highest.commodity, price: highest.max };
+  }
+
+  private lowestCrop(records: Array<{ commodity: string; min: number }>): CropPriceTag | null {
+    if (records.length === 0) {
+      return null;
+    }
+
+    const lowest = records.reduce((best, current) => (current.min < best.min ? current : best));
+    return { commodity: lowest.commodity, price: lowest.min };
+  }
+
+  private demandScore(
+    records: Array<{ modal: number; min: number; max: number; parsedDate: Date }>,
+    referenceDate: Date
+  ): number {
+    if (records.length === 0) {
+      return 0;
+    }
+
+    const recent = records.filter((item) => {
+      const since = new Date(referenceDate);
+      since.setDate(referenceDate.getDate() - 6);
+      return item.parsedDate >= since && item.parsedDate <= referenceDate;
+    });
+
+    const previous = records.filter((item) => {
+      const start = new Date(referenceDate);
+      const end = new Date(referenceDate);
+      start.setDate(referenceDate.getDate() - 13);
+      end.setDate(referenceDate.getDate() - 7);
+      return item.parsedDate >= start && item.parsedDate <= end;
+    });
+
+    const recentAvg = recent.length > 0 ? recent.reduce((sum, item) => sum + item.modal, 0) / recent.length : 0;
+    const previousAvg = previous.length > 0 ? previous.reduce((sum, item) => sum + item.modal, 0) / previous.length : recentAvg;
+    const momentum = previousAvg > 0 ? ((recentAvg - previousAvg) / previousAvg) * 100 : 0;
+
+    const spread = records.reduce((sum, item) => sum + (item.max - item.min), 0) / records.length;
+    const spreadImpact = Math.max(0, 25 - Math.min(25, spread / 100));
+    const momentumImpact = Math.max(-20, Math.min(20, momentum));
+    const volumeImpact = Math.min(20, records.length * 1.5);
+
+    const score = Math.round(45 + spreadImpact + momentumImpact + volumeImpact);
+    return Math.max(0, Math.min(100, score));
+  }
+
+  private priceTrend(records: Array<{ parsedDate: Date; modal: number }>): PriceTrendPoint[] {
+    const grouped = new Map<string, { sum: number; count: number; date: Date }>();
+
+    records.forEach((item) => {
+      const key = item.parsedDate.toDateString();
+      const existing = grouped.get(key);
+      if (existing) {
+        existing.sum += item.modal;
+        existing.count += 1;
+      } else {
+        grouped.set(key, { sum: item.modal, count: 1, date: item.parsedDate });
+      }
+    });
+
+    return Array.from(grouped.values())
+      .sort((left, right) => left.date.getTime() - right.date.getTime())
+      .slice(-10)
+      .map((item) => ({
+        label: `${item.date.getDate()}/${item.date.getMonth() + 1}`,
+        value: Math.round(item.sum / item.count)
+      }));
+  }
+
+  private marketComparison(
+    records: Array<{ market: string; modal: number }>
+  ): MarketComparisonItem[] {
+    const grouped = new Map<string, { sum: number; count: number }>();
+
+    records.forEach((item) => {
+      const existing = grouped.get(item.market);
+      if (existing) {
+        existing.sum += item.modal;
+        existing.count += 1;
+      } else {
+        grouped.set(item.market, { sum: item.modal, count: 1 });
+      }
+    });
+
+    return Array.from(grouped.entries())
+      .map(([market, value]) => ({
+        market,
+        avgPrice: Math.round(value.sum / value.count),
+        records: value.count
+      }))
+      .sort((left, right) => right.avgPrice - left.avgPrice)
+      .slice(0, 6);
+  }
+
+  private supplyDemand(
+    records: Array<{ commodity: string; modal: number }>
+  ): DemandSupplyItem[] {
+    const grouped = new Map<string, { count: number; sum: number }>();
+
+    records.forEach((item) => {
+      const existing = grouped.get(item.commodity);
+      if (existing) {
+        existing.count += 1;
+        existing.sum += item.modal;
+      } else {
+        grouped.set(item.commodity, { count: 1, sum: item.modal });
+      }
+    });
+
+    const entries = Array.from(grouped.entries()).map(([commodity, value]) => ({
+      commodity,
+      count: value.count,
+      avgPrice: value.sum / value.count
+    }));
+
+    const maxCount = Math.max(...entries.map((item) => item.count), 1);
+    const maxPrice = Math.max(...entries.map((item) => item.avgPrice), 1);
+
+    return entries
+      .sort((left, right) => right.count - left.count)
+      .slice(0, 6)
+      .map((item) => ({
+        commodity: item.commodity,
+        supply: Math.round((item.count / maxCount) * 100),
+        demand: Math.round((item.avgPrice / maxPrice) * 100)
+      }));
+  }
+
+  private topCrops(records: Array<{ commodity: string; modal: number; parsedDate: Date }>): TopCropItem[] {
+    const grouped = new Map<string, { count: number; sum: number; series: Array<{ date: Date; price: number }> }>();
+
+    records.forEach((item) => {
+      const existing = grouped.get(item.commodity);
+      if (existing) {
+        existing.count += 1;
+        existing.sum += item.modal;
+        existing.series.push({ date: item.parsedDate, price: item.modal });
+      } else {
+        grouped.set(item.commodity, {
+          count: 1,
+          sum: item.modal,
+          series: [{ date: item.parsedDate, price: item.modal }]
+        });
+      }
+    });
+
+    return Array.from(grouped.entries())
+      .map(([commodity, value]) => {
+        const sortedSeries = value.series.sort((left, right) => left.date.getTime() - right.date.getTime());
+        const first = sortedSeries[0]?.price || 0;
+        const last = sortedSeries[sortedSeries.length - 1]?.price || 0;
+        const movement = first > 0 ? ((last - first) / first) * 100 : 0;
+        const trend = movement > 3 ? 'up' : movement < -3 ? 'down' : 'flat';
+
+        return {
+          commodity,
+          avgPrice: Math.round(value.sum / value.count),
+          records: value.count,
+          trend
+        } as TopCropItem;
+      })
+      .sort((left, right) => right.records - left.records)
+      .slice(0, 5);
+  }
+
+  private cropDistribution(records: Array<{ commodity: string }>): CropDistributionItem[] {
+    const grouped = new Map<string, number>();
+
+    records.forEach((item) => {
+      grouped.set(item.commodity, (grouped.get(item.commodity) || 0) + 1);
+    });
+
+    const total = records.length;
+    return Array.from(grouped.entries())
+      .map(([commodity, count]) => ({
+        commodity,
+        records: count,
+        share: Math.round((count / total) * 100)
+      }))
+      .sort((left, right) => right.records - left.records)
+      .slice(0, 6);
   }
 }

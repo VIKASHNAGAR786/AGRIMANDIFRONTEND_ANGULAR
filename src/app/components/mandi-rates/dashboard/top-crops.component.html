@@ -1,0 +1,50 @@
+<section class="card">
+  <header>
+    <h3>Top Crops and Price Extremes</h3>
+    <p>Most active crops and their distribution in mandi listings.</p>
+  </header>
+
+  <div class="content-grid">
+    <div class="pie-wrap">
+      <div class="pie" [style.background]="pieStyle"></div>
+      <div class="legend" *ngIf="distribution.length > 0; else noDistribution">
+        <p *ngFor="let item of distribution">{{ item.commodity }}: {{ item.share | number:'1.0-0' }}%</p>
+      </div>
+      <ng-template #noDistribution>
+        <p class="empty">Crop distribution unavailable.</p>
+      </ng-template>
+    </div>
+
+    <div>
+      <h4>Top Selling Crops</h4>
+      <ul class="crop-list" *ngIf="topCrops.length > 0; else noTopCrops">
+        <li *ngFor="let crop of topCrops">
+          <div>
+            <strong>{{ crop.commodity }}</strong>
+            <small>{{ crop.records }} records</small>
+          </div>
+          <div class="tail">
+            <span>Rs {{ crop.avgPrice | number:'1.0-0' }}</span>
+            <small [ngClass]="crop.trend">{{ crop.trend }}</small>
+          </div>
+        </li>
+      </ul>
+      <ng-template #noTopCrops>
+        <p class="empty">No top crops found for selected filters.</p>
+      </ng-template>
+
+      <div class="high-low">
+        <article>
+          <p>Highest Price Crop</p>
+          <strong *ngIf="highest">{{ highest.commodity }} (Rs {{ highest.price | number:'1.0-0' }})</strong>
+          <strong *ngIf="!highest">-</strong>
+        </article>
+        <article>
+          <p>Lowest Price Crop</p>
+          <strong *ngIf="lowest">{{ lowest.commodity }} (Rs {{ lowest.price | number:'1.0-0' }})</strong>
+          <strong *ngIf="!lowest">-</strong>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>

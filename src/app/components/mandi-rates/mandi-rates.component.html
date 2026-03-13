@@ -74,10 +74,16 @@
     </form>
   </div>
 
-  <div *ngIf="loading" class="status-line status-loading">{{ 'DASHBOARD.LOADING' | translate }}</div>
+  <app-mandi-dashboard [dashboard]="dashboardData" [loading]="loading"></app-mandi-dashboard>
+
   <div *ngIf="error" class="status-line status-error">{{ error }}</div>
 
-  <div *ngIf="!loading && !error && records.length > 0" class="stats-row mt-4">
+  <div *ngIf="!loading && !error && records.length > 0" class="table-title-row mt-4">
+    <h3>Detailed Mandi Listings</h3>
+    <p>Use this table for record-level verification and paging.</p>
+  </div>
+
+  <div *ngIf="!loading && !error && records.length > 0" class="stats-row mt-2">
     <article class="stat-box">
       <h4>Showing</h4>
       <p>{{ showingFrom }}-{{ showingTo }} of {{ totalRowCount }}</p>

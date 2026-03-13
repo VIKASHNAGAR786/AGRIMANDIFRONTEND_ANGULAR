@@ -95,6 +95,26 @@
 	gap: 10px;
 }
 
+.table-title-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.table-title-row h3 {
+	margin: 0;
+	font-size: 18px;
+	color: #14532d;
+}
+
+.table-title-row p {
+	margin: 0;
+	font-size: 13px;
+	color: #52525b;
+}
+
 .stat-box {
 	background: #f8fafc;
 	border: 1px solid #e5e7eb;

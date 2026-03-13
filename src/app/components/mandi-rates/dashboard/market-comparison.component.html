@@ -1,0 +1,23 @@
+<section class="chart-card">
+  <header>
+    <h3>Market Price Comparison</h3>
+    <p>Average modal rates across nearby mandis.</p>
+  </header>
+
+  <div class="bar-list" *ngIf="markets.length > 0; else noMarketData">
+    <article class="bar-row" *ngFor="let market of markets">
+      <div class="meta">
+        <strong>{{ market.market }}</strong>
+        <small>{{ market.records }} listings</small>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" [style.width.%]="widthPercent(market.avgPrice)"></div>
+      </div>
+      <span class="value">Rs {{ market.avgPrice | number:'1.0-0' }}</span>
+    </article>
+  </div>
+
+  <ng-template #noMarketData>
+    <p class="empty">No market comparison data available.</p>
+  </ng-template>
+</section>

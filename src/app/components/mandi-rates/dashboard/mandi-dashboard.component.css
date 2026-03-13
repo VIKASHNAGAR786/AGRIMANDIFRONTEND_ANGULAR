@@ -1,0 +1,40 @@
+.dashboard-shell {
+  margin-top: 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 14px;
+}
+
+.chart-grid.bottom {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.status {
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.status.loading {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+}
+
+.status.empty {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+}
+
+@media (max-width: 1024px) {
+  .chart-grid,
+  .chart-grid.bottom {
+    grid-template-columns: 1fr;
+  }
+}

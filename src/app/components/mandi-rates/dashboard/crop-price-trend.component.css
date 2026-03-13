@@ -1,0 +1,85 @@
+.chart-card {
+  border: 1px solid #d4d4d8;
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 14px;
+}
+
+header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #14532d;
+}
+
+header p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #71717a;
+}
+
+.chart-wrap {
+  margin-top: 12px;
+  position: relative;
+}
+
+svg {
+  width: 100%;
+  height: 260px;
+  background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
+  border: 1px solid #e4e4e7;
+  border-radius: 12px;
+}
+
+.trend-line {
+  fill: none;
+  stroke: #166534;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.dot-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #15803d;
+  transform: translate(-50%, -50%);
+}
+
+.dot span {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 10px;
+  color: #14532d;
+}
+
+.x-labels {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(56px, 1fr));
+  gap: 4px;
+}
+
+.x-labels span {
+  font-size: 10px;
+  color: #52525b;
+  text-align: center;
+}
+
+.empty {
+  margin: 14px 0 0;
+  padding: 10px;
+  border-radius: 10px;
+  background: #f4f4f5;
+  color: #3f3f46;
+}

@@ -1,0 +1,23 @@
+<section class="chart-card">
+  <header>
+    <div>
+      <h3>Supply vs Demand</h3>
+      <p>Estimated from listings volume and price momentum.</p>
+    </div>
+    <span class="indicator" [ngClass]="indicator.toLowerCase()">{{ indicator }}</span>
+  </header>
+
+  <div class="stack-list" *ngIf="items.length > 0; else noData">
+    <article class="stack-row" *ngFor="let item of items">
+      <strong>{{ item.commodity }}</strong>
+      <div class="stack-track">
+        <div class="supply" [style.width.%]="width(item.supply)">S {{ item.supply }}</div>
+        <div class="demand" [style.width.%]="width(item.demand)">D {{ item.demand }}</div>
+      </div>
+    </article>
+  </div>
+
+  <ng-template #noData>
+    <p class="empty">No supply-demand signals available.</p>
+  </ng-template>
+</section>

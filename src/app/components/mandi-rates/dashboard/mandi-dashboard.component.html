@@ -1,0 +1,26 @@
+<section class="dashboard-shell">
+  <div *ngIf="loading" class="status loading">Preparing mandi insights...</div>
+
+  <div *ngIf="!loading && !hasData" class="status empty">
+    Dashboard insights will appear after mandi records are loaded.
+  </div>
+
+  <ng-container *ngIf="!loading && hasData && dashboard">
+    <app-price-summary-cards [kpis]="dashboard.kpis" [windowAverages]="dashboard.windowAverages"></app-price-summary-cards>
+
+    <div class="chart-grid">
+      <app-crop-price-trend [points]="dashboard.priceTrend"></app-crop-price-trend>
+      <app-market-comparison [markets]="dashboard.marketComparison"></app-market-comparison>
+    </div>
+
+    <div class="chart-grid bottom">
+      <app-demand-supply-chart [items]="dashboard.demandSupply" [indicator]="demandIndicator"></app-demand-supply-chart>
+      <app-top-crops
+        [topCrops]="dashboard.topCrops"
+        [distribution]="dashboard.cropDistribution"
+        [highest]="dashboard.highestPriceCrop"
+        [lowest]="dashboard.lowestPriceCrop"
+      ></app-top-crops>
+    </div>
+  </ng-container>
+</section>
