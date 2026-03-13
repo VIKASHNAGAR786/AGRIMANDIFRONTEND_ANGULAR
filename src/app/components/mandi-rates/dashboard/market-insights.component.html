@@ -1,0 +1,113 @@
+<section class="insights-shell">
+  <div class="insight-grid">
+    <article class="card">
+      <h3>Daily Price Change</h3>
+      <p class="sub">Quick crop-wise price increase/decrease.</p>
+      <div class="change-list" *ngIf="dailyPriceChanges.length > 0; else noDailyChange">
+        <div class="change-row" *ngFor="let item of dailyPriceChanges">
+          <strong>{{ item.commodity }}</strong>
+          <span class="value">Rs {{ item.latestPrice | number:'1.0-0' }}</span>
+          <span class="delta" [ngClass]="item.direction">
+            {{ item.direction === 'up' ? '▲' : item.direction === 'down' ? '▼' : '•' }}
+            {{ item.change > 0 ? '+' : '' }}{{ item.change | number:'1.0-0' }} Rs
+          </span>
+        </div>
+      </div>
+      <ng-template #noDailyChange><p class="empty">No daily change data.</p></ng-template>
+    </article>
+
+    <article class="card">
+      <h3>Best Mandi to Sell Today</h3>
+      <p class="sub">Top mandi leaderboard by price.</p>
+      <ol class="mandi-list" *ngIf="bestMandis.length > 0; else noMandi">
+        <li *ngFor="let mandi of bestMandis">
+          <span class="rank">{{ mandi.rank }}</span>
+          <strong>{{ mandi.mandi }}</strong>
+          <span class="price">Rs {{ mandi.price | number:'1.0-0' }}</span>
+        </li>
+      </ol>
+      <ng-template #noMandi><p class="empty">No mandi ranking data.</p></ng-template>
+    </article>
+  </div>
+
+  <div class="insight-grid">
+    <article class="card">
+      <h3>District Price Heatmap</h3>
+      <p class="sub">Price variation across districts.</p>
+      <table class="heatmap" *ngIf="districtHeatmap.length > 0; else noHeatmap">
+        <thead>
+          <tr>
+            <th>District</th>
+            <th>Price</th>
+            <th>Level</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of districtHeatmap">
+            <td>{{ item.district }}</td>
+            <td>Rs {{ item.price | number:'1.0-0' }}</td>
+            <td><span class="badge" [ngClass]="item.level">{{ item.level }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #noHeatmap><p class="empty">No district heatmap data.</p></ng-template>
+    </article>
+
+    <article class="card">
+      <h3>Price Stability Indicator</h3>
+      <p class="sub">Find stable and volatile crops.</p>
+      <div class="stability-list" *ngIf="priceStability.length > 0; else noStability">
+        <div class="stability-row" *ngFor="let item of priceStability">
+          <div class="head">
+            <strong>{{ item.commodity }}</strong>
+            <span class="status" [ngClass]="item.status.toLowerCase().replace(' ', '-')">{{ item.status }}</span>
+          </div>
+          <div class="meter">
+            <div class="meter-fill" [style.width.%]="item.score"></div>
+          </div>
+        </div>
+      </div>
+      <ng-template #noStability><p class="empty">No stability data.</p></ng-template>
+    </article>
+  </div>
+
+  <div class="insight-grid single">
+    <article class="card">
+      <h3>Weekly Price Movement</h3>
+      <p class="sub">Simple view of weekly mandi movement.</p>
+      <div class="mini-bars" *ngIf="weeklyMovement.length > 0; else noWeeklyMove">
+        <div class="bar-item" *ngFor="let item of weeklyMovement">
+          <span class="bar" [style.height.%]="weeklyHeight(item.price)"></span>
+          <small>{{ item.label }}</small>
+          <strong>{{ item.price | number:'1.0-0' }}</strong>
+        </div>
+      </div>
+      <ng-template #noWeeklyMove><p class="empty">No weekly movement data.</p></ng-template>
+    </article>
+  </div>
+
+  <div class="insight-grid single">
+    <article class="card">
+      <h3>Arrival Quantity vs Price</h3>
+      <p class="sub">How arrivals and prices move together.</p>
+      <p class="insight-line">{{ arrivalPriceInsight.summary }}</p>
+
+      <div class="arrival-list" *ngIf="arrivalPriceInsight.points.length > 0; else noArrivalPrice">
+        <div class="arrival-row" *ngFor="let item of arrivalPriceInsight.points">
+          <strong>{{ item.label }}</strong>
+          <div class="metric">
+            <small>Arrivals</small>
+            <div class="track"><span class="fill arrivals" [style.width.%]="arrivalsWidth(item.arrivals)"></span></div>
+            <small>{{ item.arrivals }}</small>
+          </div>
+          <div class="metric">
+            <small>Price</small>
+            <div class="track"><span class="fill prices" [style.width.%]="pricesWidth(item.avgPrice)"></span></div>
+            <small>Rs {{ item.avgPrice | number:'1.0-0' }}</small>
+          </div>
+        </div>
+      </div>
+      <ng-template #noArrivalPrice><p class="empty">No arrival vs price data.</p></ng-template>
+    </article>
+  </div>
+</section>

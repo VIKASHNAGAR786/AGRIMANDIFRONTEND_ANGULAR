@@ -44,5 +44,15 @@
         [lowest]="dashboard.lowestPriceCrop"
       ></app-top-crops>
     </div>
+
+    <app-market-insights
+      *ngIf="activeTab === 'insights'"
+      [dailyPriceChanges]="dashboard.dailyPriceChanges"
+      [bestMandis]="dashboard.bestMandis"
+      [districtHeatmap]="dashboard.districtHeatmap"
+      [priceStability]="dashboard.priceStability"
+      [weeklyMovement]="dashboard.weeklyMovement"
+      [arrivalPriceInsight]="dashboard.arrivalPriceInsight"
+    ></app-market-insights>
   </ng-container>
 </section>

@@ -10,13 +10,19 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { MandiDashboardComponent } from './dashboard/mandi-dashboard.component';
 import {
+  ArrivalPriceInsight,
+  BestMandiItem,
   CropDistributionItem,
   CropPriceTag,
+  DailyPriceChangeItem,
   DemandSupplyItem,
+  DistrictHeatmapItem,
   MandiDashboardData,
   MarketComparisonItem,
+  PriceStabilityItem,
   PriceTrendPoint,
-  TopCropItem
+  TopCropItem,
+  WeeklyMovementItem
 } from './dashboard/mandi-dashboard.models';
 
 @Component({
@@ -304,7 +310,15 @@ ngOnDestroy(): void {
       topCrops: hasRecords ? this.topCrops(normalized) : [],
       cropDistribution: hasRecords ? this.cropDistribution(normalized) : [],
       highestPriceCrop: highestCrop,
-      lowestPriceCrop: lowestCrop
+      lowestPriceCrop: lowestCrop,
+      dailyPriceChanges: hasRecords ? this.dailyPriceChanges(normalized) : [],
+      bestMandis: hasRecords ? this.bestMandis(normalized) : [],
+      districtHeatmap: hasRecords ? this.districtHeatmap(normalized) : [],
+      priceStability: hasRecords ? this.priceStability(normalized) : [],
+      weeklyMovement: hasRecords ? this.weeklyMovement(normalized) : [],
+      arrivalPriceInsight: hasRecords
+        ? this.arrivalPriceInsight(normalized)
+        : { summary: 'No arrival vs price data available.', points: [] }
     };
   }
 
@@ -557,5 +571,230 @@ ngOnDestroy(): void {
       }))
       .sort((left, right) => right.records - left.records)
       .slice(0, 6);
+  }
+
+  private dailyPriceChanges(
+    records: Array<{ commodity: string; modal: number; parsedDate: Date }>
+  ): DailyPriceChangeItem[] {
+    const uniqueDates = Array.from(new Set(records.map((item) => item.parsedDate.toDateString())))
+      .map((value) => new Date(value))
+      .sort((left, right) => left.getTime() - right.getTime());
+
+    const latestDate = uniqueDates[uniqueDates.length - 1];
+    const previousDate = uniqueDates.length > 1 ? uniqueDates[uniqueDates.length - 2] : latestDate;
+
+    const buildCommodityAvg = (targetDate: Date): Map<string, number> => {
+      const grouped = new Map<string, { sum: number; count: number }>();
+
+      records
+        .filter((item) => this.sameDate(item.parsedDate, targetDate))
+        .forEach((item) => {
+          const existing = grouped.get(item.commodity);
+          if (existing) {
+            existing.sum += item.modal;
+            existing.count += 1;
+          } else {
+            grouped.set(item.commodity, { sum: item.modal, count: 1 });
+          }
+        });
+
+      return new Map(
+        Array.from(grouped.entries()).map(([commodity, value]) => [commodity, Math.round(value.sum / value.count)])
+      );
+    };
+
+    const latestMap = buildCommodityAvg(latestDate);
+    const previousMap = buildCommodityAvg(previousDate);
+
+    return Array.from(latestMap.entries())
+      .map(([commodity, latestPrice]) => {
+        const previousPrice = previousMap.get(commodity) ?? latestPrice;
+        const change = latestPrice - previousPrice;
+        const direction = change > 0 ? 'up' : change < 0 ? 'down' : 'flat';
+
+        return {
+          commodity,
+          latestPrice,
+          change,
+          direction
+        } as DailyPriceChangeItem;
+      })
+      .sort((left, right) => Math.abs(right.change) - Math.abs(left.change))
+      .slice(0, 6);
+  }
+
+  private bestMandis(
+    records: Array<{ market: string; modal: number; parsedDate: Date }>
+  ): BestMandiItem[] {
+    const latest = this.latestDate(records.map((item) => item.parsedDate));
+    const grouped = new Map<string, { sum: number; count: number }>();
+
+    records
+      .filter((item) => this.sameDate(item.parsedDate, latest))
+      .forEach((item) => {
+        const existing = grouped.get(item.market);
+        if (existing) {
+          existing.sum += item.modal;
+          existing.count += 1;
+        } else {
+          grouped.set(item.market, { sum: item.modal, count: 1 });
+        }
+      });
+
+    return Array.from(grouped.entries())
+      .map(([mandi, value], index) => ({
+        rank: index + 1,
+        mandi,
+        price: Math.round(value.sum / value.count)
+      }))
+      .sort((left, right) => right.price - left.price)
+      .slice(0, 5)
+      .map((item, index) => ({ ...item, rank: index + 1 }));
+  }
+
+  private districtHeatmap(
+    records: Array<{ district: string; modal: number; parsedDate: Date }>
+  ): DistrictHeatmapItem[] {
+    const latest = this.latestDate(records.map((item) => item.parsedDate));
+    const grouped = new Map<string, { sum: number; count: number }>();
+
+    records
+      .filter((item) => this.sameDate(item.parsedDate, latest))
+      .forEach((item) => {
+        const existing = grouped.get(item.district);
+        if (existing) {
+          existing.sum += item.modal;
+          existing.count += 1;
+        } else {
+          grouped.set(item.district, { sum: item.modal, count: 1 });
+        }
+      });
+
+    const districts = Array.from(grouped.entries()).map(([district, value]) => ({
+      district,
+      price: Math.round(value.sum / value.count)
+    }));
+
+    const min = Math.min(...districts.map((item) => item.price), 0);
+    const max = Math.max(...districts.map((item) => item.price), 1);
+    const step = (max - min) / 3;
+
+    return districts
+      .map((item) => {
+        const level: DistrictHeatmapItem['level'] =
+          item.price >= min + step * 2 ? 'high' : item.price >= min + step ? 'medium' : 'low';
+
+        return {
+          district: item.district,
+          price: item.price,
+          level
+        };
+      })
+      .sort((left, right) => right.price - left.price)
+      .slice(0, 10);
+  }
+
+  private priceStability(
+    records: Array<{ commodity: string; modal: number }>
+  ): PriceStabilityItem[] {
+    const grouped = new Map<string, number[]>();
+
+    records.forEach((item) => {
+      const existing = grouped.get(item.commodity);
+      if (existing) {
+        existing.push(item.modal);
+      } else {
+        grouped.set(item.commodity, [item.modal]);
+      }
+    });
+
+    return Array.from(grouped.entries())
+      .map(([commodity, values]) => {
+        const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
+        const variance = values.reduce((sum, value) => sum + Math.pow(value - mean, 2), 0) / values.length;
+        const stdDev = Math.sqrt(variance);
+        const cv = mean > 0 ? (stdDev / mean) * 100 : 0;
+        const score = Math.min(100, Math.round(cv * 4));
+        const status = cv < 8 ? 'Stable' : cv < 15 ? 'Moderate' : 'High Volatility';
+
+        return {
+          commodity,
+          score,
+          status
+        } as PriceStabilityItem;
+      })
+      .sort((left, right) => left.score - right.score)
+      .slice(0, 6);
+  }
+
+  private weeklyMovement(
+    records: Array<{ parsedDate: Date; modal: number }>
+  ): WeeklyMovementItem[] {
+    const grouped = new Map<string, { sum: number; count: number; date: Date }>();
+
+    records.forEach((item) => {
+      const key = item.parsedDate.toDateString();
+      const existing = grouped.get(key);
+      if (existing) {
+        existing.sum += item.modal;
+        existing.count += 1;
+      } else {
+        grouped.set(key, { sum: item.modal, count: 1, date: item.parsedDate });
+      }
+    });
+
+    return Array.from(grouped.values())
+      .sort((left, right) => left.date.getTime() - right.date.getTime())
+      .slice(-7)
+      .map((item) => ({
+        label: item.date.toLocaleDateString('en-IN', { weekday: 'short' }),
+        price: Math.round(item.sum / item.count)
+      }));
+  }
+
+  private arrivalPriceInsight(
+    records: Array<{ parsedDate: Date; modal: number }>
+  ): ArrivalPriceInsight {
+    const grouped = new Map<string, { date: Date; arrivals: number; sum: number }>();
+
+    records.forEach((item) => {
+      const key = item.parsedDate.toDateString();
+      const existing = grouped.get(key);
+      if (existing) {
+        existing.arrivals += 1;
+        existing.sum += item.modal;
+      } else {
+        grouped.set(key, { date: item.parsedDate, arrivals: 1, sum: item.modal });
+      }
+    });
+
+    const points = Array.from(grouped.values())
+      .sort((left, right) => left.date.getTime() - right.date.getTime())
+      .slice(-7)
+      .map((item) => ({
+        label: `${item.date.getDate()}/${item.date.getMonth() + 1}`,
+        arrivals: item.arrivals,
+        avgPrice: Math.round(item.sum / item.arrivals)
+      }));
+
+    let summary = 'Arrivals and prices are moving in a balanced pattern.';
+    if (points.length > 1) {
+      const first = points[0];
+      const last = points[points.length - 1];
+      const arrivalsUp = last.arrivals > first.arrivals;
+      const priceUp = last.avgPrice > first.avgPrice;
+
+      if (arrivalsUp && !priceUp) {
+        summary = 'More arrivals are linked with lower prices.';
+      } else if (!arrivalsUp && priceUp) {
+        summary = 'Lower arrivals are linked with rising prices.';
+      } else if (arrivalsUp && priceUp) {
+        summary = 'Both arrivals and prices increased together this week.';
+      } else {
+        summary = 'Both arrivals and prices softened this week.';
+      }
+    }
+
+    return { summary, points };
   }
 }
