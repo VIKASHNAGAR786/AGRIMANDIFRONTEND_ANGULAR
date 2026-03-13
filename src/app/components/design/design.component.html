@@ -1,1 +1,16 @@
-<div id="background-wrapper"></div>
+<div id="background-wrapper" [ngStyle]="styleVars" aria-hidden="true">
+	<div class="bg-gradient-layer"></div>
+	<div class="bg-grid-layer"></div>
+
+	<div class="bg-orb bg-orb--left"></div>
+	<div class="bg-orb bg-orb--right"></div>
+	<div class="bg-orb bg-orb--bottom"></div>
+
+	<div class="particle-field">
+		<span
+			class="particle"
+			*ngFor="let particle of particles; let i = index"
+			[ngStyle]="getParticleStyle(i)"
+		></span>
+	</div>
+</div>

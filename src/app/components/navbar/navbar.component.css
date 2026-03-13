@@ -19,9 +19,9 @@
 }
 
 .agri-navbar__inner {
-	max-width: 1240px;
+	max-width: 100%;
 	margin: 0 auto;
-	padding: 8px 18px 10px;
+	padding: 6px 24px 8px;
 	border-radius: 0 0 20px 20px;
 }
 
@@ -32,15 +32,15 @@
 }
 
 .agri-navbar__row--primary {
-	min-height: 70px;
-	gap: 12px;
+	min-height: 64px;
+	gap: 16px;
 }
 
 .agri-navbar__left,
 .agri-navbar__right {
 	display: flex;
 	align-items: center;
-	gap: 12px;
+	gap: 16px;
 }
 
 .agri-navbar__center {
@@ -51,17 +51,17 @@
 }
 
 .menu-toggle {
-	width: 44px;
-	height: 44px;
+	width: 40px;
+	height: 40px;
 	border: 0;
-	border-radius: 50%;
+	border-radius: 12px;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 24px;
+	font-size: 20px;
 	color: #ffffff;
-	background: rgba(9, 34, 18, 0.18);
-	transition: transform 0.25s ease, background-color 0.25s ease;
+	background: rgba(255, 255, 255, 0.12);
+	transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .menu-toggle:hover {
@@ -106,18 +106,18 @@
 }
 
 .search-form--desktop {
-	max-width: 420px;
+	max-width: 380px;
 }
 
 .search-shell {
 	width: 100%;
 	position: relative;
-	background: rgba(248, 250, 252, 0.98);
+	background: rgba(255, 255, 255, 0.85);
 	border-radius: 30px;
 	border: 1px solid rgba(16, 45, 29, 0.08);
 	display: flex;
 	align-items: center;
-	min-height: 42px;
+	min-height: 40px;
 	transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
@@ -136,7 +136,7 @@
 
 .search-input {
 	width: 100%;
-	height: 42px;
+	height: 40px;
 	border: 0;
 	background: transparent;
 	padding: 0 38px 0 38px;
@@ -215,9 +215,9 @@
 .icon-btn,
 .profile-btn {
 	border: 0;
-	background: rgba(9, 34, 18, 0.18);
+	background: rgba(255, 255, 255, 0.12);
 	color: #ffffff;
-	transition: background-color 0.2s ease;
+	transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .icon-btn:hover,
@@ -226,14 +226,18 @@
 }
 
 .icon-btn {
-	width: 42px;
-	height: 42px;
-	border-radius: 50%;
+	width: 38px;
+	height: 38px;
+	border-radius: 12px;
 	position: relative;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 22px;
+	font-size: 20px;
+}
+
+.icon-btn:hover {
+	transform: scale(1.05);
 }
 
 .notification-badge {
@@ -252,12 +256,12 @@
 }
 
 .profile-btn {
-	min-height: 42px;
+	min-height: 38px;
 	border-radius: 30px;
 	display: inline-flex;
 	align-items: center;
 	gap: 8px;
-	padding: 4px 8px 4px 6px;
+	padding: 6px 12px;
 }
 
 .profile-avatar {
@@ -277,7 +281,7 @@
 }
 
 .profile-arrow {
-	font-size: 12px;
+	font-size: 11px;
 }
 
 .notification-dropdown,
@@ -397,7 +401,7 @@
 
 @media (max-width: 768px) {
 	.agri-navbar__inner {
-		padding: 8px 12px 10px;
+		padding: 6px 16px 8px;
 	}
 
 	.agri-navbar__center {
