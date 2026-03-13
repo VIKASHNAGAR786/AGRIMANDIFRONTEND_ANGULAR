@@ -4,6 +4,13 @@
   gap: 14px;
 }
 
+.tab-shell {
+  background: linear-gradient(90deg, #16a34a 0%, #22c55e 100%);
+  border-radius: 12px;
+  border: 1px solid #16a34a;
+  padding: 8px;
+}
+
 .tab-row {
   display: flex;
   flex-wrap: wrap;
@@ -11,7 +18,7 @@
 }
 
 .tab-btn {
-  border: 1px solid #d4d4d8;
+  border: 1px solid #86efac;
   background: #ffffff;
   color: #3f3f46;
   font-size: 13px;
@@ -28,7 +35,7 @@
 }
 
 .tab-btn.active {
-  border-color: #16a34a;
+  border-color: #15803d;
   background: #16a34a;
   color: #ffffff;
 }

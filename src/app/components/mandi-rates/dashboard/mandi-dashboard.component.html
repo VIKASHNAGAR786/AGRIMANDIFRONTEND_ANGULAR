@@ -6,19 +6,21 @@
   </div>
 
   <ng-container *ngIf="!loading && hasData && dashboard">
-    <app-price-summary-cards [kpis]="dashboard.kpis" [windowAverages]="dashboard.windowAverages"></app-price-summary-cards>
+    <div class="tab-shell">
+      <nav class="tab-row" aria-label="Dashboard Tabs">
+        <button
+          type="button"
+          *ngFor="let tab of tabs"
+          class="tab-btn"
+          [class.active]="activeTab === tab.id"
+          (click)="setActiveTab(tab.id)"
+        >
+          {{ tab.label }}
+        </button>
+      </nav>
+    </div>
 
-    <nav class="tab-row" aria-label="Dashboard Tabs">
-      <button
-        type="button"
-        *ngFor="let tab of tabs"
-        class="tab-btn"
-        [class.active]="activeTab === tab.id"
-        (click)="setActiveTab(tab.id)"
-      >
-        {{ tab.label }}
-      </button>
-    </nav>
+    <app-price-summary-cards [kpis]="dashboard.kpis" [windowAverages]="dashboard.windowAverages"></app-price-summary-cards>
 
     <div class="chart-grid" *ngIf="activeTab === 'overview' || activeTab === 'trend' || activeTab === 'markets'">
       <app-crop-price-trend *ngIf="activeTab === 'overview' || activeTab === 'trend'" [points]="dashboard.priceTrend"></app-crop-price-trend>
