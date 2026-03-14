@@ -36,6 +36,8 @@ export class MandiRatesComponent implements OnInit, OnDestroy {
   records: PriceRecordDto[] = [];
   loading = false;
   error: string | null = null;
+  filtersCollapsed = true;
+  advancedFiltersExpanded = false;
   filterForm!: FormGroup;
   totalRowCount = 0;
   commodities: string[] = []; // <-- will hold commodities for selected state & district
@@ -192,6 +194,18 @@ ngOnDestroy(): void {
     });
     this.currentPage = 1;
     this.fetchRates();
+  }
+
+  toggleFilters(): void {
+    this.filtersCollapsed = !this.filtersCollapsed;
+
+    if (this.filtersCollapsed) {
+      this.advancedFiltersExpanded = false;
+    }
+  }
+
+  toggleAdvancedFilters(): void {
+    this.advancedFiltersExpanded = !this.advancedFiltersExpanded;
   }
 
   get canGoNextPage(): boolean {
