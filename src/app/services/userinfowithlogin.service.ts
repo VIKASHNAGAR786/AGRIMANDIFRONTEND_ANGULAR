@@ -25,7 +25,7 @@ export class UserinfowithloginService {
       this.cachedData = {
         token: localStorage.getItem('auth_token'),
         name: localStorage.getItem('user_name'),
-        role: localStorage.getItem('user_role'),
+        role: localStorage.getItem('user_role')?.trim().toUpperCase() ?? null,
         email: localStorage.getItem('user_email'),
         id: this.parseId(localStorage.getItem('nameid')),
         lang: localStorage.getItem('lang')

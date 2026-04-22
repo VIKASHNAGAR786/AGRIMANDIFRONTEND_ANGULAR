@@ -91,9 +91,9 @@ import { UserinfowithloginService } from './services/userinfowithlogin.service';
 })
 
 export class AppComponent implements OnInit {
-  selectedColor: string = ''; // default
-  sidebarVisible = true;
-  receivedMessage: string = "";
+    receivedMessage: string = "";
+  selectedColor: string = '#28a745'; // keep first render stable
+  sidebarVisible = false;
   constructor(private colorService: ColorserviceService,
     private signalRService: SignalrService,
   private layoutService: LayoutService ,
@@ -104,9 +104,12 @@ export class AppComponent implements OnInit {
     let lang: string = this.userInfo.getUserLang() ?? 'en';
     translate.setDefaultLang(lang);
     translate.use(lang);
+
+    this.selectedColor = this.colorService.getColor();
+    this.sidebarVisible = this.layoutService.getSidebarVisible();
   }
+
   ngOnInit() {
-    this.signalRService.startConnection();
     if (typeof window !== 'undefined') {
       AOS.init();
     }

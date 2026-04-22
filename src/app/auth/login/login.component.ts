@@ -33,7 +33,7 @@ export class LoginComponent {
     this.loginService.login(this.loginData).subscribe({
       next: () => {
         this.alertService.showAlert('Login successful!', 'success');
-        const userRole = this.userInfo.getUserRole();
+        const userRole = this.userInfo.getUserRole()?.trim().toUpperCase();
         if (userRole === 'FARMER') {
           this.router.navigate(['components/product']);
         } else {

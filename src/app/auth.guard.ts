@@ -38,9 +38,10 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
     // Role-based check
     if (requiredRoles && requiredRoles.length > 0) {
-      const userRole = this.userInfoService.getUserRole();
-      if (!userRole || !requiredRoles.includes(userRole)) {
-        return this.router.parseUrl('/unauthorized');
+      const userRole = this.userInfoService.getUserRole()?.trim().toUpperCase();
+      const normalizedRoles = requiredRoles.map(role => role.trim().toUpperCase());
+      if (!userRole || !normalizedRoles.includes(userRole)) {
+        return this.router.parseUrl('/auth/login');
       }
     }
 

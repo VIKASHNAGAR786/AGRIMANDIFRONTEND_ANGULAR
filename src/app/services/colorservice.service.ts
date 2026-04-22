@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 export class ColorserviceService {
 
   constructor() { }
-private selectedColorSubject = new BehaviorSubject<string>('#FFFFFF'); // default color
+private selectedColorSubject = new BehaviorSubject<string>('#28a745'); // match wheel default
 selectedColor$ = this.selectedColorSubject.asObservable();
 
 setColor(color: string): void {

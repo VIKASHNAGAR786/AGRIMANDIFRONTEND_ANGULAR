@@ -361,19 +361,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
     {
       label: 'My Products',
       icon: 'bi-box2',
-      routerLink: '/components/productinventory',
+      routerLink: '/products',
       showIf: () => this.userRole === 'FARMER'
     },
     {
       label: 'Orders',
       icon: 'bi-receipt',
-      routerLink: '/components/orders',
+      routerLink: '/orders',
       showIf: () => true
     },
     {
       label: 'Settings',
       icon: 'bi-gear',
-      routerLink: '/components/setting',
+      routerLink: '/settings',
       showIf: () => true
     },
     {

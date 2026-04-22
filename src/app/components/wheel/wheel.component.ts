@@ -19,7 +19,7 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 export class WheelComponent implements AfterViewInit, OnDestroy {
 
   @HostListener('document:keydown.escape', ['$event'])
-  onEscape(event: KeyboardEvent) {
+  onEscape(_event: Event) {
     this.showBigWheel = false;
   }
 

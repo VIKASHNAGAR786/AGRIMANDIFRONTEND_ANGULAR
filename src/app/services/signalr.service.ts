@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { UserinfowithloginService } from './userinfowithlogin.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,10 +10,12 @@ import { environment } from '../../environments/environment';
 export class SignalrService {
   private hubConnection: signalR.HubConnection;
 
-  constructor() {
+  constructor(private userInfo: UserinfowithloginService) {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`${environment.BASE_URL}/notificationHub`) // if you already use environment setup
- // SignalR hub URL
+      .withUrl(`${environment.BASE_URL}/notificationHub`, {
+        accessTokenFactory: () => this.userInfo.getToken() ?? '',
+        withCredentials: false
+      })
       .build();
   }
 
